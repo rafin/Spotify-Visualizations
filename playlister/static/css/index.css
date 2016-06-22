@@ -1,0 +1,193 @@
+body{
+    margin:0px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* Header Styles */
+#header {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 3em;
+    border-bottom: 1px solid #DDD;
+    border-top: none;
+    background-color: #F6F6F6;
+}
+
+#header div {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: #F6F6F6;
+}
+
+#header div:first-child {
+    color: #24B643;
+}
+
+#login {
+    float: left;
+    position: absolute;
+    width: auto;
+    height: 1.2em;
+    top: 1px;
+    right: 10px;
+}
+
+.selection {
+    width: 100%;
+    margin: 0;
+}
+
+
+/*selection box styles*/
+.select {
+    padding: 0;
+    width: auto;
+    border: 1px solid #DDD;
+    overflow: hidden;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+    margin: auto 5px auto 5px;
+    width: auto;
+    vertical-align: center; 
+    
+}
+
+.select select {
+    font-size: 15px;
+    padding: 8px 8px;
+    width: auto;
+    border: none;
+    box-shadow: none;
+    background-color: #F8F8F8;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    margin: auto 5px auto 5px;
+    width: auto;
+    vertical-align: center;
+}
+
+.select:hover {
+    border-width: 3px;
+}
+
+*:focus {
+    outline: none;
+}
+
+
+/* Right Side Bar */
+#right_bar {
+    float: left;
+    position: absolute;
+    width: 200px;
+    top: 3.00em;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    border-right: 1px solid #DDD;
+    background-color: #F8F8F8;
+}
+
+
+.select2 {
+
+}
+
+#go_button {
+    text-align: center;
+    padding-top: 5px;
+}
+
+#go_button:hover {
+    font-weight: 900;
+    cursor: pointer;
+}
+
+
+#main {
+    float: right;
+    position: absolute;
+    left: 200px;
+    top: 3.05em;
+    height: 87%;
+    right: 0px;
+}
+
+/* chart styles */
+.plot {
+    float: right;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #DDD;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+    /*Hover Details Styles*/
+/*.tooltip {
+    bottom: 0;
+    margin: 5px;
+}*/
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 150px;                  
+  height: autp;                 
+  padding: 0px;                     
+  border: 0px;
+  font-size: 12px;            
+  pointer-events: none;       
+}
+
+
+
+.details {
+    position: absolute;
+    margin: 5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 5px;
+    border-top: 1px solid #DDD;
+}
+.details th {
+    text-align: center;
+}
+.details table {
+    margin: 0;
+}
+
+    /* reactiveity styling */
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>playlister</title>
+    <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/table.css" %}"/>
+</head>
+
+<body>
+    <div class="table-title">
+        <h3>Playlist</h3>
+    </div>
+    <table class="table-fill">
+        <thead>
+            <tr>
+                <th class="text-left">Title</th>
+                <th class="text-left">danceability</th>
+                <th class="text-left">energy</th>
+                <th class="text-left">key</th>
+                <th class="text-left">loudness</th>
+            </tr>
+        </thead>
+        <tbody class="table-hover">
+            <tr>
+                <td class="text-left">January</td>
+                <td class="text-left">$ 50,000.00</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
