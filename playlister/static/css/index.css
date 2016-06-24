@@ -6,12 +6,12 @@ body{
 
 /* header and sidebar colors */
 .background {
-    background-color: #ECECEC;
-    color: #292B2E;
+    color: #2B313E;
+    background-color: #FFFFFF;
 }
 .background select {
-    color: #292B2E;
-    background-color: #ECECEC;
+    background-color: #FFFFFF;
+    color: #2B313E;
 }
 
 
@@ -22,11 +22,13 @@ body{
     padding: 0;
     overflow: hidden;
     height: 3em;
-    background-color: #090909;
-    color: #50C27B;
-    /*-webkit-box-shadow: 0px 3px 5px rgba(100, 100, 100, 0.49);
+    color: #2B313E;
+    background-color: #FFFFFF;
+    border
+    -webkit-box-shadow: 0px 3px 5px rgba(100, 100, 100, 0.49);
     -moz-box-shadow:    0px 3px 5px rgba(100, 100, 100, 0.49);
-    box-shadow:         0px 3px 5px rgba(100, 100, 100, 0.49);*/
+    box-shadow:         0px 3px 5px rgba(100, 100, 100, 0.49);
+    z-index: 100;
 }
 
 #header div {
@@ -41,8 +43,8 @@ body{
 #header div:first-child {
     float: left;
     position: absolute;
-    left: 55px;
-    color: #50C27B;
+    left: 52px;
+    color: #24B643;
 }
 
 #login {
@@ -107,6 +109,8 @@ body{
     bottom: 0;
     left: 0;
     height: auto;
+    z-index: -1;
+    border-right: 1px solid #DDD;
 }
 
 
@@ -133,7 +137,8 @@ body{
     height: auto;
     right: 0px;
     bottom: 0px;
-    background-color: #FEFEFE;
+    background-color: #FFF;
+    z-index: -1;
 }
 
 /* chart styles */
