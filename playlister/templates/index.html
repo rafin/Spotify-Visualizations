@@ -8,7 +8,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
     {% load staticfiles %}
-    <title>Scatify</title>
+    <title>Playlists</title>
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
@@ -19,19 +19,19 @@
 
 <body>
     <!-- header -->
-    <div id="header">
-        <div id="title"><strong>Scatify</strong></div>
+    <div id="header" class="background">
+        <div id="title"><strong>Playlists</strong></div>
         <div id="login">User</div>
     </div>
 
     <!-- side bar -->
-    <div id="right_bar">
+    <div id="right_bar" class="background">
         <div class="select" id="ps">
             <select id="playlist_select">
                 <option>Select Playlist</option>
             </select>
         </div>
-        <div class="select">
+        <div class="select background">
             <select id="x_select">
                 <option>Select x-values</option>
                 <option>Danceability</option>
@@ -45,7 +45,6 @@
                 <option>Tempo</option>
                 <option>Key</option>
                 <option>Duration</option>
-                <option>Popularity</option>
                 <option>Popularity</option>
                 <option>Release_Date</option>
             </select>

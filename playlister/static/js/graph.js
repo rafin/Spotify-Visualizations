@@ -130,7 +130,7 @@ $(document).ready(function() {
                 return yscale(d["fields"][y]);
             })
             .attr("r", 4)
-            .attr("fill", "#7FD5AF")
+            .attr("fill", "#C400FF")
             .on("mouseover", function(d) {
                 tooltip.transition()
                     .duration(200)
@@ -150,7 +150,7 @@ $(document).ready(function() {
 
                 d3.select(this)
                     .attr("r", 5)
-                    .attr("fill", "#1DAE2E")
+                    .attr("fill", "#E278FF")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
@@ -158,7 +158,7 @@ $(document).ready(function() {
                     .style("opacity", 0);
                 d3.select(this)
                     .attr("r", 4)
-                    .attr("fill", "#7FD5AF");
+                    .attr("fill", "#C400FF");
                 var audio = document.getElementById('preview_song');
                 audio.pause();
             })
