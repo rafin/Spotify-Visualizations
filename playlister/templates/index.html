@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
     {% load staticfiles %}
     <title>Playlists</title>
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <!--<script type="text/javascript"> 
         var playlist = {{ playlist|safe }};
     </script>-->
@@ -79,8 +79,6 @@
     <!-- scatterplot script -->
     <script type="text/javascript" src="{% static 'js/graph.js' %}"></script>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static 'js/jquery.js' %}"></script>
 </body>
 
 </html>
