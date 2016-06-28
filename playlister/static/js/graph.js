@@ -36,8 +36,9 @@ $(document).ready(function() {
     function loadtitles(){
         console.log("at loadtitles")
         var titles = $.ajax({async:false,
-            url:'http://localhost:8000/getplaylists',
+            url: window.location.href + '/getplaylists',
         }).responseJSON;
+        console.log(titles)
         titles = titles.map(function(t) {return t['fields']['title']});
         for (var i = 0; i < titles.length; i++){
             $("#ps select").append('<option>'+titles[i] + '</option>');
@@ -49,7 +50,7 @@ $(document).ready(function() {
     function getdata(title){
         console.log("at getdata")
         var data = $.ajax({async:false,
-            url:'http://localhost:8000/getsongs/?title='.concat(title),
+            url: window.location.href + '/getsongs/?title='.concat(title),
         }).responseJSON;
 
         //convert release dates from strings to integer year

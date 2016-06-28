@@ -193,59 +193,22 @@ def store_db(pl_name):
 
 
 def main():
-  if 1 :
-    # getting playlist using pl.py
-    name = raw_input('input playlist name:\n> ')
-    playlist = existing_playlist(name)
+  # getting playlist using pl.py
+  name = raw_input('input playlist name:\n> ')
+  playlist = existing_playlist(name)
 
-    #get JSON of features for each song in playlist
-    #necessary to minimize api calls
-    features = get_features(feature(playlist, 'id'))
-    album_features = get_album_features(feature(playlist, 'album_id'))
+  #get JSON of features for each song in playlist
+  #necessary to minimize api calls
+  features = get_features(feature(playlist, 'id'))
+  album_features = get_album_features(feature(playlist, 'album_id'))
 
-    #store features into playlist song classes
-    set_features(playlist['songs'], features, album_features) #FIX
+  #store features into playlist song classes
+  set_features(playlist['songs'], features, album_features) #FIX
 
-    #Print JSON
-    pprint(playlist)
+  #Print JSON
+  pprint(playlist)
 
-  # albums = []
-  # ids = ['2FMIJwbrW4HK5MOVManHCY', '2FMIJwbrW4HK5MOVManHCY', '7gXh0cuAlgJhr9sr3bi3l9', '5yN2LiMaA7nEXT35GW4hNu']
-  # albums += sp.albums(ids)['albums']
-  # for album in albums:
-  #    print album['release_date']
-  #    print album['genres']
-  # #pprint(albums)
 
 
 if __name__ == '__main__':
   main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

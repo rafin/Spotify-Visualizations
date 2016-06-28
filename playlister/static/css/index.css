@@ -6,12 +6,15 @@ body{
 
 /* header and sidebar colors */
 .background {
-    color: #2B313E;
+    color: #329B8E;
     background-color: #FFFFFF;
 }
 .background select {
     background-color: #FFFFFF;
-    color: #2B313E;
+    color: #329B8E;
+}
+.select:hover {
+    border-width: 3px;
 }
 
 
@@ -91,10 +94,6 @@ body{
     vertical-align: center;
 }
 
-.select:hover {
-    border-width: 3px;
-}
-
 *:focus {
     outline: none;
 }
@@ -111,6 +110,7 @@ body{
     height: auto;
     z-index: -1;
     border-right: 1px solid #DDD;
+    color: #329B8E;
 }
 
 
@@ -137,7 +137,7 @@ body{
     height: auto;
     right: 0px;
     bottom: 0px;
-    background-color: #FFF;
+    background-color: #FAFAFA;
     z-index: -1;
 }
 
