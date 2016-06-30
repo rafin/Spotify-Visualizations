@@ -9,6 +9,10 @@ username = "rino21111"
 
 spotify_keys = os.environ["SPOTIFY_KEYS"]
 spotify_keys = ast.literal_eval(spotify_keys)
+print "IN KEYS.PY"
+print spotify_keys
+print spotify_keys[0]["uid"]
+print spotify_keys[0]["usec"]
 
 
 #set up access
@@ -25,3 +29,5 @@ def get_access():
     except:
       print "FAILED TO LOAD"
       continue
+
+print get_access()
