@@ -29,28 +29,32 @@ def get_playlists(user):
   for playlist in playlists['items']:
       pname = to_ascii(playlist['name'])
       pid = to_ascii(playlist['id'])
-      pls.append([pname,pid])
+      puser = to_ascii(playlist['owner']['id'])
+      pls.append([pname,pid,puser])
   return pls
 
-def get_id(pls, name):
+def get_ids(pls, name):
   '''returns playlist id if input is an existing 
      playlist, otherwise returns blank string '''
+  print pls
   for pl in pls:
     if name == pl[0]:
-      return pl[1] 
+      return pl[1], pl[2] 
   return ''
 
 
-def get_songs(sp, p_id, p_name):
+def get_songs(sp, p_id, p_name, userid):
   '''returns songs in playlist (limit 100) as the Playlist Class'''
-  hundred = sp.user_playlist_tracks(username, playlist_id=p_id)
+  print username
+  print p_id
+  hundred = sp.user_playlist_tracks(userid, playlist_id=p_id)
   #pprint(hundred)
   playlist = hundred
   start = 0
   #do one call per 100 songs in playlist
   while len(hundred['items']) >= 100:
     start += 100
-    hundred = sp.user_playlist_tracks(username, playlist_id=p_id, offset=start)
+    hundred = sp.user_playlist_tracks(userid, playlist_id=p_id, offset=start)
     print start
     playlist['items'] += hundred['items']
 
@@ -76,9 +80,9 @@ def get_songs(sp, p_id, p_name):
 def existing_playlist(name):
   '''return type: Playlist with all Songs loaded'''
   playlists = get_playlists(username)
-  playlist_id = get_id(playlists, name)
+  playlist_id, user_id = get_ids(playlists, name)
   if playlist_id:
-      return get_songs(sp, playlist_id, name)
+      return get_songs(sp, playlist_id, name, user_id)
   else:
     print 'ERROR: playlist name invalid'
     return ''
@@ -88,12 +92,8 @@ def release(date):
   month = day = 1
   if len(date) > 7:
     day = int(date[8:])
-    print "day = ",
-    print day
   if len(date) > 5:
     month = int(date[5:7])
-    print "month = ",
-    print month
   return datetime.date(year, month, day)
 
 

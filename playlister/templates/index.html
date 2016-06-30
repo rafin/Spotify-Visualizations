@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     {% load staticfiles %}
-    <title>Playlists</title>
+    <title>Plotify</title>
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <!--<script type="text/javascript"> 
@@ -20,7 +20,7 @@
 <body>
     <!-- header -->
     <div id="header" class="background">
-        <div id="title"><strong>Playlists</strong></div>
+        <div id="title"><strong>Plotify</strong></div>
         <div id="login">User</div>
     </div>
 
@@ -71,6 +71,9 @@
 
     </div>
     <div id="main">
+        <div id="myProgress">
+          <div id="myBar"></div>
+        </div>
     </div>
 
     <audio id="preview_song">
