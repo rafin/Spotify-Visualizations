@@ -8,7 +8,7 @@ uir = "http://localhost:8888"
 username = "rino21111"
 
 spotify_keys = os.environ["SPOTIFY_KEYS"]
-
+print spotify_keys
 spotify_keys = ast.literal_eval(spotify_keys)
 
 
