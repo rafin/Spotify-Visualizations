@@ -15,6 +15,8 @@ spotify_keys = ast.literal_eval(spotify_keys)
 def get_access():
   print "IN KEYS.PY"
   print spotify_keys
+  print spotify_keys[0]["uid"]
+  print spotify_keys[0]["usec"]
   for key in spotify_keys:
     try:
       token = util.prompt_for_user_token(username, scope, key["uid"], key["usec"], uir)
