@@ -47,6 +47,8 @@ username = ""
 
 spotify_uid = os.environ["SPOTIFY_UID"]
 spotify_usec = os.environ["SPOTIFY_USEC"]
+print spotify_uid
+print spotify_usec
 print "retrieved keys from OS"
 
 #set up access
@@ -59,9 +61,7 @@ def get_private_access():
         print "FAILED TO LOAD"
 
 def get_access():
-    try:
-        token = SpotifyClientCredentials(client_id=spotify_uid, client_secret=spotify_usec).get_access_token()
-        print "SUCCESS"
-        return spotipy.Spotify(auth=token)
-    except:
-        print "FAILED TO LOAD"
+    token = SpotifyClientCredentials(client_id=spotify_uid, client_secret=spotify_usec).get_access_token()
+    print "SUCCESS"
+    return spotipy.Spotify(auth=token)
+    print "FAILED TO LOAD"
