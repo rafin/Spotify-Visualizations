@@ -73,7 +73,7 @@ body{
 
 .select select {
     font-size: 15px;
-    padding: 8px 8px;
+    padding: 8px;
     width: auto;
     border: none;
     box-shadow: none;
@@ -87,7 +87,6 @@ body{
 }
 
 .select-label {
-    vertical-align: center;
     margin: 5px;
 }
 
@@ -121,21 +120,22 @@ body{
 
 
 #login {
-    padding: 0;
+    padding: 5px;
     overflow: hidden;
-    margin: 5px;
-    width: 100%;
-    right: 10px;
+    margin: 0;
+    left: 5px;
 }
 
 input {
     border: none;
     border-bottom: 1px solid #DDD; 
-    margin: 5px;
+    margin: 0;
     font-size: 16px;
     color: #041A0D;
-    padding: 5px;
     font-weight: normal;
+    right: 0;
+    width: 174px;
+    padding: 8px;
 }
 
 
