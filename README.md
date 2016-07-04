@@ -2,6 +2,8 @@
 - webapp that helps visualize a users public playlists on spotify
 - Current version online at: http://plotify.herokuapp.com/
 
+[Screenshot](http://i.imgur.com/NCHfIsw.png)
+
 
 #### Work in Progress / Possible Future Features
 - friendlier ui
