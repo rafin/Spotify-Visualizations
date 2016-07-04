@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 	url(r'^graph/$', views.graph, name='graph'),
 	url(r'^getsongs/$', views.getsongs, name='getsongs'),
-    url(r'^getplaylists/$', views.getplaylists, name='getplaylists')
+    url(r'^getplaylists/$', views.getplaylists, name='getplaylists'),
+    url(r'^authenticate/$', views.getplaylists, name='authenticate')
 ]

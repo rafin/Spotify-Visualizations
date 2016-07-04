@@ -1,20 +1,20 @@
 body{
-    margin: 0px;
+    margin:0px;
     font-family: 'Raleway', sans-serif;
 }
 
-/* left bar colors*/
+
+/* header and sidebar colors */
 .background {
+    color: #329B8E;
     background-color: #FFFFFF;
-    color: #041A0D;
 }
 .background select {
     background-color: #FFFFFF;
-    color: #041A0D;
+    color: #329B8E;
 }
 .select:hover {
     border-width: 3px;
-    margin-bottom: -2px;
 }
 
 
@@ -25,8 +25,8 @@ body{
     padding: 0;
     overflow: hidden;
     height: 3em;
-    color: #FFFFFF;
-    background-color: #041A0D;
+    color: #2B313E;
+    background-color: #FFFFFF;
     border
     -webkit-box-shadow: 0px 3px 5px rgba(100, 100, 100, 0.49);
     -moz-box-shadow:    0px 3px 5px rgba(100, 100, 100, 0.49);
@@ -34,38 +34,49 @@ body{
     z-index: 100;
 }
 
-#title{
+#header div {
     float: left;
     display: block;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+
+}
+
+#header div:first-child {
+    float: left;
     position: absolute;
     left: 52px;
-    color: #FFFFFF;
+    color: #24B643;
 }
 
-.status{
-    vertical-align: center;
-    margin: 5px;
-    color: #FF4B4E;
-    font-size: 12;
+#login {
+    float: left;
+    position: absolute;
+    width: auto;
+    height: 1.2em;
+    top: 1px;
+    right: 10px;
 }
-
+#login:hover {
+    font-weight: 900;
+}
 
 .selection {
     width: 100%;
-    margin: 0 5px 0 5px;
+    margin: 0;
 }
 
 /*selection box styles*/
 .select {
     padding: 0;
     width: auto;
+    border: 1px solid #DDD;
     overflow: hidden;
-    border: none;
-    border-bottom: 1px solid #DDD;
-    margin: 5px;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+    margin: auto 5px auto 5px;
     width: auto;
     vertical-align: center; 
     
@@ -86,17 +97,12 @@ body{
     vertical-align: center;
 }
 
-.select-label {
-    vertical-align: center;
-    margin: 5px;
-}
-
 *:focus {
     outline: none;
 }
 
 
-/* Left Side Bar */
+/* Right Side Bar */
 #right_bar {
     float: left;
     position: absolute;
@@ -107,35 +113,22 @@ body{
     height: auto;
     z-index: -1;
     border-right: 1px solid #DDD;
+    color: #329B8E;
 }
 
-#go_button, #get_data_button {
+
+.select2 {
+
+}
+
+#go_button {
     text-align: center;
     padding-top: 5px;
 }
 
-#go_button:hover, #get_data_button:hover {
+#go_button:hover {
     font-weight: 900;
     cursor: pointer;
-}
-
-
-#login {
-    padding: 0;
-    overflow: hidden;
-    margin: 5px;
-    width: 100%;
-    right: 10px;
-}
-
-input {
-    border: none;
-    border-bottom: 1px solid #DDD; 
-    margin: 5px;
-    font-size: 16px;
-    color: #041A0D;
-    padding: 5px;
-    font-weight: normal;
 }
 
 
@@ -224,7 +217,7 @@ div.tooltip {
     position: relative;
     width: 100%;
     height: 3px;
-    background-color: #FAFAFA;
+    background-color: white;
 }
 #myBar {
     position: absolute;

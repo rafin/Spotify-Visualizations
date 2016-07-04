@@ -2,9 +2,16 @@ var audio;
 var titles;
 var data;
 var title = "Select Playlist";
+var username;
 $(document).ready(function() {
-
     loadtitles();
+    $('#login').click(function() {
+        // username = $.ajax({async:false,
+        //     url: window.location.href + 'authenticate',
+        // }).responseJSON;
+        // $('#login').text(username)
+        loadtitles();
+    })
 
     $( "#go_button" ).click(function() {
         if($( "#playlist_select").val() != title){
@@ -125,8 +132,8 @@ $(document).ready(function() {
         //create SVG element
         var svg = d3.select("#main")
             .append("svg")
-            .attr("width", w)
-            .attr("height", h);
+            .attr("width", w - 20)
+            .attr("height", h - 20);
 
         //create tooltip
         var tooltip = d3.select("body").append("div")
@@ -149,7 +156,7 @@ $(document).ready(function() {
                 return yscale(d[y]);
             })
             .attr("r", 4)
-            .attr("fill", "#40BB65")
+            .attr("fill", "#495780")
             .on("mouseover", function(d) {
                 tooltip.transition()
                     .duration(200)
@@ -169,7 +176,7 @@ $(document).ready(function() {
 
                 d3.select(this)
                     .attr("r", 5)
-                    .attr("fill", "#57FF8E")
+                    .attr("fill", "#6B81C2")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
@@ -177,7 +184,7 @@ $(document).ready(function() {
                     .style("opacity", 0);
                 d3.select(this)
                     .attr("r", 4)
-                    .attr("fill", "#40BB65");
+                    .attr("fill", "#495780");
                 var audio = document.getElementById('preview_song');
                 audio.pause();
             })

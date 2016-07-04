@@ -8,7 +8,7 @@ from pprint import pprint
 
 #set up access with key.py
 sp = None
-username = None
+username = keys.username
 
 def set_access():
   global sp
@@ -34,18 +34,15 @@ def get_playlists(user):
     set_access()
     print "setting access"
     print sp
-  if(user != ""):
-    playlists = sp.user_playlists(user)
-    pls = []
-    for playlist in playlists['items']:
-        pname = to_ascii(playlist['name'])
-        pid = to_ascii(playlist['id'])
-        puser = to_ascii(playlist['owner']['id'])
-        pls.append([pname,pid,puser])
-    return pls
-  else:
-    print "error retrieving playlists"
-    return "notfound"
+  playlists = sp.user_playlists(user)
+  print playlists
+  pls = []
+  for playlist in playlists['items']:
+      pname = to_ascii(playlist['name'])
+      pid = to_ascii(playlist['id'])
+      puser = to_ascii(playlist['owner']['id'])
+      pls.append([pname,pid,puser])
+  return pls
 
 def get_ids(pls, name):
   '''returns playlist id if input is an existing 
@@ -94,7 +91,6 @@ def get_songs(sp, p_id, p_name, userid):
 def existing_playlist(name):
   '''return type: Playlist with all Songs loaded'''
   playlists = get_playlists(username)
-  print name
   playlist_id, user_id = get_ids(playlists, name)
   if playlist_id:
       return get_songs(sp, playlist_id, name, user_id)
@@ -161,12 +157,9 @@ def get_album_features(album_ids):
     afeatures += sp.albums(fifty)['albums']
   return afeatures
 
-def initialize(pl_name, url_username):
+def initialize(pl_name):
   '''returns Dict of specified playlist with all songs and features'''
   print "Retrieved playlist data for : {}".format(pl_name)
-  print "pl_name = {}, url_username = {}".format(pl_name, url_username)
-  global username
-  username = url_username
   if sp == None:
     set_access()
   playlist = existing_playlist(pl_name)
@@ -213,12 +206,13 @@ def store_db(pl_name):
   print "All Songs Processed"
 
 
+
 def main():
   # getting playlist using pl.py
   if sp == None:
     set_access()
-  name = raw_input('input username:\n> ')
-  playlists = get_playlists(name)
+  name = raw_input('input playlist name:\n> ')
+  playlist = existing_playlist(name)
 
     #get JSON of features for each song in playlist
     #necessary to minimize api calls
@@ -229,7 +223,7 @@ def main():
   #set_features(playlist['songs'], features, album_features) #FIX
 
   #Print JSON
-  pprint(playlists)
+  pprint(playlist)
 
 
 

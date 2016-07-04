@@ -43,19 +43,25 @@ def graph(request):
 
 def getsongs(request):
     '''returns json response of given playlist title'''
+    username = request.GET.get('username', '')
     title = request.GET.get('title', '')
-    
-    songs = retrieve_songs(title)
-    print songs
+    print "in views.py: title = {}, username = {}".format(title, username)
+    songs = retrieve_songs(title, username)
     #json_songs = json_serializer.serialize(songs, ensure_ascii=True)
     return JsonResponse(songs, safe=False )
 
 def getplaylists(request):
     '''returns json response of given playlist title'''
     #playlists = models.Playlist.objects.all()
-    playlists = retrieve_playlists('rino21111')
+    username = request.GET.get('username', '')
+
+    playlists = retrieve_playlists(username)
     #json_playlists = json_serializer.serialize(playlists, ensure_ascii=True)
     return JsonResponse(playlists, safe=False )
+
+def authenticate(request):
+    '''login for user through spotify to access playlists, returns username'''
+    username = generate_auth()
 
 
 

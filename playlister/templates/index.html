@@ -9,7 +9,7 @@
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     {% load staticfiles %}
-    <title>Plotify</title>
+    <title>Plot</title>
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <!--<script type="text/javascript"> 
@@ -20,55 +20,18 @@
 <body>
     <!-- header -->
     <div id="header" class="background">
-        <div id="title"><strong>Plotify</strong></div>
-        <div id="login">User</div>
+        <div id="title"><strong>Plot</strong></div>
+        <div id="topright">
+        </div>
     </div>
 
     <!-- side bar -->
     <div id="right_bar" class="background">
-        <div class="select" id="ps">
-            <select id="playlist_select">
-                <option>Select Playlist</option>
-            </select>
+        <div id="login">
+            <div class="select-label">Username</div>
+            <input type="text" id="username_input"></input>
         </div>
-        <div class="select background">
-            <select id="x_select">
-                <option>Select x-values</option>
-                <option>Danceability</option>
-                <option>Energy</option>
-                <option>Loudness</option>
-                <option>Mode</option>
-                <option>Speechiness</option>
-                <option>Acousticness</option>
-                <option>Instrumentalness</option>
-                <option>Valence</option>
-                <option>Tempo</option>
-                <option>Key</option>
-                <option>Duration</option>
-                <option>Popularity</option>
-                <option>Release_Date</option>
-            </select>
-        </div>
-        <div class="select">
-            <select id="y_select">
-                <option>Select y-values</option>
-                <option>Danceability</option>
-                <option>Energy</option>
-                <option>Loudness</option>
-                <option>Mode</option>
-                <option>Speechiness</option>
-                <option>Acousticness</option>
-                <option>Instrumentalness</option>
-                <option>Valence</option>
-                <option>Tempo</option>
-                <option>Key</option>
-                <option>Duration</option>
-                <option>Popularity</option>
-                <option>Release_Date</option>
-            </select>
-        </div>
-        <div id="go_button">Go</div>
-
+        <div id="get_data_button">Go</div>
     </div>
     <div id="main">
         <div id="myProgress">
@@ -80,7 +43,7 @@
     </audio>
 
     <!-- scatterplot script -->
-    <script type="text/javascript" src="{% static 'js/graph.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 
 </body>
 
