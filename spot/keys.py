@@ -27,12 +27,8 @@ def get_private_access():
 
 def get_access():
     print "at get access"
-    print "spotify_keys = {}".format(spotify_keys)
-    print "spotify_keys_untouched = {}".format(os.environ["SPOTIFY_KEYS"])
-    print "client_id = {}".format(spotify_keys[0][0])
-    print "client_secret = {}".format(spotify_keys[0][1])
-    print "client_id 1 = {}".format(spotify_keys[1].uid)
-    print "client_secret 1 = {}".format(spotify_keys[1].usec)
+    #print "spotify_keys = {}".format(spotify_keys)
+    #print "spotify_keys_untouched = {}".format(os.environ["SPOTIFY_KEYS"])
     for key in spotify_keys:
         try:
             token = SpotifyClientCredentials(client_id=key["uid"], client_secret=key["usec"]).get_access_token()
