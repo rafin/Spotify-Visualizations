@@ -210,11 +210,8 @@ $(document).ready(function() {
             })
             .attr("r", 4)
             .attr("fill", function(d){
-                if (d["preview_url"] == "") {
-                    return "#A4ADC9";
-                } else {
-                    return "#495780";
-                }
+                console.log(d3.interpolateCool(d['energy'] / 100))
+                return d3.interpolateCool(d['energy'] / 100);
             })
             .on("mouseover", function(d) {
                 tooltip.transition()
