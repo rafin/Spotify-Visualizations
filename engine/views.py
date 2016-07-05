@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 
+from urllib import unquote
+
 #spotify tools
 from spot.pl import initialize as retrieve_songs
 from spot.pl import get_playlists as retrieve_playlists
@@ -45,6 +47,7 @@ def getsongs(request):
     '''returns json response of given playlist title'''
     username = request.GET.get('username', '')
     title = request.GET.get('title', '')
+    title = unquote(title)
     print "in views.py: title = {}, username = {}".format(title, username)
     songs = retrieve_songs(title, username)
     #json_songs = json_serializer.serialize(songs, ensure_ascii=True)

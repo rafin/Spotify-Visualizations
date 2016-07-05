@@ -44,7 +44,16 @@ def get_playlists(user):
     print "setting access"
     print sp
   if(user != ""):
-    playlists = sp.user_playlists(user)
+    fifty = sp.user_playlists(user)
+    playlists = fifty
+    start = 0
+    #to prevent overflow, cap at 200 playlists
+    while len(fifty['items'])>= 50 and start < 200:
+      start += 50
+      fifty = sp.user_playlists(user, offset=start)
+      playlists['items'] += fifty['items']
+      print "retrieved {} playlists".format(len(playlists['items']))
+
     pls = []
     for playlist in playlists['items']:
         pname = correct_spaces(playlist['name'])
@@ -78,8 +87,8 @@ def get_songs(sp, p_id, p_name, userid):
   while len(hundred['items']) >= 100:
     start += 100
     hundred = sp.user_playlist_tracks(userid, playlist_id=p_id, offset=start)
-    print start
     playlist['items'] += hundred['items']
+    print "retrieve {} songs".format(len(playlist['items']))
 
   pl = {'id': p_id, 'name': p_name, 'songs': []}
   for track in playlist['items']:
@@ -154,7 +163,7 @@ def get_features(song_ids):
   print "Getting song features"
   features = []
   while(song_ids != None):
-    print len(song_ids)
+    print "have {} song features to retrieve left".format(len(song_ids))
     if len(song_ids) > 100:
       hundred = song_ids[0:100]
       song_ids = song_ids[100:]

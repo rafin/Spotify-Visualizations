@@ -1,7 +1,8 @@
 var audio;
 var titles;
 var data;
-var title = "Select Playlist";
+var title = "";
+var unencoded_title = "";
 var username;
 $(document).ready(function() {
 
@@ -71,9 +72,9 @@ $(document).ready(function() {
 
     $(document).on('click', '#go_button', function() {
         console.log("at go button");
-        if($( "#playlist_select").val() != title){
+        if($( "#playlist_select").val() != unencoded_title){
             console.log("at playlistselect");
-            move();
+            move_progress();
             create();
         } else {
             regraph();
@@ -91,29 +92,28 @@ $(document).ready(function() {
     });
 
     function create() {
-        title = $("#playlist_select").val();
+        unencoded_title = $("#playlist_select").val();
+        title = encodeURIComponent(unencoded_title);
+        console.log("in create: title=")
+        console.log(title)
         var x = $("#x_select").val().toLowerCase();
         var y = $("#y_select").val().toLowerCase();
         //delete old svg and tooltip and plot new one
-        if(title != "Select Playlist" && x != "select x-values" && y != "select y-values"){
-            data = getdata(title);
-            $("svg").remove();
-            $(".tooltip").remove();
-            $(".details").remove();
-            plot(data, x, y);
-        }
+        data = getdata(title);
+        $("svg").remove();
+        $(".tooltip").remove();
+        $(".details").remove();
+        plot(data, x, y);
     }
 
     function regraph() {
         var x = $("#x_select").val().toLowerCase();
         var y = $("#y_select").val().toLowerCase();
         //delete old svg and tooltip and plot new one
-        if(title != "Select Playlist" && x != "select x-values" && y != "select y-values"){
-            $("svg").remove();
-            $(".tooltip").remove();
-            $(".details").remove();
-            plot(data, x, y);
-        }
+        $("svg").remove();
+        $(".tooltip").remove();
+        $(".details").remove();
+        plot(data, x, y);
     }
 
         //lists all playlists into the 'pick playlist' selection box
@@ -319,7 +319,7 @@ $(document).ready(function() {
         }
     }
 
-    function move() {
+    function move_progress() {
         var elem = document.getElementById("myBar"); 
         var width = 1;
         var id = setInterval(frame, 10);
