@@ -131,7 +131,14 @@ body{
 #topright {
     float: right;
     position absolute;
-    margin: 10px;
+    margin: 14px;
+}
+#github_link {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+#github_link:hover {
+    color: #7C6BD3;
 }
 
 input {
