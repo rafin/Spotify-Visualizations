@@ -14,8 +14,8 @@ def set_access():
   global sp
   sp = keys.get_access()
 
-#converts from unicode to ascii
 def to_ascii(string):
+  '''converts from unicode to ascii'''
   if string == None:
     return string
   return unicodedata.normalize('NFKD', string).encode('ascii','ignore') 
@@ -23,7 +23,6 @@ def to_ascii(string):
 def correct_spaces(string):
   string = to_ascii(string)
   string = string.replace("  ", " ")
-  print "playlist '{}': string[0] = {}, string[-1] = {}".format(string, string[0], string[-1])
   if string[0] == " ":
     string = string[1:]
   if string[-1] == " ":
@@ -87,6 +86,9 @@ def get_songs(sp, p_id, p_name, userid):
     artist = to_ascii(track['track']['artists'][0]['name'])
     name = to_ascii(track['track']['name'])
     s_id = to_ascii(track['track']['id'])
+    if s_id == None:
+      print track
+      continue
     pop = track['track']['popularity']
     if track['track']['preview_url'] != None:
       preview = to_ascii(track['track']['preview_url'])
@@ -180,6 +182,9 @@ def initialize(pl_name, url_username):
   if sp == None:
     set_access()
   playlist = existing_playlist(pl_name)
+
+
+
   features = get_features(feature(playlist, 'id'))
   album_features = get_album_features(feature(playlist, 'album_id'))
   set_features(playlist['songs'], features, album_features) #FIX
