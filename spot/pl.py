@@ -20,6 +20,16 @@ def to_ascii(string):
     return string
   return unicodedata.normalize('NFKD', string).encode('ascii','ignore') 
 
+def correct_spaces(string):
+  string = to_ascii(string)
+  string = string.replace("  ", " ")
+  print "playlist '{}': string[0] = {}, string[-1] = {}".format(string, string[0], string[-1])
+  if string[0] == " ":
+    string = string[1:]
+  if string[-1] == " ":
+    string = string[:-1]
+  return string
+
 def feature(playlist, feature):
   '''returns comma separated list (string) of all feature values
   in specifed playlist in order'''
@@ -38,7 +48,7 @@ def get_playlists(user):
     playlists = sp.user_playlists(user)
     pls = []
     for playlist in playlists['items']:
-        pname = to_ascii(playlist['name'])
+        pname = correct_spaces(playlist['name'])
         pid = to_ascii(playlist['id'])
         puser = to_ascii(playlist['owner']['id'])
         pls.append([pname,pid,puser])
