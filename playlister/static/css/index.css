@@ -73,7 +73,7 @@ body{
 
 .select select {
     font-size: 15px;
-    padding: 8px;
+    padding: 0 5px 5px 5px;
     width: auto;
     border: none;
     box-shadow: none;
@@ -81,17 +81,21 @@ body{
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-    margin: auto 5px auto 5px;
+    margin: auto 0 auto 0;
     width: auto;
     vertical-align: center;
 }
 
 .select-label {
-    margin: 5px;
+    margin: 5px 5px 0px 5px;
 }
 
 *:focus {
     outline: none;
+}
+
+#pl_selections {
+    margin-top: 5px;
 }
 
 
@@ -108,7 +112,7 @@ body{
     border-right: 1px solid #DDD;
 }
 
-#go_button, #get_data_button {
+#go_button, #get_data_button, #regraph_button {
     text-align: center;
     padding-top: 5px;
 }
@@ -120,22 +124,20 @@ body{
 
 
 #login {
-    padding: 5px;
     overflow: hidden;
     margin: 0;
-    left: 5px;
+    left: 0;
 }
 
 input {
     border: none;
     border-bottom: 1px solid #DDD; 
-    margin: 0;
-    font-size: 16px;
+    margin: 0 0 0 5px;
+    font-size: 15px;
     color: #041A0D;
-    font-weight: normal;
     right: 0;
     width: 174px;
-    padding: 8px;
+    padding: 5px;
 }
 
 

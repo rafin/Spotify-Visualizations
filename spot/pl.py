@@ -60,7 +60,7 @@ def get_playlists(user):
         pid = to_ascii(playlist['id'])
         puser = to_ascii(playlist['owner']['id'])
         pls.append([pname,pid,puser])
-    return pls
+    return sorted(pls, key=lambda d: d[0].lower())
   else:
     print "error retrieving playlists"
     return "notfound"
@@ -145,9 +145,7 @@ def set_features(songs, l_features, album_features):
     print features
     song['danceability'] = round(features['danceability'] * 100, 2) #0:1
     song['energy'] = round(features['energy'] * 100, 2) #0:1
-    song['key'] = features['key'] # 0:11
     song['loudness'] = round(features['loudness'], 1) #-60:0
-    song['mode'] = features['mode'] # 0 or 1
     song['speechiness'] = round(features['speechiness'] * 100, 2) #0:1
     song['acousticness'] = round((features['acousticness']) * 100, 2) #0:1
     song['instrumentalness'] = round(features['instrumentalness'] * 100, 2) #0:1
@@ -229,9 +227,8 @@ def store_db(pl_name):
     else:
       s, created = models.Song.objects.get_or_create(sid=song['id'], title=song['name'],
                     artist=song['artist'], danceability=song['danceability'],
-                    energy=song['energy'], key=song['key'], loudness=song['loudness'],
-                    mode=song['mode'], speechiness=song['speechiness'],
-                    acousticness=song['acousticness'], 
+                    energy=song['energy'], loudness=song['loudness'],
+                    speechiness=song['speechiness'], acousticness=song['acousticness'], 
                     instrumentalness=song['instrumentalness'], valence=song['valence'],
                     tempo=song['tempo'], duration=song['duration'], popularity=song['popularity'],
                     preview_url=song['preview_url'],

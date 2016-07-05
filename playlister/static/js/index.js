@@ -32,13 +32,11 @@ $(document).ready(function() {
                             '       <option>Danceability</option>' +
                             '       <option>Energy</option>' +
                             '       <option>Loudness</option>' +
-                            '       <option>Mode</option>' +
                             '       <option>Speechiness</option>' +
                             '       <option>Acousticness</option>' +
                             '       <option>Instrumentalness</option>' +
                             '       <option>Valence</option>' +
                             '       <option>Tempo</option>' +
-                            '       <option>Key</option>' +
                             '       <option>Duration</option>' +
                             '       <option>Popularity</option>' +
                             '       <option>Release_Date</option>' +
@@ -50,19 +48,17 @@ $(document).ready(function() {
                             '       <option>Danceability</option>' +
                             '       <option>Energy</option>' +
                             '       <option>Loudness</option>' +
-                            '       <option>Mode</option>' +
                             '       <option>Speechiness</option>' +
                             '       <option>Acousticness</option>' +
                             '       <option>Instrumentalness</option>' +
                             '       <option>Valence</option>' +
                             '       <option>Tempo</option>' +
-                            '       <option>Key</option>' +
                             '       <option>Duration</option>' +
                             '       <option>Popularity</option>' +
                             '       <option>Release_Date</option>' +
                             '   </select>' +
                             '</div>' +
-                            '<div id="go_button">Go</div></div>')
+                            '<div id="go_button">Go</div>')
                 loadtitles(titles);
             } else {
                 $('<div class="status">user has no public playlists</div>').insertAfter("#login");
@@ -76,10 +72,7 @@ $(document).ready(function() {
             console.log("at playlistselect");
             move_progress();
             create();
-        } else {
-            regraph();
-        }
-        
+        }       
     })    
 
     $( window ).resize(function() {
@@ -96,24 +89,20 @@ $(document).ready(function() {
         title = encodeURIComponent(unencoded_title);
         console.log("in create: title=")
         console.log(title)
-        var x = $("#x_select").val().toLowerCase();
-        var y = $("#y_select").val().toLowerCase();
         //delete old svg and tooltip and plot new one
         data = getdata(title);
         $("svg").remove();
         $(".tooltip").remove();
         $(".details").remove();
-        plot(data, x, y);
+        plot(data);
     }
 
     function regraph() {
-        var x = $("#x_select").val().toLowerCase();
-        var y = $("#y_select").val().toLowerCase();
         //delete old svg and tooltip and plot new one
         $("svg").remove();
         $(".tooltip").remove();
         $(".details").remove();
-        plot(data, x, y);
+        plot(data);
     }
 
         //lists all playlists into the 'pick playlist' selection box
@@ -155,7 +144,9 @@ $(document).ready(function() {
     }
 
     //given json derived object playlist, plot the data on the page
-    function plot(playlist, x, y){
+    function plot(playlist){
+        var x = $("#x_select").val().toLowerCase();
+        var y = $("#y_select").val().toLowerCase();
         var dmin = 9999;
         var dmax = 0;
         if(x == 'duration' || y == 'duration'){
@@ -166,9 +157,7 @@ $(document).ready(function() {
         var domains = {
             'danceability': [-4, 100],
             'energy': [-4, 100],
-            'key': [-0.5,11], //not sure
             'loudness': [-50, 0],
-            'mode': [-0.05, 1],
             'speechiness': [-4, 100],
             'acousticness': [-4, 100],
             'instrumentalness': [-4, 100],
@@ -191,7 +180,6 @@ $(document).ready(function() {
         var yscale = d3.scale.linear()
             .domain(domains[y])
             .range([h - padding, padding]);
-        var xaxis = d3.svg.axis().scale(xscale).orient("bottom");
 
         // -- Creating a Single Graph -- //
         //create SVG element
@@ -265,13 +253,12 @@ $(document).ready(function() {
                     '<tr><td>' + 'Danceability' + '</td><td>' + d['danceability'] + '</td></tr>' +
                     '<tr><td>' + 'Energy' + '</td><td>' + d['danceability'] + '</td></tr>' +
                     '<tr><td>' + 'Loudness' + '</td><td>' + d['loudness'] + '</td></tr>' +
-                    '<tr><td>' + 'Mode' + '</td><td>' + d['mode'] + '</td></tr>' +
+                    '<tr><td>' + 'Duration' + '</td><td>' + d['duration'] + '</td></tr>' +
                     '<tr><td>' + 'Speechiness' + '</td><td>' + d['speechiness'] + '</td></tr>' +
                     '<tr><td>' + 'Acousticness' + '</td><td>' + d['acousticness'] + '</td></tr>' +
                     '<tr><td>' + 'Instrumentalness' + '</td><td>' + d['instrumentalness'] + '</td></tr>' +
                     '<tr><td>' + 'Valence' + '</td><td>' + d['valence'] + '</td></tr>' +
                     '<tr><td>' + 'Tempo' + '</td><td>' + d['tempo'] + '</td></tr>' +
-                    '<tr><td>' + 'Key' + '</td><td>' + d['key'] + '</td></tr>' +
                     '<tr><td>' + 'Popularity' + '</td><td>' + d['popularity'] + '</td></tr>' +
                     '<tr><td>' + 'Release Date' + '</td><td>' + d['release_date'] + '</td></tr></table>');
                 var audio = document.getElementById('preview_song');
@@ -285,11 +272,11 @@ $(document).ready(function() {
         var xaxis = d3.svg.axis().scale(xscale).orient("bottom").ticks(10)
             .tickFormat(d3.format("d"));
         svg.append("g")
-            .attr("class", "axis")
+            .attr("class", "x axis")
             .attr("transform", "translate(0," + (h - padding) + ")")
             .call(xaxis);
         svg.append("text")
-            .attr("class", "label")
+            .attr("class", "x label")
             .attr("x", w - 40)
             .attr("y", h - 45)
             .style("text-anchor", "end")
@@ -299,11 +286,11 @@ $(document).ready(function() {
         var yaxis = d3.svg.axis().scale(yscale).orient("left").ticks(10)
             .tickFormat(d3.format("d"));
         svg.append("g")
-            .attr("class", "axis")
+            .attr("class", "y axis")
             .attr("transform", "translate(" + padding + ",0)")
             .call(yaxis);
         svg.append("text")
-            .attr("class", "label")
+            .attr("class", "y label")
             .attr("transform", "rotate(-90)")
             .attr("x", -40)
             .attr("y", 43)
@@ -311,6 +298,50 @@ $(document).ready(function() {
             .style("text-anchor", "end")
             .text(y);
 
+        d3.select("#go_button").on("click", function() {
+                x = $("#x_select").val().toLowerCase();
+                y = $("#y_select").val().toLowerCase();
+
+                if(x == 'duration' || y == 'duration'){
+                    dmax = d3.max(playlist, function(d) {return d['duration']});              
+                    dmin = d3.min(playlist, function(d) {return d['duration']});
+                    domains.duration = [dmin - 15,dmax]; //must get from input
+                }
+
+                xscale.domain(domains[x]);
+                yscale.domain(domains[y]);
+
+                svg.selectAll("circle")
+                    .data(playlist)
+                    .transition()
+                    .duration(500)
+                    .attr("cx", function(d) {
+                        return xscale(d[x]);
+                    })
+                    .attr("cy", function(d) {
+                        ;return yscale(d[y]);
+                    });
+
+                // Update X Axis
+                svg.select(".x.axis")
+                    .transition()
+                    .duration(500)
+                    .call(xaxis);
+
+                // Update Y Axis
+                svg.select(".y.axis")
+                    .transition()
+                    .duration(500)
+                    .call(yaxis);
+
+                svg.select(".x.label")
+                    .text(x)
+
+                svg.select(".y.label")
+                    .text(y)
+
+
+            });
 
         function updateWindow(){
             var w = $('#main').width();
