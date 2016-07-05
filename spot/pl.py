@@ -128,6 +128,12 @@ def set_features(songs, l_features, album_features):
   '''sets all class variables for the songs corresponding to each'''
   for song, features, afeatures in zip(songs, l_features, album_features):
     release_date = release(afeatures['release_date'])
+
+    for k,v in features.iteritems():
+      if v == None or v == "":
+        print k, v
+        features[k] = 0
+    print features
     song['danceability'] = round(features['danceability'] * 100, 2) #0:1
     song['energy'] = round(features['energy'] * 100, 2) #0:1
     song['key'] = features['key'] # 0:11
