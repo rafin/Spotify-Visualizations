@@ -41,7 +41,7 @@ body{
     padding: 14px 16px;
     text-decoration: none;
     position: absolute;
-    left: 52px;
+    left: 32px;
     color: #FFFFFF;
 }
 
@@ -122,11 +122,16 @@ body{
     cursor: pointer;
 }
 
-
 #login {
     overflow: hidden;
     margin: 0;
     left: 0;
+}
+
+#topright {
+    float: right;
+    position absolute;
+    margin: 10px;
 }
 
 input {

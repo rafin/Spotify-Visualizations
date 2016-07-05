@@ -209,7 +209,13 @@ $(document).ready(function() {
                 return yscale(d[y]);
             })
             .attr("r", 4)
-            .attr("fill", "#495780")
+            .attr("fill", function(d){
+                if (d["preview_url"] == "") {
+                    return "#A4ADC9";
+                } else {
+                    return "#495780";
+                }
+            })
             .on("mouseover", function(d) {
                 tooltip.transition()
                     .duration(200)
@@ -237,7 +243,13 @@ $(document).ready(function() {
                     .style("opacity", 0);
                 d3.select(this)
                     .attr("r", 4)
-                    .attr("fill", "#495780");
+                    .attr("fill", function(d){
+                        if (d["preview_url"] == "") {
+                            return "#A4ADC9";
+                        } else {
+                            return "#495780";
+                        }
+                    })
                 var audio = document.getElementById('preview_song');
                 audio.pause();
             })
@@ -299,49 +311,48 @@ $(document).ready(function() {
             .text(y);
 
         d3.select("#go_button").on("click", function() {
-                x = $("#x_select").val().toLowerCase();
-                y = $("#y_select").val().toLowerCase();
+            x = $("#x_select").val().toLowerCase();
+            y = $("#y_select").val().toLowerCase();
 
-                if(x == 'duration' || y == 'duration'){
-                    dmax = d3.max(playlist, function(d) {return d['duration']});              
-                    dmin = d3.min(playlist, function(d) {return d['duration']});
-                    domains.duration = [dmin - 15,dmax]; //must get from input
-                }
+            if(x == 'duration' || y == 'duration'){
+                dmax = d3.max(playlist, function(d) {return d['duration']});              
+                dmin = d3.min(playlist, function(d) {return d['duration']});
+                domains.duration = [dmin - 15,dmax]; //must get from input
+            }
 
-                xscale.domain(domains[x]);
-                yscale.domain(domains[y]);
+            xscale.domain(domains[x]);
+            yscale.domain(domains[y]);
 
-                svg.selectAll("circle")
-                    .data(playlist)
-                    .transition()
-                    .duration(500)
-                    .attr("cx", function(d) {
-                        return xscale(d[x]);
-                    })
-                    .attr("cy", function(d) {
-                        ;return yscale(d[y]);
-                    });
+            svg.selectAll("circle")
+                .data(playlist)
+                .transition()
+                .duration(500)
+                .attr("cx", function(d) {
+                    return xscale(d[x]);
+                })
+                .attr("cy", function(d) {
+                    ;return yscale(d[y]);
+                });
 
-                // Update X Axis
-                svg.select(".x.axis")
-                    .transition()
-                    .duration(500)
-                    .call(xaxis);
+            // Update X Axis
+            svg.select(".x.axis")
+                .transition()
+                .duration(500)
+                .call(xaxis);
 
-                // Update Y Axis
-                svg.select(".y.axis")
-                    .transition()
-                    .duration(500)
-                    .call(yaxis);
+            // Update Y Axis
+            svg.select(".y.axis")
+                .transition()
+                .duration(500)
+                .call(yaxis);
 
-                svg.select(".x.label")
-                    .text(x)
+            svg.select(".x.label")
+                .text(x)
 
-                svg.select(".y.label")
-                    .text(y)
+            svg.select(".y.label")
+                .text(y)
 
-
-            });
+        });
 
         function updateWindow(){
             var w = $('#main').width();
