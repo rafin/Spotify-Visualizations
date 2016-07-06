@@ -31,3 +31,4 @@
 - ability to login to access private playlists
 - visualize an artists entire catalog
 - color coding plot
+- creating playlists from plot selection
