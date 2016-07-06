@@ -32,3 +32,5 @@
 - visualize an artists entire catalog
 - color coding plot
 - creating playlists from plot selection
+- 1D histogram visualization
+- individual song bar chart of features
