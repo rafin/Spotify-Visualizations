@@ -10,7 +10,7 @@
 - if you can, avoid plotting larger playlists (>200) as these exhaust api keys and take a long time to load.
 - you can interact with the plot points by clicking on them to see more details and hear a song preview.
 
-##### Features
+##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
 - **danceability**: describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0 is least danceable and 100 is most danceable.
 - **energy**: Energy is a measure from 0 to 100 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.
