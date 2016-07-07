@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from urllib import unquote
 
 #spotify tools
-from spot.pl import initialize as retrieve_songs
+from spot.pl import pl_data as retrieve_songs
 from spot.pl import get_playlists as retrieve_playlists
 
 import json
@@ -17,9 +17,6 @@ json_serializer = serializers.get_serializer("json")()
 import models
 
 def index(request):
-	#return render(request, 'playlister/table.html', context)
-    #playlist = models.Playlist.objects.get(title='the relaxed')
-    #songs = json_serializer.serialize(playlist.songs.all(), ensure_ascii=True)
     return render_to_response('index.html')
 
 # def index(request):
@@ -61,10 +58,6 @@ def getplaylists(request):
     playlists = retrieve_playlists(username)
     #json_playlists = json_serializer.serialize(playlists, ensure_ascii=True)
     return JsonResponse(playlists, safe=False )
-
-def authenticate(request):
-    '''login for user through spotify to access playlists, returns username'''
-    username = generate_auth()
 
 
 

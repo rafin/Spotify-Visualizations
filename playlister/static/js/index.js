@@ -15,7 +15,7 @@ $(document).ready(function() {
         console.log(jsontitles);
         $('.status').remove();
         $('#pl_selections').remove();
-        if(jsontitles == 'notfound'){
+        if(jsontitles == 'no public playlists'){
             $('<div class="status">username does not exist</div>').insertAfter("#login");
         } else {
             if(jsontitles.length > 0){
@@ -29,6 +29,7 @@ $(document).ready(function() {
                             '<div class="select-label">Select x-values</div>' +
                             '<div class="select background">' +
                             '    <select id="x_select">' +
+                            '       <option>Order</option>' +    
                             '       <option>Danceability</option>' +
                             '       <option>Energy</option>' +
                             '       <option>Loudness</option>' +
@@ -45,6 +46,7 @@ $(document).ready(function() {
                             '<div class="select-label">Select y-values</div>' +
                             '<div class="select">' +
                             '   <select id="y_select">' +
+                            '       <option>Order</option>' +                            
                             '       <option>Danceability</option>' +
                             '       <option>Energy</option>' +
                             '       <option>Loudness</option>' +
@@ -79,7 +81,11 @@ $(document).ready(function() {
         if($("#main svg").length > 0){
             clearTimeout(resizeTimer);
             var resizeTimer = setTimeout(function(){
-                regraph();
+                //delete old svg and tooltip and plot new one    
+                $("svg").remove();
+                $(".tooltip").remove();
+                $(".details").remove();
+                plot(data);
             }, 250);
         }
     });
@@ -89,7 +95,6 @@ $(document).ready(function() {
         title = encodeURIComponent(unencoded_title);
         console.log("in create: title=")
         console.log(title)
-        //delete old svg and tooltip and plot new one
         data = getdata(title);
         $("svg").remove();
         $(".tooltip").remove();
@@ -97,15 +102,7 @@ $(document).ready(function() {
         plot(data);
     }
 
-    function regraph() {
-        //delete old svg and tooltip and plot new one
-        $("svg").remove();
-        $(".tooltip").remove();
-        $(".details").remove();
-        plot(data);
-    }
-
-        //lists all playlists into the 'pick playlist' selection box
+    //lists all playlists into the 'pick playlist' selection box
     function gettitles(){
         console.log("at loadtitles")
         username = $("#username_input").val();
@@ -115,7 +112,6 @@ $(document).ready(function() {
         console.log(jsontitles)
         return jsontitles;
     }
-
 
     //lists all playlists into the 'pick playlist' selection box
     function loadtitles(titles){
@@ -133,7 +129,6 @@ $(document).ready(function() {
             url: window.location.href + 'getsongs/?title='.concat(title) + '&username='.concat(username),
         }).responseJSON;
         console.log(data)
-        data = data['songs']
         //convert release dates from strings to integer year
         data = data.map(function(d){ 
             d['release_date'] = parseInt(d['release_date'].substring(0,4));
@@ -147,14 +142,12 @@ $(document).ready(function() {
     function plot(playlist){
         var x = $("#x_select").val().toLowerCase();
         var y = $("#y_select").val().toLowerCase();
-        var dmin = 9999;
-        var dmax = 0;
-        if(x == 'duration' || y == 'duration'){
-            dmax = d3.max(playlist, function(d) {return d['duration']});              
-            dmin = d3.min(playlist, function(d) {return d['duration']});
-        }
+        var dmax = d3.max(playlist, function(d) {return d['duration']});              
+        var dmin = d3.min(playlist, function(d) {return d['duration']});
+        var omax = d3.max(playlist, function(d) {return d['order']}); 
         //console.log("dmin = " + dmin + "  dmax = " + dmax);
         var domains = {
+            'order': [0, omax],
             'danceability': [-4, 100],
             'energy': [-4, 100],
             'loudness': [-50, 0],
@@ -232,31 +225,18 @@ $(document).ready(function() {
                         .style("left", (d3.event.pageX) + "px")     
                         .style("top", (d3.event.pageY - 28) + "px");   
                 }
-
-                d3.select(this)
-                    .attr("r", 5)
-                    .attr("fill", "#6B81C2")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
                     .duration(400)
                     .style("opacity", 0);
-                d3.select(this)
-                    .attr("r", 4)
-                    .attr("fill", function(d){
-                        if (d["preview_url"] == "") {
-                            return "#A4ADC9";
-                        } else {
-                            return "#495780";
-                        }
-                    })
-                var audio = document.getElementById('preview_song');
-                audio.pause();
             })
             .on("click", function(d) {
                 tooltip.transition()
                     .duration(400)
                     .style("opacity", 0);
+                var audio = document.getElementById('preview_song');
+                audio.pause();
                 details.transition()
                     .duration(200)
                     .style("opacity", 1);
@@ -273,10 +253,44 @@ $(document).ready(function() {
                     '<tr><td>' + 'Tempo' + '</td><td>' + d['tempo'] + '</td></tr>' +
                     '<tr><td>' + 'Popularity' + '</td><td>' + d['popularity'] + '</td></tr>' +
                     '<tr><td>' + 'Release Date' + '</td><td>' + d['release_date'] + '</td></tr></table>');
-                var audio = document.getElementById('preview_song');
                 if(d["preview_url"] != ""){
-                    audio.setAttribute('src', d["preview_url"])
-                    audio.play();
+                    if(audio.getAttribute('src') == d["preview_url"]){
+                        d3.select(this)
+                            .attr("r", 4)
+                            .attr("fill", function(d){
+                                if (d["preview_url"] == "") {
+                                    return "#A4ADC9";
+                                } else {
+                                    return "#495780";
+                                }
+                            });
+                        audio.setAttribute('src', "")
+                    } else{
+                        svg.selectAll("circle")
+                            .attr("r", 4)
+                            .attr("fill", function(d){
+                                if (d["preview_url"] == "") {
+                                    return "#A4ADC9";
+                                } else {
+                                    return "#495780";
+                                }
+                            });
+                        d3.select(this)
+                            .attr("r", 5)
+                            .attr("fill", "#65C279");
+                        audio.setAttribute('src', d["preview_url"]);
+                        audio.play();
+                    }    
+                } else {
+                    svg.selectAll("circle")
+                        .attr("r", 4)
+                        .attr("fill", function(d){
+                            if (d["preview_url"] == "") {
+                                return "#A4ADC9";
+                            } else {
+                                return "#495780";
+                            }
+                        });
                 }
             });
 
@@ -313,12 +327,8 @@ $(document).ready(function() {
         d3.select("#go_button").on("click", function() {
             x = $("#x_select").val().toLowerCase();
             y = $("#y_select").val().toLowerCase();
-
-            if(x == 'duration' || y == 'duration'){
-                dmax = d3.max(playlist, function(d) {return d['duration']});              
-                dmin = d3.min(playlist, function(d) {return d['duration']});
-                domains.duration = [dmin - 15,dmax]; //must get from input
-            }
+            domains["duration"] = [dmin - 15,dmax]; //must get from input
+            domains["order"] = [0,omax]; //must get from input
 
             xscale.domain(domains[x]);
             yscale.domain(domains[y]);
