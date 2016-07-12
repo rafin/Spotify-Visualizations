@@ -17,7 +17,7 @@ $(document).ready(function() {
             if (jsontitles.length > 0) {
                 titles = jsontitles.map(function(t) {
                     return t['0'] });
-                $('#left_aside').append('<div id="pl_selections">' +
+                $('#graph_bar').append('<div id="pl_selections">' +
                     '<div class="select" id="first_select">' +
                     '    <select id="playlist_select">' +
                     '       <option>Playlist</option>' +
@@ -61,6 +61,7 @@ $(document).ready(function() {
                     '</div>' +
                     '<div id="go_button">Go</div>')
                 loadtitles(titles);
+                $('#graph_bar').animate({height: '30px'})
             } else {
                 $('<div class="error">user has no public playlists</div>').insertAfter("#username");
             }
@@ -195,7 +196,9 @@ $(document).ready(function() {
         var svg = d3.select("main")
             .append("svg")
             .attr("width", w - 20)
-            .attr("height", h - 20);
+            .attr("height", h - 20)
+            .style("opacity", 0);
+
 
         //ceate tooltip
         var tooltip = d3.select("body").append("div")
@@ -248,9 +251,9 @@ $(document).ready(function() {
                     .style("opacity", 0);
             })
             .on("click", function(d) {
-                tooltip.transition()
-                    .duration(400)
-                    .style("opacity", 0);
+                // tooltip.transition()
+                //     .duration(400)
+                //     .style("opacity", 0);
                 var audio = document.getElementById('preview_song');
                 audio.pause();
                 // details.transition()
@@ -331,6 +334,11 @@ $(document).ready(function() {
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .text(y);
+
+        //fade in plot
+        svg.transition()
+            .duration(400)
+            .style("opacity", 1);
 
         d3.select("#go_button").on("click", function() {
             x = $("#x_select").val().toLowerCase();
