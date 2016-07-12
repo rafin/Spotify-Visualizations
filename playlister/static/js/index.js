@@ -74,8 +74,6 @@ $(document).ready(function() {
             if ($("#playlist_select").val() != unencoded_title) {
                 console.log("at playlistselect");
                 createscatter();
-                $(".genre_row").remove();
-                loadgenres();
             }
         }
     })
@@ -89,11 +87,7 @@ $(document).ready(function() {
             $("main").css("right", '0px');
         }
         if ($("main svg").length > 0) {
-            var audio = document.getElementById('preview_song');
-            audio.pause();
-            $("svg").remove();
-            $(".tooltip").remove();
-            $(".details").remove();
+            clean_canvas();
             scatter(songs);
         }
     })
@@ -103,11 +97,7 @@ $(document).ready(function() {
             clearTimeout(resizeTimer);
             var resizeTimer = setTimeout(function() {
                 //delete old svg and tooltip and plot new one
-                var audio = document.getElementById('preview_song');
-                audio.pause();
-                $("svg").remove();
-                $(".tooltip").remove();
-                $(".details").remove();
+                clean_canvas();
                 scatter(songs);
             }, 250);
         }
@@ -121,9 +111,7 @@ $(document).ready(function() {
         data = getdata(title);
         songs = data.songs;
         sorted_genres = data.sorted_genres;
-        $("svg").remove();
-        $(".tooltip").remove();
-        $(".details").remove();
+        clean_canvas();
         scatter(songs);
     }
 
@@ -164,13 +152,16 @@ $(document).ready(function() {
         return data;
     }
 
-    function loadgenres() {
-        for(var i = 0; i < sorted_genres.length; i++) {
-            $('#genres table').append('<tr class="genre_row"><td>' + 
-                                sorted_genres[i][0] + '</td><td>' + 
-                                sorted_genres[i][1] + '</td></tr>');
-        }
+    function clean_canvas() {
+        audio = document.getElementById('preview_song');
+        audio.setAttribute('src', "")
+        audio.pause();
+        $(".genre_row").remove();
+        $("svg").remove();
+        $(".tooltip").remove();
+        $(".details").remove();
     }
+
 
 
     //---------------------------------------------------------------------------------------
@@ -267,17 +258,27 @@ $(document).ready(function() {
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 }
+                d3.select(this)
+                    .attr("fill", "#65C279")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
                     .duration(400)
                     .style("opacity", 0);
+                d3.select(this)
+                    .attr("fill", function(d) {
+                        if (d["preview_url"] == "") {
+                            return "#A4ADC9";
+                        } else {
+                            return "#495780";
+                        }
+                    });
             })
             .on("click", function(d) {
                 // tooltip.transition()
                 //     .duration(400)
                 //     .style("opacity", 0);
-                var audio = document.getElementById('preview_song');
+                audio = document.getElementById('preview_song');
                 audio.pause();
                 // details.transition()
                 //     .duration(200)
@@ -300,31 +301,9 @@ $(document).ready(function() {
                             });
                         audio.setAttribute('src', "")
                     } else {
-                        svg.selectAll("circle")
-                            .attr("r", 4)
-                            .attr("fill", function(d) {
-                                if (d["preview_url"] == "") {
-                                    return "#A4ADC9";
-                                } else {
-                                    return "#495780";
-                                }
-                            });
-                        d3.select(this)
-                            .attr("r", 5)
-                            .attr("fill", "#65C279");
                         audio.setAttribute('src', d["preview_url"]);
                         audio.play();
                     }
-                } else {
-                    svg.selectAll("circle")
-                        .attr("r", 4)
-                        .attr("fill", function(d) {
-                            if (d["preview_url"] == "") {
-                                return "#A4ADC9";
-                            } else {
-                                return "#495780";
-                            }
-                        });
                 }
             });
 
@@ -402,6 +381,59 @@ $(document).ready(function() {
                 .text(y)
 
         });
+
+        //create genres bar
+        var table = d3.select('#genres').append('table')
+        
+        var tr = table.selectAll('tr')
+                .data(sorted_genres)
+                .enter()
+                .append('tr')
+                .attr("class", "genre_row");
+
+        var td = tr.selectAll("td")
+                .data(function(d){return d3.values(d)})
+                .enter()
+                .append("td")
+                .text(function(d) {return d});
+        tr.on("mouseover", function(d) {
+            var row = d3.select(this).selectAll('td').text();
+            svg.selectAll("circle")
+                .transition()
+                .duration(400)
+                .attr("fill", function(d) {
+                    if (d["genre"].indexOf(row) > -1) {
+                        return "#FF485D";
+                    } else {
+                        if (d["preview_url"] == "") {
+                            return "#A4ADC9";
+                        } else {
+                            return "#495780";
+                        }
+                    }
+                })
+                .attr("r", function (d) {
+                    if (d["genre"].indexOf(row) > -1) {
+                        return 6;
+                    } else {
+                        return 4;
+                    }
+                });
+            })
+            .on("mouseout", function(d) {
+            svg.selectAll("circle")
+                .transition()
+                .duration(400)
+                .attr("r", 4)
+                .attr("fill", function(d) {
+                    if (d["preview_url"] == "") {
+                        return "#A4ADC9";
+                    } else {
+                        return "#495780";
+                    }
+                })
+            });
+
     }
 
     //---------------------------------------------------------------------------------------
