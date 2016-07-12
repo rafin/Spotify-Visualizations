@@ -7,6 +7,7 @@
 - currently, only public playlists can be accessed.
 - if you can, avoid plotting larger playlists (>200) as these exhaust api keys and take a long time to load.
 - you can interact with the plot points by clicking on them to hear a song preview.
+- clicking 'Genres' will open a bar that displays frequency of genres within the playlist, hover to see songs with feauture.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
