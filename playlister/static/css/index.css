@@ -1,7 +1,9 @@
+html{
+        background-color: #F8F8F8;
+}
 body {
     margin: 0px;
     font-family: 'Raleway', sans-serif;
-    background-color: #FAFAFA;
 }
 
 *:focus {
@@ -77,10 +79,11 @@ header {
 #genres_toggle {
     float: right;
     position: absolute;
-    top: 17px;
-    right: 20px;
+    top: 5px;
+    right: 10px;
     color: #041A0D;
     font-weight: 900;
+    cursor: pointer;
 }
 
 #username {
@@ -108,7 +111,7 @@ input {
     border-bottom: 1px solid #DDD;
     margin: 0 0 0 5px;
     font-size: 15px;
-    color: #54C2A0;
+    color: #4DC2A3;
     right: 0;
     width: 174px;
     padding: 5px;
@@ -140,7 +143,6 @@ input {
     top: 3.0em;
     left: 0;
     z-index: -1;
-    overflow-y: scroll;
     background-color: #FFFFFF;
     border-bottom: 1px solid #DDD;
 }
@@ -148,14 +150,14 @@ input {
 #right_aside {
     float: right;
     position: absolute;
-    display: none;
-    width: 200px;
-    top: 3.0em;
+    width: 0px;
+    top: 79px;
     bottom: 0;
     right: 0;
     height: auto;
     z-index: -1;
     border-left: 1px solid #DDD;
+    background-color: #F8F8F8;
     overflow-y: scroll;
 }
 
@@ -186,7 +188,7 @@ input {
 
 select {
     background-color: #FFFFFF;
-    color: #54C2A0;
+    color: #4DC2A3;
     font-size: 15px;
     border: none;
     background-image: none;
@@ -213,21 +215,17 @@ select {
     cursor: pointer;
 }
 
-.details {
+#genres {
     position: absolute;
     margin: 5px;
-    left: 0;
-    right: 0;
-    bottom: 0;
     padding-top: 5px;
-    border-top: 1px solid #DDD;
 }
 
-.details th {
-    text-align: center;
+#genres tr {
+    text-align: left;
 }
 
-.details table {
+#genres table {
     margin: 0;
 }
 

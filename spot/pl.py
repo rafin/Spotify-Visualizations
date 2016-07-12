@@ -1,6 +1,6 @@
 from unicodedata import normalize
 import datetime
-
+from operator import itemgetter
 import keys # local module handling API key
 
 from pprint import pprint
@@ -143,13 +143,13 @@ def existing_playlist(name):
     return ''
 
 
-def clean_data(songs, l_features, album_features):
+def clean_data(songs, l_features, genres):
   '''sets all class variables for the songs corresponding to each
   '''
   playlist = []
   i = 1
-  for song, features, afeatures in zip(songs, l_features, album_features):
-    release_date = to_date(afeatures['release_date'])
+  for song, features, genre in zip(songs, l_features, genres):
+    #release_date = to_date(afeatures['release_date'])
     for k,v in features.iteritems():
       if v == None or v == "":
         features[k] = 0
@@ -163,7 +163,7 @@ def clean_data(songs, l_features, album_features):
     song['valence'] = round(features['valence'] * 100, 2)
     song['tempo'] = round(features['tempo'], 0)
     song['duration'] = round(features['duration_ms'] / 1000, 0)
-    song['release_date'] = release_date
+    song['genre'] = genre
     playlist.append(song)
     i += 1
   return playlist
@@ -185,22 +185,22 @@ def get_song_features(song_ids):
     features += sp.audio_features(hundred)
   return features
 
-def get_album_data(album_ids):
-  '''returns json of data for albums corresponding to input ids
-     --- 1 request per 20 songs ---
-  '''
-  print "Getting album features"
-  afeatures = []
-  while(album_ids != None):
-    print len(album_ids)
-    if len(album_ids) > 20:
-      twenty = album_ids[0:20]
-      album_ids = album_ids[20:]
-    else:
-      twenty = album_ids
-      album_ids = None
-    afeatures += sp.albums(twenty)['albums']
-  return afeatures
+# def get_album_data(album_ids):
+#   '''returns json of data for albums corresponding to input ids
+#      --- 1 request per 20 songs ---
+#   '''
+#   print "Getting album features"
+#   afeatures = []
+#   while(album_ids != None):
+#     print len(album_ids)
+#     if len(album_ids) > 20:
+#       twenty = album_ids[0:20]
+#       album_ids = album_ids[20:]
+#     else:
+#       twenty = album_ids
+#       album_ids = None
+#     afeatures += sp.albums(twenty)['albums']
+#   return afeatures
 
 #----------------------------------------------------------------------
 def pl_data(pl_name, url_username):
@@ -215,9 +215,10 @@ def pl_data(pl_name, url_username):
     set_access()
   playlist = existing_playlist(pl_name)
   features = get_song_features(feature(playlist, 'id'))
-  album_features = get_album_data(feature(playlist, 'album_id'))
-  playlist = clean_data(playlist['songs'], features, album_features)
-  return playlist
+  #album_features = get_album_data(feature(playlist, 'album_id'))
+  genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
+  songs = clean_data(playlist['songs'], features, genres)
+  return {'sorted_genres': sorted_genres, 'songs': songs}
 
 #----------------------------------------------------------------------
 def store_db(pl_name):
@@ -267,6 +268,10 @@ def store_db(pl_name):
 
 #----------------------------------------------------------------------
 def get_genres(artist_ids):
+  '''returns genres for input artist_ids in list of lists
+     generates data: genres
+     --- 1 request per 50 songs ---
+  '''
   artists = []
   while(artist_ids != None):
     print len(artist_ids)
@@ -278,16 +283,16 @@ def get_genres(artist_ids):
       artist_ids = None
     artists += sp.artists(fifty)['artists']
 
-  # for artist in artists:
-  #   print "{} : {}".format(artist['name'], artist['genres'])
-
-  genres = {}
+  sorted_genres = {}
+  genres = []
   for artist in artists:
+    genres.append(artist['genres'])
     for genre in artist['genres']:
-      genres[genre] = (genres.get(genre, 0) + 1)
+      sorted_genres[genre] = (sorted_genres.get(genre, 0) + 1)
+  sorted_genres = sorted(sorted_genres.items(), key=itemgetter(1), 
+                         reverse=True)
 
-  import operator
-  pprint(sorted(genres.items(), key=operator.itemgetter(1)))
+  return genres, sorted_genres
 
 #----------------------------------------------------------------------
 if __name__ == '__main__':

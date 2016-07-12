@@ -1,6 +1,7 @@
 var audio;
 var titles;
-var data;
+var songs;
+var sorted_genres;
 var title = "";
 var unencoded_title = "";
 var username;
@@ -20,7 +21,7 @@ $(document).ready(function() {
                 $('#graph_bar').append('<div id="pl_selections">' +
                     '<div class="select" id="first_select">' +
                     '    <select id="playlist_select">' +
-                    '       <option>Playlist</option>' +
+                    '       <option>Select Playlist</option>' +
                     '    </select>' +
                     '</div>' +
                     ':' +
@@ -38,7 +39,6 @@ $(document).ready(function() {
                     '       <option>Tempo</option>' +
                     '       <option>Duration</option>' +
                     '       <option>Popularity</option>' +
-                    '       <option>Release_Date</option>' +
                     '   </select>' +
                     '</div>' +
                     'vs' +
@@ -56,10 +56,10 @@ $(document).ready(function() {
                     '       <option>Tempo</option>' +
                     '       <option>Duration</option>' +
                     '       <option>Popularity</option>' +
-                    '       <option>Release_Date</option>' +
                     '   </select>' +
                     '</div>' +
-                    '<div id="go_button">Go</div>')
+                    '<div id="go_button">Go</div>' +
+                    '<div id="genres_toggle"> Genres </div>')
                 loadtitles(titles);
                 $('#graph_bar').animate({height: '30px'})
             } else {
@@ -70,19 +70,31 @@ $(document).ready(function() {
 
     $(document).on('click', '#go_button', function() {
         console.log("at go button");
-        if ($("#playlist_select").val() != unencoded_title) {
-            console.log("at playlistselect");
-            createscatter();
+        if ($("#playlist_select").val() != "Select Playlist" && $("#y_select").val() != "y-values" && $("#x_select").val() != "x-values" ) {
+            if ($("#playlist_select").val() != unencoded_title) {
+                console.log("at playlistselect");
+                createscatter();
+                $(".genre_row").remove();
+                loadgenres();
+            }
         }
     })
 
     $(document).on('click', '#genres_toggle', function() {
-        if ($("#right_aside").css("display") == 'none') {
-            $("#right_aside").css("display", 'block');
+        if ($("#right_aside").css("width") == '0px') {
             $("main").css("right", '201px');
-        } else if ($("#right_aside").css("display") == 'block') {
-            $("#right_aside").css("display", 'none');
+            $("#right_aside").animate({width: '200px'})
+        } else if ($("#right_aside").css("width") == '200px') {
+            $("#right_aside").animate({width: '0px'})
             $("main").css("right", '0px');
+        }
+        if ($("main svg").length > 0) {
+            var audio = document.getElementById('preview_song');
+            audio.pause();
+            $("svg").remove();
+            $(".tooltip").remove();
+            $(".details").remove();
+            scatter(songs);
         }
     })
 
@@ -96,7 +108,7 @@ $(document).ready(function() {
                 $("svg").remove();
                 $(".tooltip").remove();
                 $(".details").remove();
-                scatter(data);
+                scatter(songs);
             }, 250);
         }
     });
@@ -107,10 +119,12 @@ $(document).ready(function() {
         console.log("in create: title=")
         console.log(title)
         data = getdata(title);
+        songs = data.songs;
+        sorted_genres = data.sorted_genres;
         $("svg").remove();
         $(".tooltip").remove();
         $(".details").remove();
-        scatter(data);
+        scatter(songs);
     }
 
     //lists all playlists into the 'pick playlist' selection box
@@ -142,13 +156,22 @@ $(document).ready(function() {
             url: window.location.href + 'getsongs/?title='.concat(title) + '&username='.concat(username),
         }).responseJSON;
         console.log(data)
-            //convert release dates from strings to integer year
-        data = data.map(function(d) {
-            d['release_date'] = parseInt(d['release_date'].substring(0, 4));
-            return d;
-        })
+        //     //convert release dates from strings to integer year
+        // data = data.map(function(d) {
+        //     d['release_date'] = parseInt(d['release_date'].substring(0, 4));
+        //     return d;
+        // })
         return data;
     }
+
+    function loadgenres() {
+        for(var i = 0; i < sorted_genres.length; i++) {
+            $('#genres table').append('<tr class="genre_row"><td>' + 
+                                sorted_genres[i][0] + '</td><td>' + 
+                                sorted_genres[i][1] + '</td></tr>');
+        }
+    }
+
 
     //---------------------------------------------------------------------------------------
     // Scatter Plot
