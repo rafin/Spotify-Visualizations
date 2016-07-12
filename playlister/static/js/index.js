@@ -260,6 +260,7 @@ $(document).ready(function() {
                 }
                 d3.select(this)
                     .attr("fill", "#65C279")
+                    .moveToFront();
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
@@ -384,7 +385,7 @@ $(document).ready(function() {
 
         //create genres bar
         var table = d3.select('#genres').append('table')
-        
+
         var tr = table.selectAll('tr')
                 .data(sorted_genres)
                 .enter()
@@ -397,13 +398,15 @@ $(document).ready(function() {
                 .append("td")
                 .text(function(d) {return d});
         tr.on("mouseover", function(d) {
-            var row = d3.select(this).selectAll('td').text();
+            var row = d3.select(this).selectAll('td')
+                .style("font-weight", "bold")
+                .style("color", "#4DC2A3");
             svg.selectAll("circle")
                 .transition()
                 .duration(400)
                 .attr("fill", function(d) {
-                    if (d["genre"].indexOf(row) > -1) {
-                        return "#FF485D";
+                    if (d["genre"].indexOf(row.text()) > -1) {
+                        return "#FF5C46";
                     } else {
                         if (d["preview_url"] == "") {
                             return "#A4ADC9";
@@ -413,14 +416,17 @@ $(document).ready(function() {
                     }
                 })
                 .attr("r", function (d) {
-                    if (d["genre"].indexOf(row) > -1) {
+                    if (d["genre"].indexOf(row.text()) > -1) {
                         return 6;
                     } else {
                         return 4;
                     }
                 });
             })
-            .on("mouseout", function(d) {
+        .on("mouseout", function(d) {
+            d3.select(this).selectAll('td')
+                .style("font-weight", "normal")
+                .style("color", "#041A0D");
             svg.selectAll("circle")
                 .transition()
                 .duration(400)
@@ -432,7 +438,11 @@ $(document).ready(function() {
                         return "#495780";
                     }
                 })
-            });
+        })
+        .on("click", function(d) {
+            var row = d3.select(this).selectAll('td').text();
+
+        });
 
     }
 

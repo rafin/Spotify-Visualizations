@@ -3,3 +3,4 @@ venv
 .env
 .cache*
 .cache
+test.py
