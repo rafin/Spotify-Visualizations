@@ -2,8 +2,6 @@
 - webapp that helps visualize a users public playlists on spotify
 - Current version online at: http://plotify.herokuapp.com/
 
-[Screenshot](http://i.imgur.com/NCHfIsw.png)
-
 #### Some usage tips in the meantime since the ui doesn't explain much yet
 - your username is the string of letters or numbers which can be found as the creator of your personal playlists.
 - currently, only public playlists can be accessed.
