@@ -4,6 +4,7 @@ var data;
 var title = "";
 var unencoded_title = "";
 var username;
+var graph_type = "scatter";
 $(document).ready(function() {
 
     $('#get_data_button').click(function() {
@@ -12,21 +13,20 @@ $(document).ready(function() {
         $('.error').remove();
         $('#pl_selections').remove();
         if (jsontitles == 'no public playlists') {
-            $( "main" ).append('<div class="error">username does not exist</div>');
+            $('<div class="error">username does not exist</div>').insertAfter("#username");
         } else {
             if (jsontitles.length > 0) {
                 titles = jsontitles.map(function(t) {
                     return t['0'] });
-                $('#left_aside').append('<div id="pl_selections">' +
-                    '<div class="select" id="first_select">' +
+                $('aside').append('<div id="pl_selections">' +
+                    '<div class="select-label">Select Playlist</div>' +
+                    '<div class="select">' +
                     '    <select id="playlist_select">' +
-                    '       <option>Playlist</option>' +
                     '    </select>' +
                     '</div>' +
-                    ':' +
-                    '<div dir="rtl" class="select">' +
+                    '<div class="select-label x-label">Select x-values</div>' +
+                    '<div class="select">' +
                     '    <select id="x_select">' +
-                    '       <option>x-values</option>' +
                     '       <option>Order</option>' +
                     '       <option>Danceability</option>' +
                     '       <option>Energy</option>' +
@@ -41,10 +41,9 @@ $(document).ready(function() {
                     '       <option>Release_Date</option>' +
                     '   </select>' +
                     '</div>' +
-                    'vs' +
+                    '<div class="select-label y-enable">Select y-values</div>' +
                     '<div class="select y-enable">' +
                     '   <select id="y_select">' +
-                    '       <option>y-values</option>' +
                     '       <option>Order</option>' +
                     '       <option>Danceability</option>' +
                     '       <option>Energy</option>' +
@@ -71,17 +70,44 @@ $(document).ready(function() {
         console.log("at go button");
         if ($("#playlist_select").val() != unencoded_title) {
             console.log("at playlistselect");
-            createscatter();
+            if (graph_type == "scatter") {
+                createscatter();
+            } else {
+                createhist();
+            }
         }
     })
 
-    $(document).on('click', '#genres_toggle', function() {
-        if ($("#right_aside").css("display") == 'none') {
-            $("#right_aside").css("display", 'block');
-            $("main").css("right", '201px');
-        } else if ($("#right_aside").css("display") == 'block') {
-            $("#right_aside").css("display", 'none');
-            $("main").css("right", '0px');
+    $(document).on('click', '#scatter_toggle', function() {
+        graph_type = "scatter";
+        $("#scatter_toggle").css("background-color", "#FFFFFF");
+        $("#scatter_toggle").css("color", "#041A0D");
+        $("#hist_toggle").css("background-color", "#041A0D");
+        $("#hist_toggle").css("color", "#FFFFFF");
+        $(".y-enable").css('display', 'block');
+        $(".x-label").text("Select x-values");
+        if ($("main svg").length > 0) {
+            $("svg").remove();
+            $(".tooltip").remove();
+            $(".details").remove();
+            scatter(data);
+        }
+    })
+    $(document).on('click', '#hist_toggle', function() {
+        graph_type = "histogram";
+        $("#hist_toggle").css("background-color", "#FFFFFF");
+        $("#hist_toggle").css("color", "#041A0D");
+        $("#scatter_toggle").css("background-color", "#041A0D");
+        $("#scatter_toggle").css("color", "#FFFFFF");
+        $(".y-enable").css('display', 'none');
+        $(".x-label").text("Select values")
+        if ($("main svg").length > 0) {
+            var audio = document.getElementById('preview_song');
+            audio.pause();
+            $("svg").remove();
+            $(".tooltip").remove();
+            $(".details").remove();
+            hist(data);
         }
     })
 
@@ -95,7 +121,11 @@ $(document).ready(function() {
                 $("svg").remove();
                 $(".tooltip").remove();
                 $(".details").remove();
-                scatter(data);
+                if (graph_type == "scatter") {
+                    scatter(data);
+                } else {
+                    hist(data);
+                }
             }, 250);
         }
     });
@@ -112,10 +142,22 @@ $(document).ready(function() {
         scatter(data);
     }
 
+    function createhist() {
+        unencoded_title = $("#playlist_select").val();
+        title = encodeURIComponent(unencoded_title);
+        console.log("in create: title=")
+        console.log(title)
+        data = getdata(title);
+        $("svg").remove();
+        $(".tooltip").remove();
+        $(".details").remove();
+        hist(data);
+    }
+
     //lists all playlists into the 'pick playlist' selection box
     function gettitles() {
         console.log("at loadtitles")
-        username = $("#user-input").val();
+        username = $("#username_input").val();
         var jsontitles = $.ajax({
             async: false,
             url: window.location.href + 'getplaylists/?username='.concat(username),
@@ -146,11 +188,9 @@ $(document).ready(function() {
             d['release_date'] = parseInt(d['release_date'].substring(0, 4));
             return d;
         })
+
         return data;
     }
-
-    //---------------------------------------------------------------------------------------
-    // Scatter Plot
     //---------------------------------------------------------------------------------------
     function scatter(playlist) {
         var x = $("#x_select").val().toLowerCase();
@@ -202,9 +242,9 @@ $(document).ready(function() {
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-        // var details = d3.select("#left_aside").append("div")
-        //     .attr("class", "details")
-        //     .style("opacity", 0);
+        var details = d3.select("aside").append("div")
+            .attr("class", "details")
+            .style("opacity", 0);
 
         //draw dots
         svg.selectAll("circle")
@@ -253,14 +293,14 @@ $(document).ready(function() {
                     .style("opacity", 0);
                 var audio = document.getElementById('preview_song');
                 audio.pause();
-                // details.transition()
-                //     .duration(200)
-                //     .style("opacity", 1);
-                // details.html('<table><b>' +
-                //     '<tr><th colspan="2">' + d['name'] + ': ' + d['artist'] + '</th></b></tr>' +
-                //     '<tr><td>' + $("#x_select").val() + '</td><td>' + d[x] + '</td></tr>' +
-                //     '<tr><td>' + $("#y_select").val() + '</td><td>' + d[y] + '</td></tr>' +
-                //     '<table>');
+                details.transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                details.html('<table><b>' +
+                    '<tr><th colspan="2">' + d['name'] + ': ' + d['artist'] + '</th></b></tr>' +
+                    '<tr><td>' + $("#x_select").val() + '</td><td>' + d[x] + '</td></tr>' +
+                    '<tr><td>' + $("#y_select").val() + '</td><td>' + d[y] + '</td></tr>' +
+                    '<table>');
                 if (d["preview_url"] != "") {
                     if (audio.getAttribute('src') == d["preview_url"]) {
                         d3.select(this)
@@ -369,6 +409,146 @@ $(document).ready(function() {
 
             svg.select(".y.label")
                 .text(y)
+
+        });
+    }
+
+    //---------------------------------------------------------------------------------------
+    function hist(playlist) {
+        var x = $("#x_select").val().toLowerCase();
+        var dmax = d3.max(playlist, function(d) {
+            return d[x] });
+        var dmin = d3.min(playlist, function(d) {
+            return d[x] });
+
+        // -- 'Global' Vars -- //
+        var dimens = updateWindow();
+        var w = dimens[0];
+        var h = dimens[1];
+        var padding = 30;
+        var bincount = (playlist.length) / 5;
+        if (bincount < 2) {
+            bincount = 2;
+        }
+        if (bincount > 100) {
+            bincount = 100;
+        }
+
+        var data = playlist.map(function(i) {
+            return i[x];
+        })
+
+        var histogram = d3.layout.histogram()
+            .bins(bincount)
+            (data);
+
+        var xscale = d3.scale.linear()
+            .domain([dmin, dmax])
+            .range([padding, w - padding]);
+
+        var yscale = d3.scale.linear()
+            .domain([0, d3.max(histogram.map(function(i) {
+                return i.length
+            }))])
+            .range([padding, h - padding]); //20 accounts for title width
+
+        var svg = d3.select("main")
+            .append("svg")
+            .attr("width", w - padding)
+            .attr("height", h - padding)
+            .append("g")
+            .attr("transform", "translate(20,0)");
+
+        var group = svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + h + ")")
+            .call(d3.svg.axis(x));
+
+        var bars = svg.selectAll(".bar")
+            .data(histogram)
+            .enter()
+            .append("g");
+
+        bars.append("rect")
+            .attr("x", function(d) {
+                return xscale(d.x);
+            })
+            .attr("y", function(d) {
+                return h - yscale(d.y);
+            })
+            .attr("width", function(d) {
+                return ((w - 3 * padding) / bincount);
+            })
+            .attr("height", function(d) {
+                return yscale(d.y);
+            })
+            .attr("fill", "#495780")
+
+        svg.selectAll("rect")
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill", "#5D70A9")
+            })
+            .on("mouseout", function(d) {
+                d3.select(this)
+                    .attr("fill", "#495780")
+            })
+
+        //create title
+        bars.append("text")
+            .text(x)
+            .attr("x", (w / 2))
+            .attr("y", 12)
+            .attr("text-anchor", "middle")
+
+        d3.select("#go_button").on("click", function() {
+            x = $("#x_select").val().toLowerCase();
+            var dmax = d3.max(playlist, function(d) {
+                return d[x] });
+            var dmin = d3.min(playlist, function(d) {
+                return d[x] });
+
+            data = playlist.map(function(i) {
+                return i[x]; })
+
+            histogram = d3.layout.histogram()
+                .bins(bincount)
+                (data);
+
+            xscale.domain([dmin, dmax]);
+
+            $("rect").remove();
+
+            bars = svg.selectAll(".bar")
+                .data(histogram)
+                .enter()
+                .append("g");
+
+            bars.append("rect")
+                .attr("x", function(d) {
+                    return xscale(d.x);
+                })
+                .attr("y", function(d) {
+                    return h - yscale(d.y);
+                })
+                .attr("width", function(d) {
+                    return ((w - 3 * padding) / bincount);
+                })
+                .attr("height", function(d) {
+                    return yscale(d.y);
+                })
+                .attr("fill", "#495780");
+
+            svg.selectAll("rect")
+                .on("mouseover", function(d) {
+                    d3.select(this)
+                        .attr("fill", "#A4ADC9")
+                })
+                .on("mouseout", function(d) {
+                    d3.select(this)
+                        .attr("fill", "#495780")
+                });
+
 
         });
     }

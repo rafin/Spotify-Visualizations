@@ -1,171 +1,250 @@
-body{
+body {
     margin: 0px;
     font-family: 'Raleway', sans-serif;
-}
-
-/* left bar colors*/
-.background {
-    background-color: #FFFFFF;
-    color: #041A0D;
-}
-.background select {
-    background-color: #FFFFFF;
-    color: #041A0D;
-}
-.select:hover {
-    border-width: 3px;
-    margin-bottom: -2px;
-}
-
-
-/* Header Styles */
-#header {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 3em;
-    color: #FFFFFF;
-    background-color: #041A0D;
-    border
-    -webkit-box-shadow: 0px 3px 5px rgba(100, 100, 100, 0.49);
-    -moz-box-shadow:    0px 3px 5px rgba(100, 100, 100, 0.49);
-    box-shadow:         0px 3px 5px rgba(100, 100, 100, 0.49);
-    z-index: 100;
-}
-
-#title{
-    float: left;
-    display: block;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    position: absolute;
-    left: 32px;
-    color: #FFFFFF;
-}
-
-.status{
-    vertical-align: center;
-    margin: 5px;
-    color: #FF4B4E;
-    font-size: 12;
-}
-
-
-.selection {
-    width: 100%;
-    margin: 0 5px 0 5px;
-}
-
-/*selection box styles*/
-.select {
-    padding: 0;
-    width: auto;
-    overflow: hidden;
-    border: none;
-    border-bottom: 1px solid #DDD;
-    margin: 5px;
-    width: auto;
-    vertical-align: center; 
-    
-}
-
-.select select {
-    font-size: 15px;
-    padding: 0 5px 5px 5px;
-    width: auto;
-    border: none;
-    box-shadow: none;
-    background-image: none;
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-    margin: auto 0 auto 0;
-    width: auto;
-    vertical-align: center;
-}
-
-.select-label {
-    margin: 5px 5px 0px 5px;
 }
 
 *:focus {
     outline: none;
 }
 
-#pl_selections {
-    margin-top: 5px;
+.error {
+    display: inline;
+    position: fixed;
+    margin: 5px;
+    color: #FF4B4E;
+    font-size: 12;
 }
 
 
-/* Left Side Bar */
-#right_bar {
+/*-------------------------------------
+ Header Styles */
+
+header {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 3em;
+    background-color: #F6F6F6;
+    color: #041A0D;
+}
+
+#title {
     float: left;
-    position: absolute;
-    width: 200px;
-    top: 3.0em;
-    bottom: 0;
-    left: 0;
-    height: auto;
-    z-index: -1;
-    border-right: 1px solid #DDD;
-}
-
-#go_button, #get_data_button, #regraph_button {
+    display: block;
     text-align: center;
-    padding-top: 5px;
+    padding: 8px 0px;
+    text-decoration: none;
+    position: absolute;
+    left: 15px;
+    color: #041A0D;
+    font-size: 25px;
 }
 
-#go_button:hover, #get_data_button:hover {
+
+/* Used to Switch between Scatter and
+    Histogram Plot
+*/
+
+
+/*#plot_toggle {
+    position: absolute;
+    width: 152px;
+    background-color: #041A0D;
+    left: 0;
+    right: 0;
+    margin: 10px auto 10px auto;
+}
+
+#scatter_toggle {
+    background-color: #FFFFFF;
+    color: #041A0D;
+    float: left;
+    padding: 4px;
+    border-radius: 5px 0 0 5px;
+}
+
+#hist_toggle {
+    background-color: #041A0D;
+    color: #FFFFFF;
+    float: right;
+    padding: 4px;
+    border-radius: 0 5px 5px 0;
+}
+*/
+
+#genres_toggle {
+    float: right;
+    position: absolute;
+    top: 17px;
+    right: 20px;
+    color: #041A0D;
     font-weight: 900;
-    cursor: pointer;
 }
 
-#login {
+#username {
     overflow: hidden;
     margin: 0;
     left: 0;
 }
 
-#topright {
-    float: right;
-    position absolute;
-    margin: 14px;
+#user-label {
+    display: inline;
+    position: absolute;
+    left: 200px;
+    top: 15px;
 }
-#github_link {
-    text-decoration: none;
-    color: #FFFFFF;
-}
-#github_link:hover {
-    color: #7C6BD3;
+
+#user-input {
+    display: inline;
+    position: absolute;
+    left: 280px;
+    top: 10px;
 }
 
 input {
     border: none;
-    border-bottom: 1px solid #DDD; 
+    border-bottom: 1px solid #DDD;
     margin: 0 0 0 5px;
     font-size: 15px;
-    color: #041A0D;
+    color: #54C2A0;
     right: 0;
     width: 174px;
     padding: 5px;
 }
 
-#main {
+#github_link {
+    text-decoration: none;
     float: right;
     position: absolute;
-    left: 201px;
-    top: 3em;
+    top: 16px;
+    right: 20px;
+    color: #041A0D;
+}
+
+#github_link:hover {
+    color: #7C6BD3;
+    cursor: pointer;
+}
+
+
+/*-------------------------------------
+ Left Side Bar */
+
+#left_aside {
+    float: left;
+    position: absolute;
+    width: 100%;
+    top: 3.0em;
+    left: 0;
+    z-index: -1;
+    overflow-y: scroll;
+    background-color: #FFFFFF
+}
+
+#right_aside {
+    float: right;
+    position: absolute;
+    display: none;
+    width: 200px;
+    top: 3.0em;
+    bottom: 0;
+    right: 0;
+    height: auto;
+    z-index: -1;
+    border-left: 1px solid #DDD;
+    overflow-y: scroll;
+}
+
+
+/*.select-label {
+    display: inline;
+    margin: 5px 5px 0px 15px;
+}*/
+
+#pl_selections {
+    margin-left: 5px;
+    height: 30px;
+}
+
+.select {
+    display: inline;
+    padding: 5px;
+/*    border-bottom: 1px solid #DDD;
+*/}
+
+#playlist_select {
+    width: 170px;
+}
+
+#first_select {
+    margin-left: 10px;
+}
+
+select {
+    background-color: #FFFFFF;
+    color: #54C2A0;
+    font-size: 15px;
+    border: none;
+    background-image: none;
+    -webkit-appearance: none;
+    padding: 5px;
+}
+
+#get_data_button {
+    position: absolute;
+    left: 480px;
+    top: 16px;
+    fon
+}
+
+#go_button {
+    display: inline;
+    text-align: center;
+    padding-top: 5px;
+}
+
+#go_button:hover,
+#get_data_button:hover {
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.details {
+    position: absolute;
+    margin: 5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 5px;
+    border-top: 1px solid #DDD;
+}
+
+.details th {
+    text-align: center;
+}
+
+.details table {
+    margin: 0;
+}
+
+
+/*-------------------------------------
+ Main/Plot*/
+
+main {
+    float: right;
+    position: absolute;
     height: auto;
     right: 0px;
+    left: 0px;
+    top: 70px;
     bottom: 0px;
     padding: 0;
     background-color: #FAFAFA;
-    z-index: -1;
+    z-index: -2;
 }
 
-/* chart styles */
 .plot {
     float: right;
     margin: 0;
@@ -181,69 +260,16 @@ input {
 }
 
 .axis text {
-    font-family: sans-serif;
     font-size: 11px;
 }
 
-    /*Hover Details Styles*/
-
-div.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 150px;                  
-  height: autp;                 
-  padding: 0px;                     
-  border: 0px;
-  font-size: 12px;            
-  pointer-events: none;       
-}
-
-
-
-.details {
+div.tooltip {
     position: absolute;
-    margin: 5px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding-top: 5px;
-    border-top: 1px solid #DDD;
-}
-.details th {
     text-align: center;
+    width: 150px;
+    height: autp;
+    padding: 0px;
+    border: 0px;
+    font-size: 12px;
+    pointer-events: none;
 }
-.details table {
-    margin: 0;
-}
-
-/* reactiveity styling */
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-}
-.svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 10px;
-    left: 0;
-}
-
-/* Loading Bar */
-#myProgress {
-    position: relative;
-    width: 100%;
-    height: 3px;
-    background-color: #FAFAFA;
-}
-#myBar {
-    position: absolute;
-    width: 0%;
-    height: 100%;
-    background-color: #24B643;
-}
-
-

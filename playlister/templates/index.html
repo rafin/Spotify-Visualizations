@@ -6,48 +6,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    {% load staticfiles %}
     <title>Spotify Plotter</title>
+    {% load staticfiles %}
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <!--<script type="text/javascript"> 
-        var playlist = {{ playlist|safe }};
-    </script>-->
 </head>
 
 <body>
-    <!-- header -->
-    <div id="header" class="background">
+
+    <header>
         <div id="title"><strong>Spotify Plotter</strong></div>
-        <div id="topright">
-        <a href="https://github.com/rafin/playlists" id="github_link">
+        <!--<div id="plot_toggle">
+            <div id="scatter_toggle">Scatter</div>
+            <div id="hist_toggle">Histogram</div>
+        </div> -->
+        <div id="username">
+            <div id="user-label">Username</div>
+            <input type="text" id="user-input"></input>
+        </div>
+        <div id="get_data_button">Get Data</div>
+        <a href="https://github.com/rafin/playlists" target="_blank" id="github_link">
                 github
         </a>
-        </div>
-    </div>
+<!--         <div id="genres_toggle">
+            Genres
+        </div> -->
+    </header>
 
-    <!-- side bar -->
-    <div id="right_bar" class="background">
-        <div id="login">
-            <div class="select-label">Username</div>
-            <input type="text" id="username_input"></input>
-        </div>
-        <div id="get_data_button">Go</div>
-    </div>
-    <div id="main">
-        <div id="myProgress">
-          <div id="myBar"></div>
-        </div>
-    </div>
+    <aside id="left_aside">
+    </aside>
+
+    <main>
+    </main>
+
+    <aside id="right_aside">
+        Hello
+    </aside>
 
     <audio id="preview_song">
     </audio>
 
-    <!-- scatterplot script -->
+    <!-- javascript -->
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
-
 </body>
 
 </html>

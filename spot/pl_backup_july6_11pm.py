@@ -8,8 +8,7 @@ from pprint import pprint
 #----------------------------------------------------------------------
 # set up access with these global vars
 sp = None
-#username = None
-username = "rino21111"
+username = None
 
 def set_access():
   global sp
@@ -17,8 +16,7 @@ def set_access():
 
 #----------------------------------------------------------------------
 def to_ascii(string):
-  '''converts from unicode to ascii
-  '''
+  '''converts from unicode to ascii'''
   if string == None:
     return string
   return normalize('NFKD', string).encode('ascii','ignore')
@@ -26,8 +24,7 @@ def to_ascii(string):
 def to_date(date):
   '''converts a string in any day/month/year format
      to a datetime object, defaulting to 1/1 if no
-     month or day is found (year is required)
-  '''
+     month or day is found (year is required)'''
   year = int(date[0:4])
   month = day = 1
   if len(date) > 7:
@@ -38,8 +35,7 @@ def to_date(date):
 
 def correct_spaces(string):
   '''removes double spaces and beginning and ending
-     spaces from a string
-  '''
+     spaces from a string'''
   string = to_ascii(string)
   string = string.replace("  ", " ")
   if string[0] == " ":
@@ -51,8 +47,7 @@ def correct_spaces(string):
 #----------------------------------------------------------------------
 def feature(playlist, feature):
   '''returns comma separated list (string) of specified feature value
-     in specifed playlist in order
-  '''
+     in specifed playlist in order'''
   ids = []
   for song in playlist['songs']:
     ids.append(song[feature])
@@ -86,13 +81,11 @@ def get_playlists(user):
     print "error retrieving playlists"
     return "no public playlists"
 
-def get_songs(p_id, p_name, userid):
+def get_songs(sp, p_id, p_name, userid):
   '''returns songs in playlist as list of dicts
      generates data: id, name, artists, popularity,
      --- 1 request per 100 songs ---
   '''
-  if sp == None:
-    set_access()
   hundred = sp.user_playlist_tracks(userid, playlist_id=p_id)
   playlist = hundred
   start = 0
@@ -102,10 +95,10 @@ def get_songs(p_id, p_name, userid):
     hundred = sp.user_playlist_tracks(userid, playlist_id=p_id, offset=start)
     playlist['items'] += hundred['items']
     print "retrieved {} songs".format(len(playlist['items']))
+
   pl = {'id': p_id, 'name': p_name, 'songs': []}
   for track in playlist['items']:
     artist = to_ascii(track['track']['artists'][0]['name'])
-    artist_id = to_ascii(track['track']['artists'][0]['id'])
     name = to_ascii(track['track']['name'])
     s_id = to_ascii(track['track']['id'])
     if s_id == None:
@@ -120,15 +113,14 @@ def get_songs(p_id, p_name, userid):
     album_id = to_ascii(track['track']['album']['id'])
     song = {'id': s_id, 'name': name, 'artist': artist,
             'popularity': pop, 'preview_url': preview,
-            'album_id': album_id, 'artist_id': artist_id}
+            'album_id': album_id}
     pl['songs'].append(song)
   return pl
 
 
 def existing_playlist(name):
   '''return type: Playlist with all Songs loaded
-     uses the username global var
-  '''
+     uses the username global var'''
   playlists = get_playlists(username)
   print name
   playlist_id = user_id = None
@@ -137,15 +129,14 @@ def existing_playlist(name):
       playlist_id = playlist[1]
       user_id = playlist[2] 
   if playlist_id:
-      return get_songs(playlist_id, name, user_id)
+      return get_songs(sp, playlist_id, name, user_id)
   else:
     print 'ERROR: playlist name invalid'
     return ''
 
 
 def clean_data(songs, l_features, album_features):
-  '''sets all class variables for the songs corresponding to each
-  '''
+  '''sets all class variables for the songs corresponding to each'''
   playlist = []
   i = 1
   for song, features, afeatures in zip(songs, l_features, album_features):
@@ -154,15 +145,15 @@ def clean_data(songs, l_features, album_features):
       if v == None or v == "":
         features[k] = 0
     song['order'] = i
-    song['danceability'] = round(features['danceability'] * 100, 2)
-    song['energy'] = round(features['energy'] * 100, 2)
-    song['loudness'] = round(features['loudness'], 1)
-    song['speechiness'] = round(features['speechiness'] * 100, 2)
+    song['danceability'] = round(features['danceability'] * 100, 2) #0:1
+    song['energy'] = round(features['energy'] * 100, 2) #0:1
+    song['loudness'] = round(features['loudness'], 1) #-60:0
+    song['speechiness'] = round(features['speechiness'] * 100, 2) #0:1 v
     song['acousticness'] = round((features['acousticness']) * 100, 2)
     song['instrumentalness'] = round(features['instrumentalness'] * 100, 2)
     song['valence'] = round(features['valence'] * 100, 2)
-    song['tempo'] = round(features['tempo'], 0)
-    song['duration'] = round(features['duration_ms'] / 1000, 0)
+    song['tempo'] = round(features['tempo'], 0) #40:220 (varies, tempo)
+    song['duration'] = round(features['duration_ms'] / 1000, 0) #(varies)
     song['release_date'] = release_date
     playlist.append(song)
     i += 1
@@ -205,8 +196,7 @@ def get_album_data(album_ids):
 #----------------------------------------------------------------------
 def pl_data(pl_name, url_username):
   '''returns Dict of specified playlist with all songs and features
-     uses username global var
-  '''
+     uses username global var'''
   print "Retrieved playlist data for : {}".format(pl_name)
   print "pl_name = {}, url_username = {}".format(pl_name, url_username)
   global username
@@ -221,8 +211,7 @@ def pl_data(pl_name, url_username):
 
 #----------------------------------------------------------------------
 def store_db(pl_name):
-  '''similar to initialize, but stores the data into database through models
-  '''
+  '''similar to initialize, but stores the data into database through models'''
   if sp == None:
     set_access()
   #check if pl_name already in db
@@ -266,36 +255,12 @@ def store_db(pl_name):
   print "All Songs Processed"
 
 #----------------------------------------------------------------------
-def get_genres(artist_ids):
-  artists = []
-  while(artist_ids != None):
-    print len(artist_ids)
-    if len(artist_ids) > 50:
-      fifty = artist_ids[0:50]
-      artist_ids = artist_ids[50:]
-    else:
-      fifty = artist_ids
-      artist_ids = None
-    artists += sp.artists(fifty)['artists']
-
-  # for artist in artists:
-  #   print "{} : {}".format(artist['name'], artist['genres'])
-
-  genres = {}
-  for artist in artists:
-    for genre in artist['genres']:
-      genres[genre] = (genres.get(genre, 0) + 1)
-
-  import operator
-  pprint(sorted(genres.items(), key=operator.itemgetter(1)))
-
-#----------------------------------------------------------------------
 if __name__ == '__main__':
     # getting playlist using pl.py
   if sp == None:
     set_access()
-  playlist = existing_playlist("Rollin Stone Top 500 songs")
-  get_genres(feature(playlist, 'artist_id'))
+  name = raw_input('input username:\n> ')
+  playlists = get_playlists(name)
 
   #Print JSON
-  #pprint(playlists)
+  pprint(playlists)
