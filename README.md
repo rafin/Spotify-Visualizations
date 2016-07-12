@@ -8,7 +8,7 @@
 - your username is the string of letters or numbers which can be found as the creator of your personal playlists.
 - currently, only public playlists can be accessed.
 - if you can, avoid plotting larger playlists (>200) as these exhaust api keys and take a long time to load.
-- you can interact with the plot points by clicking on them to see more details and hear a song preview.
+- you can interact with the plot points by clicking on them to hear a song preview.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
@@ -21,16 +21,13 @@
 - **valence**: A measure from 0 to 100 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
 - **popularity**: The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated from the popularity of the song on spotify.
 - **duration**: length of the track in seconds.
-- **release date**: year of which the song's album is released.
 
 
 
 #### Work in Progress / Possible Future Features
-- friendlier ui
 - better error handling and notifications
 - ability to login to access private playlists
 - visualize an artists entire catalog
-- color coding plot
 - creating playlists from plot selection
 - 1D histogram visualization
 - individual song bar chart of features
