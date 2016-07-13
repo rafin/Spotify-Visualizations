@@ -259,8 +259,7 @@ $(document).ready(function() {
                         .style("top", (d3.event.pageY - 28) + "px");
                 }
                 d3.select(this)
-                    .attr("fill", "#65C279")
-                    .moveToFront();
+                    .attr("fill", "#65C279");
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
