@@ -67,7 +67,10 @@ def get_playlists(user):
         start = 0
         #to shorten delay, cap at 200 playlists
         while (fifty == "start" or len(fifty['items']) == 50) and start < 200:
-            fifty = sp.user_playlists(user, offset=start)
+            try:
+                fifty = sp.user_playlists(user, offset=start)
+            except:
+                break
             playlists += fifty['items']
             print "retrieved {} playlists".format(len(playlists))
             start += 50
@@ -79,9 +82,8 @@ def get_playlists(user):
             pls.append([pname,pid,puser])
         print "playlists successfully retrieved"
         return sorted(pls, key=lambda d: d[0].lower())
-    else:
-        print "error retrieving playlists"
-        return "no public playlists"
+    print "username is blank"
+    return "no user"
 
 def get_songs(p_id, p_name, userid):
     '''returns songs in playlist as list of dicts
@@ -209,6 +211,8 @@ def pl_data(pl_name, url_username):
     if sp == None:
         set_access()
     playlist = existing_playlist(pl_name)
+    if playlist == "":
+        return ""
     features = get_song_features(feature(playlist, 'id'))
     #album_features = get_album_data(feature(playlist, 'album_id'))
     genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))

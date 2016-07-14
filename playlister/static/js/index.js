@@ -9,15 +9,15 @@ $(document).ready(function() {
 
     $('#get_data_button').click(function() {
         username = $("#user-input").val();
-        $(".spinner").show()
+        $(".loading").show()
         $.ajax({
             url: window.location.href + 'getplaylists/?username='.concat(username),
             success: function (jsontitles) {
-                $(".spinner").hide()
+                $(".loading").hide()
                 $('.error').remove();
                 $('.pl_option').remove();
-                if (jsontitles == 'no public playlists') {
-                    $("main").append('<div class="error">username does not exist</div>');
+                if (jsontitles == 'no user') {
+                    $("main").append('<div class="error">username is blank</div>');
                 } else {
                     if (jsontitles.length > 0) {
                         titles = jsontitles.map(function(t) {
@@ -26,9 +26,13 @@ $(document).ready(function() {
                         loadtitles(titles);
                         $('#graph_bar').show("fast");
                     } else {
-                        $('<div class="error">user has no public playlists</div>').insertAfter("#username");
+                        $("main").append('<div class="error">user has no public playlists</div>');
                     }
                 }
+            },
+            error: function (response) {
+                console.log(response)
+                $(".loading").hide()
             }
         }).responseJSON;
 
@@ -70,15 +74,19 @@ $(document).ready(function() {
     function createscatter() {
         unencoded_title = $("#playlist_select").val();
         title = encodeURIComponent(unencoded_title);
-        $(".spinner").show()
+        $(".loading").show()
         $.ajax({
             url: window.location.href + 'getsongs/?title='.concat(title) + '&username='.concat(username),
             success: function(data) {
-                $(".spinner").hide()
+                $(".loading").hide()
                 songs = data.songs;
                 sorted_genres = data.sorted_genres;
                 clean_canvas();
                 scatter(songs);
+            },
+            error: function (response) {
+                console.log(response)
+                $(".loading").hide()
             }
         }).responseJSON
     }
@@ -288,48 +296,50 @@ $(document).ready(function() {
             x = $("#x_select").val().toLowerCase();
             y = $("#y_select").val().toLowerCase();
 
-            if (x == "sort") {
-                playlist = playlist.sort(function(a, b) {
-                    return a[y] - b[y]; });
-                for (var i = 0; i < playlist.length; i++) {
-                    playlist[i]['sort'] = i;
-                };
-                playlist = playlist.sort(function(a, b) {
-                    return a['order'] - b['order']; });
+            if ($("#playlist_select").val() == unencoded_title){
+                if (x == "sort") {
+                    playlist = playlist.sort(function(a, b) {
+                        return a[y] - b[y]; });
+                    for (var i = 0; i < playlist.length; i++) {
+                        playlist[i]['sort'] = i;
+                    };
+                    playlist = playlist.sort(function(a, b) {
+                        return a['order'] - b['order']; });
+                }
+
+
+                xscale.domain(domains[x]);
+                yscale.domain(domains[y]);
+
+                svg.selectAll("circle")
+                    .data(playlist)
+                    .transition()
+                    .duration(500)
+                    .attr("cx", function(d) {
+                        return xscale(d[x]);
+                    })
+                    .attr("cy", function(d) {;
+                        return yscale(d[y]);
+                    });
+
+                // Update X Axis
+                svg.select(".x.axis")
+                    .transition()
+                    .duration(500)
+                    .call(xaxis);
+
+                // Update Y Axis
+                svg.select(".y.axis")
+                    .transition()
+                    .duration(500)
+                    .call(yaxis);
+
+                svg.select(".x.label")
+                    .text(x)
+
+                svg.select(".y.label")
+                    .text(y)
             }
-
-
-            xscale.domain(domains[x]);
-            yscale.domain(domains[y]);
-
-            svg.selectAll("circle")
-                .data(playlist)
-                .transition()
-                .duration(500)
-                .attr("cx", function(d) {
-                    return xscale(d[x]);
-                })
-                .attr("cy", function(d) {;
-                    return yscale(d[y]);
-                });
-
-            // Update X Axis
-            svg.select(".x.axis")
-                .transition()
-                .duration(500)
-                .call(xaxis);
-
-            // Update Y Axis
-            svg.select(".y.axis")
-                .transition()
-                .duration(500)
-                .call(yaxis);
-
-            svg.select(".x.label")
-                .text(x)
-
-            svg.select(".y.label")
-                .text(y)
 
         });
 

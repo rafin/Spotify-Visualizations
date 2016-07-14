@@ -278,7 +278,7 @@ div.tooltip {
 
 /*-------------------------------------
  Spinner*/
-.spinner {
+.loading {
     display: none;
     position: fixed;
     top: 50%;
