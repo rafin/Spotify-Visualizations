@@ -1,5 +1,5 @@
 # Spotify Plotter
-- webapp that helps visualize a users public playlists on spotify
+- webapp that helps visualize a user's public playlists on spotify
 - Current version online at: http://plotify.herokuapp.com/
 
 #### Some usage tips in the meantime since the ui doesn't explain much yet
