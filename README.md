@@ -1,11 +1,10 @@
 # Spotify Plotter
-- webapp that helps visualize a users public playlists on spotify
+- webapp that helps visualize a user's public playlists on spotify
 - Current version online at: http://plotify.herokuapp.com/
 
 #### Some usage tips in the meantime since the ui doesn't explain much yet
 - your username is the string of letters or numbers which can be found as the creator of your personal playlists.
 - currently, only public playlists can be accessed.
-- if you can, avoid plotting larger playlists (>200) as these exhaust api keys and take a long time to load.
 - you can interact with the plot points by clicking on them to hear a song preview.
 - clicking 'Genres' will open a bar that displays frequency of genres within the playlist, hover to see songs with feauture.
 
@@ -20,6 +19,7 @@
 - **valence**: A measure from 0 to 100 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
 - **popularity**: The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated from the popularity of the song on spotify.
 - **duration**: length of the track in seconds.
+- **sort**: only available on x, sorts whatever y-values are selected in ascending order.
 
 
 
@@ -28,5 +28,4 @@
 - ability to login to access private playlists
 - visualize an artists entire catalog
 - creating playlists from plot selection
-- 1D histogram visualization
 - individual song bar chart of features
