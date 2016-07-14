@@ -32,8 +32,55 @@
         </div> -->
     </header>
     <div id="graph_bar">
+        <div id="pl_selections">
+            <div class="select" id="first_select">
+                <select id="playlist_select">
+                    <option>Select Playlist</option>
+                </select>
+            </div>
+            :
+            <div dir="rtl" class="select">
+                <select id="x_select">
+                    <option>x-values</option>
+                    <option>Order</option>
+                    <option>Sort</option>
+                    <option>Danceability</option>
+                    <option>Energy</option>
+                    <option>Loudness</option>
+                    <option>Speechiness</option>
+                    <option>Acousticness</option>
+                    <option>Instrumentalness</option>
+                    <option>Valence</option>
+                    <option>Tempo</option>
+                    <option>Duration</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+            vs
+            <div class="select y-enable">
+                <select id="y_select">
+                    <option>y-values</option>
+                    <option>Order</option>
+                    <option>Danceability</option>
+                    <option>Energy</option>
+                    <option>Loudness</option>
+                    <option>Speechiness</option>
+                    <option>Acousticness</option>
+                    <option>Instrumentalness</option>
+                    <option>Valence</option>
+                    <option>Tempo</option>
+                    <option>Duration</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+            <div id="go_button">Go</div>
+            <div id="genres_toggle"> Genres </div>
+        </div>
     </div>
     <main>
+        <div class="spinner">
+            Loading
+        </div>
     </main>
     <aside id="right_aside">
         <div id="genres">

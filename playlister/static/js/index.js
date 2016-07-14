@@ -8,71 +8,35 @@ var username;
 $(document).ready(function() {
 
     $('#get_data_button').click(function() {
-        var jsontitles = gettitles();
-        console.log(jsontitles);
-        $('.error').remove();
-        $('#pl_selections').remove();
-        if (jsontitles == 'no public playlists') {
-            $( "main" ).append('<div class="error">username does not exist</div>');
-        } else {
-            if (jsontitles.length > 0) {
-                titles = jsontitles.map(function(t) {
-                    return t['0'] });
-                $('#graph_bar').append('<div id="pl_selections">' +
-                    '<div class="select" id="first_select">' +
-                    '    <select id="playlist_select">' +
-                    '       <option>Select Playlist</option>' +
-                    '    </select>' +
-                    '</div>' +
-                    ':' +
-                    '<div dir="rtl" class="select">' +
-                    '    <select id="x_select">' +
-                    '       <option>x-values</option>' +
-                    '       <option>Order</option>' +
-                    '       <option>Danceability</option>' +
-                    '       <option>Energy</option>' +
-                    '       <option>Loudness</option>' +
-                    '       <option>Speechiness</option>' +
-                    '       <option>Acousticness</option>' +
-                    '       <option>Instrumentalness</option>' +
-                    '       <option>Valence</option>' +
-                    '       <option>Tempo</option>' +
-                    '       <option>Duration</option>' +
-                    '       <option>Popularity</option>' +
-                    '   </select>' +
-                    '</div>' +
-                    'vs' +
-                    '<div class="select y-enable">' +
-                    '   <select id="y_select">' +
-                    '       <option>y-values</option>' +
-                    '       <option>Order</option>' +
-                    '       <option>Danceability</option>' +
-                    '       <option>Energy</option>' +
-                    '       <option>Loudness</option>' +
-                    '       <option>Speechiness</option>' +
-                    '       <option>Acousticness</option>' +
-                    '       <option>Instrumentalness</option>' +
-                    '       <option>Valence</option>' +
-                    '       <option>Tempo</option>' +
-                    '       <option>Duration</option>' +
-                    '       <option>Popularity</option>' +
-                    '   </select>' +
-                    '</div>' +
-                    '<div id="go_button">Go</div>' +
-                    '<div id="genres_toggle"> Genres </div>')
-                loadtitles(titles);
-                $('#graph_bar').animate({height: '30px'})
-            } else {
-                $('<div class="error">user has no public playlists</div>').insertAfter("#username");
+        username = $("#user-input").val();
+        $(".spinner").show()
+        $.ajax({
+            url: window.location.href + 'getplaylists/?username='.concat(username),
+            success: function (jsontitles) {
+                $(".spinner").hide()
+                $('.error').remove();
+                $('.pl_option').remove();
+                if (jsontitles == 'no public playlists') {
+                    $("main").append('<div class="error">username does not exist</div>');
+                } else {
+                    if (jsontitles.length > 0) {
+                        titles = jsontitles.map(function(t) {
+                            return t['0']
+                        });
+                        loadtitles(titles);
+                        $('#graph_bar').show("fast");
+                    } else {
+                        $('<div class="error">user has no public playlists</div>').insertAfter("#username");
+                    }
+                }
             }
-        }
+        }).responseJSON;
+
     })
 
     $(document).on('click', '#go_button', function() {
-        console.log("at go button");
-        if ($("#playlist_select").val() != "Select Playlist" && $("#y_select").val() != "y-values" && $("#x_select").val() != "x-values" ) {
+        if ($("#playlist_select").val() != "Select Playlist" && $("#y_select").val() != "y-values" && $("#x_select").val() != "x-values") {
             if ($("#playlist_select").val() != unencoded_title) {
-                console.log("at playlistselect");
                 createscatter();
             }
         }
@@ -81,9 +45,9 @@ $(document).ready(function() {
     $(document).on('click', '#genres_toggle', function() {
         if ($("#right_aside").css("width") == '0px') {
             $("main").css("right", '201px');
-            $("#right_aside").animate({width: '200px'})
+            $("#right_aside").animate({ width: '200px' })
         } else if ($("#right_aside").css("width") == '200px') {
-            $("#right_aside").animate({width: '0px'})
+            $("#right_aside").animate({ width: '0px' })
             $("main").css("right", '0px');
         }
         if ($("main svg").length > 0) {
@@ -106,51 +70,26 @@ $(document).ready(function() {
     function createscatter() {
         unencoded_title = $("#playlist_select").val();
         title = encodeURIComponent(unencoded_title);
-        console.log("in create: title=")
-        console.log(title)
-        data = getdata(title);
-        songs = data.songs;
-        sorted_genres = data.sorted_genres;
-        clean_canvas();
-        scatter(songs);
-    }
-
-    //lists all playlists into the 'pick playlist' selection box
-    function gettitles() {
-        console.log("at loadtitles")
-        username = $("#user-input").val();
-        var jsontitles = $.ajax({
-            async: false,
-            url: window.location.href + 'getplaylists/?username='.concat(username),
-        }).responseJSON;
-        console.log(jsontitles)
-        return jsontitles;
+        $(".spinner").show()
+        $.ajax({
+            url: window.location.href + 'getsongs/?title='.concat(title) + '&username='.concat(username),
+            success: function(data) {
+                $(".spinner").hide()
+                songs = data.songs;
+                sorted_genres = data.sorted_genres;
+                clean_canvas();
+                scatter(songs);
+            }
+        }).responseJSON
     }
 
     //lists all playlists into the 'pick playlist' selection box
     function loadtitles(titles) {
-        console.log(titles);
         for (var i = 0; i < titles.length; i++) {
-            $("#playlist_select").append('<option>' + titles[i] + '</option>');
+            $("#playlist_select").append('<option class="pl_option">' + titles[i] + '</option>');
         }
     }
 
-    //given a playlist title, return the playlist model as a json derived object
-    function getdata(title) {
-        console.log("at getdata")
-        console.log(username)
-        var data = $.ajax({
-            async: false,
-            url: window.location.href + 'getsongs/?title='.concat(title) + '&username='.concat(username),
-        }).responseJSON;
-        console.log(data)
-        //     //convert release dates from strings to integer year
-        // data = data.map(function(d) {
-        //     d['release_date'] = parseInt(d['release_date'].substring(0, 4));
-        //     return d;
-        // })
-        return data;
-    }
 
     function clean_canvas() {
         audio = document.getElementById('preview_song');
@@ -176,22 +115,34 @@ $(document).ready(function() {
             return d['duration'] });
         var omax = d3.max(playlist, function(d) {
             return d['order'] });
-        //console.log("dmin = " + dmin + "  dmax = " + dmax);
         var domains = {
-                'order': [0, omax],
-                'danceability': [-4, 100],
-                'energy': [-4, 100],
-                'loudness': [-50, 0],
-                'speechiness': [-4, 100],
-                'acousticness': [-4, 100],
-                'instrumentalness': [-4, 100],
-                'valence': [-4, 100],
-                'tempo': [40, 220],
-                'duration': [dmin - 15, dmax], //must get from input
-                'popularity': [-4, 100],
-                'release_date': [1900, 2020]
-            }
-            // -- 'Global' Vars -- //
+            'order': [0, omax],
+            'sort': [0, omax],
+            'danceability': [-4, 100],
+            'energy': [-4, 100],
+            'loudness': [-50, 0],
+            'speechiness': [-4, 100],
+            'acousticness': [-4, 100],
+            'instrumentalness': [-4, 100],
+            'valence': [-4, 100],
+            'tempo': [40, 220],
+            'duration': [dmin - 15, dmax], //must get from input
+            'popularity': [-4, 100],
+            'release_date': [1900, 2020]
+        }
+
+        //generate data for sort option
+        if (x == "sort") {
+            playlist = playlist.sort(function(a, b) {
+                return a[y] - b[y]; });
+            for (var i = 0; i < playlist.length; i++) {
+                playlist[i]['sort'] = i;
+            };
+            playlist = playlist.sort(function(a, b) {
+                return a['order'] - b['order']; });
+        }
+
+        // -- 'Global' Vars --
         var dimens = updateWindow();
         var w = dimens[0];
         var h = dimens[1];
@@ -205,7 +156,6 @@ $(document).ready(function() {
             .domain(domains[y])
             .range([h - padding, padding]);
 
-        // -- Creating a Single Graph -- //
         //create SVG element
         var svg = d3.select("main")
             .append("svg")
@@ -218,10 +168,6 @@ $(document).ready(function() {
         var tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-
-        // var details = d3.select("#left_aside").append("div")
-        //     .attr("class", "details")
-        //     .style("opacity", 0);
 
         //draw dots
         svg.selectAll("circle")
@@ -247,7 +193,7 @@ $(document).ready(function() {
                     .duration(200)
                     .style("opacity", .9)
 
-                if (d3.event.pageX > w - 50) {
+                if (d3.event.pageX > w - 125) {
                     tooltip.html('<div class="tooltip"><b>' + d["name"] +
                             " : " + d["artist"] + "</div>")
                         .style("left", (d3.event.pageX - 150) + "px")
@@ -259,14 +205,16 @@ $(document).ready(function() {
                         .style("top", (d3.event.pageY - 28) + "px");
                 }
                 d3.select(this)
-                    .attr("fill", "#65C279");
+                    .style("r", 5)
+                    .style("fill", "#8DF531")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
                     .duration(400)
                     .style("opacity", 0);
                 d3.select(this)
-                    .attr("fill", function(d) {
+                    .style("r", 4)
+                    .style("fill", function(d) {
                         if (d["preview_url"] == "") {
                             return "#A4ADC9";
                         } else {
@@ -275,9 +223,6 @@ $(document).ready(function() {
                     });
             })
             .on("click", function(d) {
-                // tooltip.transition()
-                //     .duration(400)
-                //     .style("opacity", 0);
                 audio = document.getElementById('preview_song');
                 audio.pause();
                 // details.transition()
@@ -290,17 +235,14 @@ $(document).ready(function() {
                 //     '<table>');
                 if (d["preview_url"] != "") {
                     if (audio.getAttribute('src') == d["preview_url"]) {
-                        d3.select(this)
-                            .attr("r", 4)
-                            .attr("fill", function(d) {
-                                if (d["preview_url"] == "") {
-                                    return "#A4ADC9";
-                                } else {
-                                    return "#495780";
-                                }
-                            });
+                        d3.select(this).attr("stroke", "none")
                         audio.setAttribute('src', "")
                     } else {
+                        d3.selectAll("circle")
+                            .attr("stroke", "none")
+                        d3.select(this)
+                            .attr("stroke", "#8DF531")
+                            .attr("stroke-width", 3);
                         audio.setAttribute('src', d["preview_url"]);
                         audio.play();
                     }
@@ -345,8 +287,17 @@ $(document).ready(function() {
         d3.select("#go_button").on("click", function() {
             x = $("#x_select").val().toLowerCase();
             y = $("#y_select").val().toLowerCase();
-            domains["duration"] = [dmin - 15, dmax]; //must get from input
-            domains["order"] = [0, omax]; //must get from input
+
+            if (x == "sort") {
+                playlist = playlist.sort(function(a, b) {
+                    return a[y] - b[y]; });
+                for (var i = 0; i < playlist.length; i++) {
+                    playlist[i]['sort'] = i;
+                };
+                playlist = playlist.sort(function(a, b) {
+                    return a['order'] - b['order']; });
+            }
+
 
             xscale.domain(domains[x]);
             yscale.domain(domains[y]);
@@ -386,62 +337,66 @@ $(document).ready(function() {
         var table = d3.select('#genres').append('table')
 
         var tr = table.selectAll('tr')
-                .data(sorted_genres)
-                .enter()
-                .append('tr')
-                .attr("class", "genre_row");
+            .data(sorted_genres)
+            .enter()
+            .append('tr')
+            .attr("class", "genre_row");
 
         var td = tr.selectAll("td")
-                .data(function(d){return d3.values(d)})
-                .enter()
-                .append("td")
-                .text(function(d) {return d});
+            .data(function(d) {
+                return d3.values(d)
+            })
+            .enter()
+            .append("td")
+            .text(function(d) {
+                return d
+            });
         tr.on("mouseover", function(d) {
-            var row = d3.select(this).selectAll('td')
-                .style("font-weight", "bold")
-                .style("color", "#4DC2A3");
-            svg.selectAll("circle")
-                .transition()
-                .duration(400)
-                .attr("fill", function(d) {
-                    if (d["genre"].indexOf(row.text()) > -1) {
-                        return "#FF5C46";
-                    } else {
+                var row = d3.select(this).selectAll('td')
+                    .style("font-weight", "bold")
+                    .style("color", "#4DC2A3");
+                svg.selectAll("circle")
+                    .transition()
+                    .duration(400)
+                    .attr("fill", function(d) {
+                        if (d["genre"].indexOf(row.text()) > -1) {
+                            return "#FF5C46";
+                        } else {
+                            if (d["preview_url"] == "") {
+                                return "#A4ADC9";
+                            } else {
+                                return "#495780";
+                            }
+                        }
+                    })
+                    .attr("r", function(d) {
+                        if (d["genre"].indexOf(row.text()) > -1) {
+                            return 6;
+                        } else {
+                            return 4;
+                        }
+                    });
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).selectAll('td')
+                    .style("font-weight", "normal")
+                    .style("color", "#041A0D");
+                svg.selectAll("circle")
+                    .transition()
+                    .duration(400)
+                    .attr("r", 4)
+                    .attr("fill", function(d) {
                         if (d["preview_url"] == "") {
                             return "#A4ADC9";
                         } else {
                             return "#495780";
                         }
-                    }
-                })
-                .attr("r", function (d) {
-                    if (d["genre"].indexOf(row.text()) > -1) {
-                        return 6;
-                    } else {
-                        return 4;
-                    }
-                });
+                    })
             })
-        .on("mouseout", function(d) {
-            d3.select(this).selectAll('td')
-                .style("font-weight", "normal")
-                .style("color", "#041A0D");
-            svg.selectAll("circle")
-                .transition()
-                .duration(400)
-                .attr("r", 4)
-                .attr("fill", function(d) {
-                    if (d["preview_url"] == "") {
-                        return "#A4ADC9";
-                    } else {
-                        return "#495780";
-                    }
-                })
-        })
-        .on("click", function(d) {
-            var row = d3.select(this).selectAll('td').text();
-
-        });
+            .on("click", function(d) {
+                var row = d3.select(this).selectAll('td').text();
+                //TODO
+            });
 
     }
 
@@ -449,6 +404,7 @@ $(document).ready(function() {
     function updateWindow() {
         var w = $('main').width();
         var h = $('main').height();
+        console.log([w,h])
         return [w, h];
     }
 
