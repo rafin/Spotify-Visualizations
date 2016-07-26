@@ -2,6 +2,7 @@ var audio;
 var titles;
 var songs;
 var sorted_genres;
+var means;
 var title = "";
 var unencoded_title = "";
 var username;
@@ -46,7 +47,7 @@ $(document).ready(function() {
         }
     })
 
-    $(document).on('click', '#genres_toggle', function() {
+    $(document).on('click', '#stats_toggle', function() {
         if ($("#right_aside").css("width") == '0px') {
             $("main").css("right", '201px');
             $("#right_aside").animate({ width: '200px' })
@@ -81,6 +82,7 @@ $(document).ready(function() {
                 $(".loading").hide()
                 songs = data.songs;
                 sorted_genres = data.sorted_genres;
+                means = data.means;
                 clean_canvas();
                 scatter(songs);
             },
@@ -104,6 +106,7 @@ $(document).ready(function() {
         audio.setAttribute('src', "")
         audio.pause();
         $(".genre_row").remove();
+        $(".mean_row").remove();
         $("svg").remove();
         $(".tooltip").remove();
         $(".details").remove();
@@ -343,16 +346,17 @@ $(document).ready(function() {
 
         });
 
-        //create genres bar
-        var table = d3.select('#genres').append('table')
+        //create means bar
+        console.log(means);
+        var mtable = d3.select('#means table');
 
-        var tr = table.selectAll('tr')
-            .data(sorted_genres)
+        var mtr = mtable.selectAll('tr')
+            .data(means)
             .enter()
             .append('tr')
-            .attr("class", "genre_row");
+            .attr("class", "mean_row")
 
-        var td = tr.selectAll("td")
+        var mtd = mtr.selectAll("td")
             .data(function(d) {
                 return d3.values(d)
             })
@@ -361,7 +365,27 @@ $(document).ready(function() {
             .text(function(d) {
                 return d
             });
-        tr.on("mouseover", function(d) {
+
+        //create genres bar
+        console.log(sorted_genres);
+        var gtable = d3.select('#genres table');
+
+        var gtr = gtable.selectAll('tr')
+            .data(sorted_genres)
+            .enter()
+            .append('tr')
+            .attr("class", "genre_row");
+
+        var gtd = gtr.selectAll("td")
+            .data(function(d) {
+                return d3.values(d)
+            })
+            .enter()
+            .append("td")
+            .text(function(d) {
+                return d
+            });
+        gtr.on("mouseover", function(d) {
                 var row = d3.select(this).selectAll('td')
                     .style("font-weight", "bold")
                     .style("color", "#4DC2A3");

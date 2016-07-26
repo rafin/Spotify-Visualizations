@@ -2,6 +2,7 @@ from unicodedata import normalize
 import datetime
 from operator import itemgetter
 import keys # local module handling API key
+import analysis
 
 from pprint import pprint
 
@@ -216,7 +217,8 @@ def pl_data(pl_name, url_username):
     #album_features = get_album_data(feature(playlist, 'album_id'))
     genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
     songs = clean_data(playlist['songs'], features, genres)
-    return {'sorted_genres': sorted_genres, 'songs': songs}
+    means = analysis.simple_stats(songs)
+    return {'sorted_genres': sorted_genres, 'songs': songs, 'means': means}
 
 def store_db(pl_name):
     '''similar to pl_data, but stores the data into database 

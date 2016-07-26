@@ -76,7 +76,7 @@ header {
 }
 */
 
-#genres_toggle {
+#stats_toggle {
     float: right;
     position: absolute;
     top: 5px;
@@ -216,17 +216,29 @@ select {
     cursor: pointer;
 }
 
-#genres {
+/*-------------------------------------
+ Stats Bar */
+
+#stats {
     position: absolute;
-    margin: 5px;
+    margin: 0px;
     padding-top: 5px;
 }
 
-#genres tr {
+#genres, #means {
+    position: relative;
+    margin: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #DDD;
+    width: 190px;
+}
+
+#genres tr, #means tr {
     text-align: left;
 }
 
-#genres table {
+#genres table, #means table {
+    width: 190px;
     margin: 0;
 }
 
