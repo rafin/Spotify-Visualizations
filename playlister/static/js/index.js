@@ -144,7 +144,7 @@ $(document).ready(function() {
             playlist = playlist.sort(function(a, b) {
                 return a[y] - b[y]; });
             for (var i = 0; i < playlist.length; i++) {
-                playlist[i]['sort'] = i;
+                playlist[i]['sort'] = i + 1;
             };
             playlist = playlist.sort(function(a, b) {
                 return a['order'] - b['order']; });
@@ -301,7 +301,7 @@ $(document).ready(function() {
                     playlist = playlist.sort(function(a, b) {
                         return a[y] - b[y]; });
                     for (var i = 0; i < playlist.length; i++) {
-                        playlist[i]['sort'] = i;
+                        playlist[i]['sort'] = i + 1;
                     };
                     playlist = playlist.sort(function(a, b) {
                         return a['order'] - b['order']; });

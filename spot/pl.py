@@ -202,7 +202,6 @@ def get_album_data(album_ids):
 
 def pl_data(pl_name, url_username):
     '''returns Dict of specified playlist with all songs and features
-        uses username global var
     '''
     print "Retrieved playlist data for : {}".format(pl_name)
     print "pl_name = {}, url_username = {}".format(pl_name, url_username)
