@@ -14,11 +14,9 @@ def simple_stats(playlist):
     '''
     pl_frame = dict_to_frame(playlist)
     means = pl_frame.mean().to_dict()
-    print means
     means_list = []
     for key, value in means.iteritems():
         means_list.append([key, round(value, 1)])
-    print means
     return means_list
 
 def dict_to_frame(playlist):

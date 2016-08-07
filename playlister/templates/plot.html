@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Spotify Plotter</title>
+    {% load staticfiles %}
+    <link href="{% static "css/plot.css" %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <script type="text/javascript">
+        var token = "{{token}}";
+    </script>
+</head>
+
+<body>
+    <header>
+        <div id="title"><a href="">Plotify</a> Playlist Plotter</div>
+        <input type="text" id="user-input" placeholder="username"></input>
+        <div id="get_data_button">Get Playlists</div>
+        <a href="https://github.com/rafin/playlists" target="_blank" id="github_link">
+                github
+        </a>
+    </header>
+    <div id="graph_bar">
+        <div id="pl_selections">
+            <div class="select" id="first_select">
+                <select id="playlist_select">
+                    <option disabled selected>Select Playlist</option>
+                </select>
+            </div>
+            :
+            <div dir="rtl" class="select">
+                <select id="x_select">
+                    <option disabled selected>x-values</option>
+                    <option>Sort</option>
+                    <option>Order</option>
+                    <option>Danceability</option>
+                    <option>Energy</option>
+                    <option>Loudness</option>
+                    <option>Speechiness</option>
+                    <option>Acousticness</option>
+                    <option>Instrumentalness</option>
+                    <option>Valence</option>
+                    <option>Tempo</option>
+                    <option>Duration</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+            vs
+            <div class="select y-enable">
+                <select id="y_select">
+                    <option disabled selected>y-values</option>
+                    <option>Order</option>
+                    <option>Danceability</option>
+                    <option>Energy</option>
+                    <option>Loudness</option>
+                    <option>Speechiness</option>
+                    <option>Acousticness</option>
+                    <option>Instrumentalness</option>
+                    <option>Valence</option>
+                    <option>Tempo</option>
+                    <option>Duration</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+            <div id="go_button">Go</div>
+            <div id="stats_toggle">Statistics</div>
+        </div>
+    </div>
+    <main>
+        <div class="loading">
+            Loading
+        </div>
+    </main>
+    <aside id="right_aside">
+        <div id="stats">
+            <div id="means">
+                <b>Means</b>
+                <table>
+                </table>
+            </div>
+            <div id="genres">
+                <b>Genre Frequency</b>
+                <table>
+                </table>
+            </div>
+        </div>
+    </aside>
+    <audio id="preview_song">
+    </audio>
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{% static "js/plot.js" %}"></script>
+</body>
+
+</html>

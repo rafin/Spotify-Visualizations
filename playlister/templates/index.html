@@ -6,99 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Spotify Plotter</title>
+    <title>Plotify</title>
     {% load staticfiles %}
     <link href="{% static "css/index.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <script type="text/javascript">
+    var s_auth_url = "{{s_auth_url}}";
+    var p_auth_url = "{{p_auth_url}}";
+    </script>
 </head>
 
 <body>
-    <header>
-        <div id="title"><strong>Spotify Plotter</strong></div>
-        <!--<div id="plot_toggle">
-            <div id="scatter_toggle">Scatter</div>
-            <div id="hist_toggle">Histogram</div>
-        </div> -->
-        <div id="username">
-            <div id="user-label">Username</div>
-            <input type="text" id="user-input"></input>
-        </div>
-        <div id="get_data_button">Get Playlists</div>
-        <a href="https://github.com/rafin/playlists" target="_blank" id="github_link">
-                github
-        </a>
-    </header>
-    <div id="graph_bar">
-        <div id="pl_selections">
-            <div class="select" id="first_select">
-                <select id="playlist_select">
-                    <option>Select Playlist</option>
-                </select>
-            </div>
-            :
-            <div dir="rtl" class="select">
-                <select id="x_select">
-                    <option>x-values</option>
-                    <option>Sort</option>
-                    <option>Order</option>
-                    <option>Danceability</option>
-                    <option>Energy</option>
-                    <option>Loudness</option>
-                    <option>Speechiness</option>
-                    <option>Acousticness</option>
-                    <option>Instrumentalness</option>
-                    <option>Valence</option>
-                    <option>Tempo</option>
-                    <option>Duration</option>
-                    <option>Popularity</option>
-                </select>
-            </div>
-            vs
-            <div class="select y-enable">
-                <select id="y_select">
-                    <option>y-values</option>
-                    <option>Order</option>
-                    <option>Danceability</option>
-                    <option>Energy</option>
-                    <option>Loudness</option>
-                    <option>Speechiness</option>
-                    <option>Acousticness</option>
-                    <option>Instrumentalness</option>
-                    <option>Valence</option>
-                    <option>Tempo</option>
-                    <option>Duration</option>
-                    <option>Popularity</option>
-                </select>
-            </div>
-            <div id="go_button">Go</div>
-            <div id="stats_toggle">Statistics</div>
-        </div>
-    </div>
     <main>
-        <div class="loading">
-            Loading
-        </div>
+        <div id="title">Plotify</div>
+        <a id=plot class=button href=''><b>Playlist Plotter</b></a>
+        <p>Visualize playlists by plotting there attributes
+            <em>(not mobile friendly)</em></p> 
+        <a id=sift class=button href=''><b>Playlist Sifter</b></a>
+        <p>Refine your playlists by limiting attributes (such as only songs that are instrumental and danceable).</p>
+
+        <p id="footer">
+            source on
+            <a href="https://github.com/rafin/playlists" target="_blank" id="github_link">
+                <b>github</b>,
+            </a>
+            created by
+            <b style="color:#333">Ryan Finley</b>, unaffiliated with Spotify
+         </p>
     </main>
-    <aside id="right_aside">
-        <div id="stats">
-            <div id="means">
-                <b>Means</b>
-                <table>
-                </table>
-            </div>
-            <div id="genres">
-                <b>Genre Frequency</b>
-                <table>
-                </table>
-            </div>
-        </div>
-    </aside>
-    <audio id="preview_song">
-    </audio>
     <!-- javascript -->
     <script src="{% static "js/jquery.js" %}"></script>
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
 </body>
 
 </html>
