@@ -1,12 +1,13 @@
-# Spotify Plotter
-- webapp that helps visualize a user's public playlists on spotify
-- Current version online at: http://plotify.herokuapp.com/
+# Plotify
+Current version online at: http://plotify.herokuapp.com/
 
-#### Some usage tips in the meantime since the ui doesn't explain much yet
-- your username is the string of letters or numbers which can be found as the creator of your personal playlists.
-- currently, only public playlists can be accessed.
-- you can interact with the plot points by clicking on them to hear a song preview.
-- clicking 'Genres' will open a bar that displays frequency of genres within the playlist, hover to see songs with feauture.
+## Playlist Plotter
+- webapp that helps visualize a user's public playlists on spotify
+- you can compare song features or just plot the playlist sorted
+
+## Playlist Sifter
+- Refine your playlists by limiting attributes.
+- sort the playlist based on attributes.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
