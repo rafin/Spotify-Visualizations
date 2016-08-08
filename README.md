@@ -26,7 +26,6 @@ Current version online at: http://plotify.herokuapp.com/
 
 #### Work in Progress / Possible Future Features
 - better error handling and notifications
-- ability to login to access private playlists
 - visualize an artists entire catalog
 - creating playlists from plot selection
 - individual song bar chart of features
