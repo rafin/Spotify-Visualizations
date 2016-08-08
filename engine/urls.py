@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^sift/(?P<token>[-\w]+)/$', views.sift, name='sift'),
-    url(r'^plot/(?P<token>[-\w]+)/$', views.plot, name='plot'),
+    url(r'^sift/(?P<token>[-\w]+)/(?P<username>[-\w]+)$', views.sift, name='sift'),
+    url(r'^plot/(?P<token>[-\w]+)/(?P<username>[-\w]+)$', views.plot, name='plot'),
 	url(r'^getsongs/$', views.getsongs, name='getsongs'),
     url(r'^getsongslite/$', views.getsongslite, name='getsongslite'),
     url(r'^getplaylists/$', views.getplaylists, name='getplaylists'),

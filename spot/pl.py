@@ -247,9 +247,8 @@ def pl_data(pl_name, username):
     genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
     songs = clean_data(playlist['songs'], features, genres)
     means = analysis.simple_stats(songs)
-    userid = sp.current_user()['id']
     return {'sorted_genres': sorted_genres, 'songs': songs, 
-            'means': means, 'userid': userid}
+            'means': means}
 
 def pl_data_lite(pl_name, username):
     print "Retrieved playlist data for : {}".format(pl_name)
@@ -259,8 +258,7 @@ def pl_data_lite(pl_name, username):
         return ""
     features = get_song_features(feature(playlist, 'id'))
     songs = clean_data_lite(playlist['songs'], features)
-    userid = sp.current_user()['id']
-    return {'songs': songs, 'userid': userid}
+    return {'songs': songs}
 
 def store_db(pl_name):
     '''similar to pl_data, but stores the data into database 

@@ -4,10 +4,11 @@ body {
     font-family: 'Raleway', "Helvetica Neue", sans-serif;
     background-color: #FFF;
     margin: auto;
-    max-width: 800px;
+    max-width: 1080px;
 }
 
 main {
+    max-width: 1080px;
     padding-bottom: 10px;
     background-color: #F8F8F8;
     position: relative;

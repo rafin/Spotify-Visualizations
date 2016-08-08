@@ -8,8 +8,6 @@ var refined_songs;
 $(document).ready(function() {
     $('#title a').attr("href", window.location.origin);
 
-    //test slider
-
     $('.slider').slider({
         range: true,
         min: 0,

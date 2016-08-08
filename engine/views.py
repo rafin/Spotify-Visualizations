@@ -22,11 +22,11 @@ def index(request):
     p_auth_url = keys.auth_url(0)
     return render_to_response('index.html', {'p_auth_url': p_auth_url, 's_auth_url': s_auth_url})
 
-def plot(request, token):
-    return render_to_response('plot.html', {'token': token})
+def plot(request, token, username):
+    return render_to_response('plot.html', {'token': token, 'name': username})
 
-def sift(request, token):
-    return render_to_response('sift.html', {'token': token})
+def sift(request, token, username):
+    return render_to_response('sift.html', {'token': token, 'name': username})
 
 # def index(request):
 #     #return render(request, 'playlister/table.html', context)
@@ -81,7 +81,11 @@ def newplaylist(request):
 def authorize_plot(request):
     code = request.GET.get('code', '')
     token = keys.get_token(code, 0)
-    url = reverse('plot', args=(), kwargs={'token': token})
+    #get username
+    sp = keys.get_private_access(token)
+    username = pl.to_ascii(sp.current_user()['id'])
+
+    url = reverse('plot', args=(), kwargs={'token': token, 'username': username})
     print "URL IN AUTHORIZE ="
     print url
     return HttpResponseRedirect(url)
@@ -89,7 +93,11 @@ def authorize_plot(request):
 def authorize_sift(request):
     code = request.GET.get('code', '')
     token = keys.get_token(code, 1)
-    url = reverse('sift', args=(), kwargs={'token': token})
+    #get username
+    sp = keys.get_private_access(token)
+    username = pl.to_ascii(sp.current_user()['id'])
+
+    url = reverse('sift', args=(), kwargs={'token': token, 'username': username})
     print "URL IN AUTHORIZE ="
     print url
     return HttpResponseRedirect(url)
