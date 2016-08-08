@@ -8,16 +8,13 @@ from pprint import pprint
 
 # set up access with these global vars
 sp = None
-username = None
-token = None
 
-
-def set_access():
+def set_access(token):
     global sp
-    if token == None:
-        sp = keys.get_access()
-        print "have public access only"
-        return
+    # if token == None:
+    #     sp = keys.get_access()
+    #     print "have public access only"
+    #     return
     sp = keys.get_private_access(token)
     print sp.current_user()
     print "have private access"
@@ -68,15 +65,12 @@ def feature(playlist, feature):
     return ids
 
 
-def get_playlists(user, new_token=None):
+def get_playlists(user, token=None):
     '''returns list of playlists for user as [name, id],...
         --- 1 request per 50 playlists ---
     '''
-    global token
-    if token == None:
-        token = new_token
-    if sp == None:
-        set_access()
+    if token != None:
+        set_access(token)
     if(user != ""):
         playlists = []
         fifty = "start"
@@ -107,8 +101,6 @@ def get_songs(p_id, p_name, userid):
         generates data: id, name, artists, popularity,
         --- 1 request per 100 songs ---
     '''
-    if sp == None:
-        set_access()
     hundred = sp.user_playlist_tracks(userid, playlist_id=p_id)
     playlist = hundred
     start = 0
@@ -140,7 +132,7 @@ def get_songs(p_id, p_name, userid):
     return pl
 
 
-def existing_playlist(name):
+def existing_playlist(name, username):
     '''return type: Playlist with all Songs loaded
         uses the username global var
     '''
@@ -242,16 +234,12 @@ def get_album_data(album_ids):
     return afeatures
 
 
-def pl_data(pl_name, url_username):
+def pl_data(pl_name, username):
     '''returns Dict of specified playlist with all songs and features
     '''
     print "Retrieved playlist data for : {}".format(pl_name)
-    print "pl_name = {}, url_username = {}".format(pl_name, url_username)
-    global username
-    username = url_username
-    if sp == None:
-        set_access()
-    playlist = existing_playlist(pl_name)
+    print "pl_name = {}, username = {}".format(pl_name, username)
+    playlist = existing_playlist(pl_name, username)
     if playlist == "":
         return ""
     features = get_song_features(feature(playlist, 'id'))
@@ -263,14 +251,10 @@ def pl_data(pl_name, url_username):
     return {'sorted_genres': sorted_genres, 'songs': songs, 
             'means': means, 'userid': userid}
 
-def pl_data_lite(pl_name, url_username):
+def pl_data_lite(pl_name, username):
     print "Retrieved playlist data for : {}".format(pl_name)
-    print "pl_name = {}, url_username = {}".format(pl_name, url_username)
-    global username
-    username = url_username
-    if sp == None:
-        set_access()
-    playlist = existing_playlist(pl_name)
+    print "pl_name = {}, username = {}".format(pl_name, username)
+    playlist = existing_playlist(pl_name, username)
     if playlist == "":
         return ""
     features = get_song_features(feature(playlist, 'id'))
@@ -282,10 +266,6 @@ def store_db(pl_name):
     '''similar to pl_data, but stores the data into database 
         through models
     '''
-    global token
-    token = new_token
-    if sp == None:
-        set_access()
     #check if pl_name already in db
     if models.Playlist.objects.filter(title=pl_name).count() > 0:
         print "Playlist Already in Database."
@@ -371,10 +351,3 @@ def new_playlist(playlist_name, ids):
             ids = None
         sp.user_playlist_add_tracks(username, pid, hundred)    
 
-
-if __name__ == '__main__':
-    # test
-    if sp == None:
-        set_access()
-    playlist = existing_playlist("Rollin Stone Top 500 songs")
-    get_genres(feature(playlist, 'artist_id'))
