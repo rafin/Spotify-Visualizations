@@ -53,8 +53,8 @@ $(document).ready(function() {
     $(document).on('click', '#stats_toggle', function() {
         if ($("#right_aside").css("width") == '0px') {
             $("main").css("right", '201px');
-            $("#right_aside").animate({ width: '200px' })
-        } else if ($("#right_aside").css("width") == '200px') {
+            $("#right_aside").animate({ width: '220px' })
+        } else if ($("#right_aside").css("width") == '220px') {
             $("#right_aside").animate({ width: '0px' })
             $("main").css("right", '0px');
         }
