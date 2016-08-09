@@ -12,13 +12,15 @@ $(document).ready(function() {
         range: true,
         min: 0,
         max: 100,
-        values: [0,100]
+        values: [0,100],
+        animate: "fast"
     })
     $('#loudness').slider({
         range: true,
         min: -60,
         max: 0,
-        values: [-60,0]
+        values: [-60,0],
+        animate: "fast"
     })
 
     //
@@ -89,6 +91,40 @@ $(document).ready(function() {
         }).responseJSON;
     })
 
+    //------Presets------//
+    $("#exercise-button").click(function() {
+        $("#danceability").slider( "values", [38,100]);
+        $("#energy").slider( "values", [52,100]);
+        $("#loudness").slider( "values", [-12,0]);
+        $("#speechiness").slider( "values", [0,48]);
+        $("#acousticness").slider( "values", [0,100]);
+        $("#instrumentalness").slider( "values", [0,100]);
+        $("#valence").slider( "values", [8,100]);
+        $("#popularity").slider( "values", [0,100]);
+    })
+
+    $("#relaxing-button").click(function() {
+        $("#danceability").slider( "values", [0,82]);
+        $("#energy").slider( "values", [0,42]);
+        $("#loudness").slider( "values", [-60,-9]);
+        $("#speechiness").slider( "values", [0,15]);
+        $("#acousticness").slider( "values", [0,100]);
+        $("#instrumentalness").slider( "values", [0,100]);
+        $("#valence").slider( "values", [0,71]);
+        $("#popularity").slider( "values", [0,100]);
+    })
+
+    $("#acoustic-button").click(function() {
+        $("#danceability").slider( "values", [0,77]);
+        $("#energy").slider( "values", [0,47]);
+        $("#loudness").slider( "values", [-60,-5]);
+        $("#speechiness").slider( "values", [0,26]);
+        $("#acousticness").slider( "values", [58,100]);
+        $("#instrumentalness").slider( "values", [0,100]);
+        $("#valence").slider( "values", [0,71]);
+        $("#popularity").slider( "values", [0,100]);       
+    })
+    //-------------------//
 
     function loadtitles(titles) {
         for (var i = 0; i < titles.length; i++) {
