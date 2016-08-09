@@ -46,8 +46,9 @@ def getsongs(request):
     '''returns json response of given playlist title'''
     username = request.GET.get('username', '')
     title = unquote(request.GET.get('title', ''))
+    token = request.GET.get('token','')
     print " in views.py: title = {}, username = {}".format(title, username)
-    songs = pl.pl_data(title, username)
+    songs = pl.pl_data(title, username, token)
     #json_songs = json_serializer.serialize(songs, ensure_ascii=True)
     return JsonResponse(songs, safe=False )
 
@@ -55,8 +56,9 @@ def getsongslite(request):
     '''returns json response of given playlist title'''
     username = request.GET.get('username', '')
     title = unquote(request.GET.get('title', ''))
+    token = request.GET.get('token','')
     print " in views.py: title = {}, username = {}".format(title, username)
-    songs = pl.pl_data_lite(title, username)
+    songs = pl.pl_data_lite(title, username, token)
     #json_songs = json_serializer.serialize(songs, ensure_ascii=True)
     return JsonResponse(songs, safe=False )
 

@@ -40,9 +40,9 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#go_button', function() {
+        $('.error').remove();
         if ($("#playlist_select").val() != null && $("#y_select").val() != null && $("#x_select").val() != null) {
             if ($("#playlist_select").val() != unencoded_title) {
-                $('.error').remove();
                 createscatter();
             }
         } else {
@@ -80,7 +80,7 @@ $(document).ready(function() {
         title = encodeURIComponent(unencoded_title);
         $(".loading").show()
         $.ajax({
-            url: window.location.origin + '/getsongs/?title='.concat(title) + '&username='.concat(username),
+            url: window.location.origin + '/getsongs/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
                 $(".loading").hide()
                 songs = data.songs;

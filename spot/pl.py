@@ -132,11 +132,11 @@ def get_songs(p_id, p_name, userid):
     return pl
 
 
-def existing_playlist(name, username):
+def existing_playlist(name, username, token):
     '''return type: Playlist with all Songs loaded
         uses the username global var
     '''
-    playlists = get_playlists(username)
+    playlists = get_playlists(username, token)
     playlist_id = user_id = None
     for playlist in playlists:
         if name == playlist[0]:
@@ -234,12 +234,12 @@ def get_album_data(album_ids):
     return afeatures
 
 
-def pl_data(pl_name, username):
+def pl_data(pl_name, username, token):
     '''returns Dict of specified playlist with all songs and features
     '''
     print "Retrieved playlist data for : {}".format(pl_name)
     print "pl_name = {}, username = {}".format(pl_name, username)
-    playlist = existing_playlist(pl_name, username)
+    playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
     features = get_song_features(feature(playlist, 'id'))
@@ -250,10 +250,10 @@ def pl_data(pl_name, username):
     return {'sorted_genres': sorted_genres, 'songs': songs, 
             'means': means}
 
-def pl_data_lite(pl_name, username):
+def pl_data_lite(pl_name, username, token):
     print "Retrieved playlist data for : {}".format(pl_name)
     print "pl_name = {}, username = {}".format(pl_name, username)
-    playlist = existing_playlist(pl_name, username)
+    playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
     features = get_song_features(feature(playlist, 'id'))

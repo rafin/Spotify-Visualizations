@@ -140,7 +140,7 @@ $(document).ready(function() {
         title = encodeURIComponent(unencoded_title);
         $(".loading").show()
         $.ajax({
-            url: window.location.origin + '/getsongslite/?title='.concat(title) + '&username='.concat(username),
+            url: window.location.origin + '/getsongslite/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
                 $(".loading").hide()
                 songs = data.songs;
