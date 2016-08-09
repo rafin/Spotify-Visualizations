@@ -82,10 +82,12 @@ $(document).ready(function() {
             url: window.location.origin + '/newplaylist/?name='.concat(new_name) + '&songs='.concat(ids),
             success: function (response) {
                 console.log(response)
+                $(".error").remove()
                 $(".loading").hide()
             },
             error: function (response) {
                 console.log(response)
+                $("#save-group").append('<div class="error">new playlist has too many songs for plotify to handle, sorry for inconvenience</div>');
                 $(".loading").hide()
             }
         }).responseJSON;
