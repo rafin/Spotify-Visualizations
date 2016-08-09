@@ -142,7 +142,13 @@ $(document).ready(function() {
             success: function(data) {
                 $(".loading").hide()
                 songs = data.songs;
-                generate_playlist()
+                console.log(songs)
+                if (songs == undefined) {
+                    $("#playlist-group").append('<div class="error">Playlist not Specified</div>');
+                } else {
+                    $(".error").remove()
+                    generate_playlist()
+                }
             },
             error: function (response) {
                 console.log(response)
@@ -173,10 +179,16 @@ $(document).ready(function() {
             }
         }
 
-        $("#results-group").show("fast");
-        $("#save-group").show("fast");
-        refined_songs = feature_sort(refined_songs)
-        show_results(refined_songs);
+        console.log($('#feature_select').val())
+        if($('#feature_select').val() == null) {
+            $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
+        } else {
+            $(".error").remove()
+            $("#results-group").show("fast");
+            $("#save-group").show("fast");
+            refined_songs = feature_sort(refined_songs)
+            show_results(refined_songs);
+        }
 
         function between(x, range) {
             return x >= range[0] && x <= range[1]

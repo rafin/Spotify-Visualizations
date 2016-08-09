@@ -18,6 +18,14 @@ main {
     box-shadow: 0 -10px 16px 0 rgba(0,0,0, 0.1), 0 -10px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
+.error {
+    width: 80%;
+    max-width: 200px;
+    margin: auto;
+    color: #FF4A50;
+    text-align: center;
+}
+
 #title {
     background-color: #333;
     color: #4DC2A3;
