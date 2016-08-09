@@ -40,10 +40,6 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#go_button', function() {
-        console.log("in heres")
-        console.log($("#playlist_select").val())
-        console.log($("#y_select").val())
-        console.log($("#x_select").val())
         if ($("#playlist_select").val() != null && $("#y_select").val() != null && $("#x_select").val() != null) {
             if ($("#playlist_select").val() != unencoded_title) {
                 $('.error').remove();
@@ -354,7 +350,6 @@ $(document).ready(function() {
         });
 
         //create means bar
-        console.log(means);
         var mtable = d3.select('#means table');
 
         var mtr = mtable.selectAll('tr')
@@ -374,7 +369,6 @@ $(document).ready(function() {
             });
 
         //create genres bar
-        console.log(sorted_genres);
         var gtable = d3.select('#genres table');
 
         var gtr = gtable.selectAll('tr')
@@ -445,7 +439,6 @@ $(document).ready(function() {
     function updateWindow() {
         var w = $('main').width();
         var h = $('main').height();
-        console.log([w,h])
         return [w, h];
     }
 

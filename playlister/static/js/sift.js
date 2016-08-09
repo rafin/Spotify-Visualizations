@@ -142,7 +142,7 @@ $(document).ready(function() {
             success: function(data) {
                 $(".loading").hide()
                 songs = data.songs;
-                console.log(songs)
+                //console.log(songs)
                 if (songs == undefined) {
                     $("#playlist-group").append('<div class="error">Playlist not Specified</div>');
                 } else {
@@ -179,7 +179,7 @@ $(document).ready(function() {
             }
         }
 
-        console.log($('#feature_select').val())
+        //console.log($('#feature_select').val())
         if($('#feature_select').val() == null) {
             $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
         } else {
@@ -218,7 +218,6 @@ $(document).ready(function() {
         });
         if(direction == "Descending"){
             songs = songs.reverse();
-            console.log("Descending")
         }
         return songs;
     }
