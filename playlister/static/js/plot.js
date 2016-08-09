@@ -40,10 +40,17 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#go_button', function() {
-        if ($("#playlist_select").val() != "Select Playlist" && $("#y_select").val() != "y-values" && $("#x_select").val() != "x-values") {
+        console.log("in heres")
+        console.log($("#playlist_select").val())
+        console.log($("#y_select").val())
+        console.log($("#x_select").val())
+        if ($("#playlist_select").val() != null && $("#y_select").val() != null && $("#x_select").val() != null) {
             if ($("#playlist_select").val() != unencoded_title) {
+                $('.error').remove();
                 createscatter();
             }
+        } else {
+            $("main").append('<div class="error">some option(s) not selected</div>');
         }
     })
 
