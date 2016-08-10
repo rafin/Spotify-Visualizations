@@ -1,37 +1,29 @@
-# import spotipy
-# from spotipy.oauth2 import SpotifyOAuth
-# from spotipy.util import prompt_for_user_token
-# import os, ast
-
-# spotify_keys = os.environ["SPOTIFY_KEYS"]
-# spotify_keys = ast.literal_eval(spotify_keys)
-
-# CLIENT_ID = spotify_keys[0]['uid']
-# CLIENT_SECRET = spotify_keys[0]['usec']
-# REDIRECT_URI = 'localhost:8000'
-# SCOPE = 'user-library-read'
-# CACHE = '.spotipyoauthcache'
-
-# #sp_oauth = SpotifyOAuth( CLIENT_ID, CLIENT_SECRET, REDIRECT_URI,scope=SCOPE,cache_path=CACHE )
-#     #      SpotifyOAuth( client_id,         client_secret,        redirect_uri,        scope,      cache_path       )
-# token = prompt_for_user_token('rino21111',scope=SCOPE,client_id=CLIENT_ID, 
-#             client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI)
-# print(token)
-
+import pprint
+import sys
 
 import spotipy
 import spotipy.util as util
-import os, ast
+import simplejson as json
 
-#Spotify API keys
-scope = "playlist-read-private"
-uir = "http://plotify.herokuapp.com/"
-username = "3"
+if len(sys.argv) > 1:
+    username = sys.argv[1]
+else:
+    print("Usage: %s username" % (sys.argv[0],))
+    sys.exit()
 
-spotify_uid = os.environ["SPOTIFY_UID"]
-spotify_usec = os.environ["SPOTIFY_USEC"]
-print "retrieved keys from OS"
+scope = 'user-top-read'
+token = util.prompt_for_user_token(username, scope)
 
-
-token = util.prompt_for_user_token(username, scope, spotify_uid, spotify_usec, uir)
-print token
+if token:
+    sp = spotipy.Spotify(auth=token)
+    sp.trace = False
+    ranges = ['short_term', 'medium_term', 'long_term']
+    for range in ranges:
+        print "range:", range
+        results = sp.current_user_top_tracks(time_range=range, limit=50)
+        for i, item in enumerate(results['items']):
+            print i, item['name'], '//', item['artists'][0]['name']
+        print
+        
+else:
+    print("Can't get token for", username)

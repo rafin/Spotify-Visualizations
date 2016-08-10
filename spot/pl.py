@@ -23,9 +23,10 @@ def set_access(token):
 def to_ascii(string):
     '''converts from unicode to ascii
     '''
-    if string == None:
-        return string
-    return normalize('NFKD', string).encode('ascii','ignore')
+    # if string == None:
+    #     return string
+    # return normalize('NFKD', string).encode('ascii','ignore')
+    return string
 
 
 def to_date(date):
@@ -46,7 +47,6 @@ def correct_spaces(string):
     '''removes double spaces and beginning and ending
         spaces from a string
     '''
-    string = to_ascii(string)
     string = string.replace("  ", " ")
     if string[0] == " ":
         string = string[1:]
@@ -82,7 +82,7 @@ def get_playlists(user, token=None):
             fifty = sp.user_playlists(user, offset=start)
                 #-------#
             playlists += fifty['items']
-            print "retrieved {} playlists".format(len(playlists))
+            print u"retrieved {} playlists".format(len(playlists))
             start += 50
         pls = []
         for playlist in playlists:
@@ -108,7 +108,7 @@ def get_songs(p_id, p_name, userid):
         start += 100
         hundred = sp.user_playlist_tracks(userid, playlist_id=p_id, offset=start)
         playlist['items'] += hundred['items']
-        print "retrieved {} songs".format(len(playlist['items']))
+        print u"retrieved {} songs".format(len(playlist['items']))
     
     pl = {'id': p_id, 'name': p_name, 'songs': []}
     for track in playlist['items']:
@@ -205,7 +205,7 @@ def get_song_features(song_ids):
     print "Getting song features"
     features = []
     while(song_ids != None):
-        print "have {} song features to retrieve left".format(len(song_ids))
+        print u"have {} song features to retrieve left".format(len(song_ids))
         if len(song_ids) > 100:
             hundred = song_ids[0:100]
             song_ids = song_ids[100:]
@@ -237,8 +237,8 @@ def get_album_data(album_ids):
 def pl_data(pl_name, username, token):
     '''returns Dict of specified playlist with all songs and features
     '''
-    print "Retrieved playlist data for : {}".format(pl_name)
-    print "pl_name = {}, username = {}".format(pl_name, username)
+    print u"Retrieved playlist data for : {}".format(pl_name)
+    print u"pl_name = {}, username = {}".format(pl_name, username)
     playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
@@ -251,8 +251,8 @@ def pl_data(pl_name, username, token):
             'means': means}
 
 def pl_data_lite(pl_name, username, token):
-    print "Retrieved playlist data for : {}".format(pl_name)
-    print "pl_name = {}, username = {}".format(pl_name, username)
+    print u"Retrieved playlist data for : {}".format(pl_name)
+    print u"pl_name = {}, username = {}".format(pl_name, username)
     playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
@@ -278,7 +278,7 @@ def store_db(pl_name):
     #NOTE: double checks for duplicates, should change in future
     for song in playlist['songs']:
         if models.Song.objects.filter(sid=song['id']).count() > 0:
-            print "{}, Already in Database.".format(song['name'])
+            print u"{}, Already in Database.".format(song['name'])
             s = models.Song.objects.get(sid=song['id'])
         else:
             s, created = models.Song.objects.get_or_create(
@@ -298,7 +298,7 @@ def store_db(pl_name):
                 preview_url=song['preview_url'],
                 release_date=song['release_date'])
             if not created:
-                print "{}, Already in Database.".format(song['name'])
+                print u"{}, Already in Database.".format(song['name'])
         p.songs.add(s)
     print "All Songs Processed"
 

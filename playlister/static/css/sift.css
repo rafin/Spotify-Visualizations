@@ -26,6 +26,7 @@ main {
     text-align: center;
 }
 
+
 #title {
     background-color: #333;
     color: #4DC2A3;
@@ -230,22 +231,5 @@ select {
     color: #7C6BD3;
     cursor: pointer;
 }
-
-
-/* loading display*/
-.loading {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px;
-    margin-top: -50px;
-    text-align:center;
-    z-index:1234;
-    overflow: auto;
-    width: 100px;
-    height: 102px;
-}
-
 
 

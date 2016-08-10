@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#go_button', function() {
         $('.error').remove();
-        if ($("#playlist_select").val() != null && $("#y_select").val() != null && $("#x_select").val() != null) {
+        if ($("#playlist_select").val() != null && $("#y_select").val() != null) {
             if ($("#playlist_select").val() != unencoded_title) {
                 createscatter();
             }

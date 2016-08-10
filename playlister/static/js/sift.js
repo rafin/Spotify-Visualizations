@@ -7,7 +7,6 @@ var refined_songs;
 
 $(document).ready(function() {
     $('#title a').attr("href", window.location.origin);
-
     $('.slider').slider({
         range: true,
         min: 0,
@@ -23,20 +22,19 @@ $(document).ready(function() {
         animate: "fast"
     })
 
-    //
 
     $('#get-data-button').click(function() {
         username = $("#user-input").val();
-        $(".loading").show()
+        $("#get-data-button").text('Loading...')
         $.ajax({
             url: window.location.origin + '/getplaylists/?username='.concat(username) + '&token='.concat(token),
             success: function (jsontitles) {
-                $(".loading").hide()
+                $("#get-data-button").text('Retrieve Playlists')
                 $('.error').remove();
                 $('.pl_option').remove();
                 // $('.pl_option').remove();
                 if (jsontitles == 'no user') {
-                    $("main").append('<div class="error">username is blank</div>');
+                    $("#user-group").append('<div class="error">username is blank</div>');
                 } else {
                     if (jsontitles.length > 0) {
                         titles = jsontitles.map(function(t){ return t[0] });
@@ -51,9 +49,10 @@ $(document).ready(function() {
             },
             error: function (response) {
                 console.log(response)
-                $(".loading").hide()
+                $("#get-data-button").text('Retrieve Playlists')
             }
         }).responseJSON;
+
     });
 
 
@@ -77,18 +76,18 @@ $(document).ready(function() {
         ids = refined_songs.map(function(s){ return s['id'] });
         // pass new_name and refined_songs into an ajax request
         // which will create the new playlist
-        $(".loading").show()
+        $("#save-button").text('Loading...')
         $.ajax({
             url: window.location.origin + '/newplaylist/?name='.concat(new_name) + '&songs='.concat(ids),
             success: function (response) {
                 console.log(response)
                 $(".error").remove()
-                $(".loading").hide()
+                $("#save-button").text('Save Playlist')
             },
             error: function (response) {
                 console.log(response)
                 $("#save-group").append('<div class="error">new playlist has too many songs for plotify to handle, sorry for inconvenience</div>');
-                $(".loading").hide()
+                $("#save-button").text('Save Playlist')
             }
         }).responseJSON;
     })
@@ -138,11 +137,11 @@ $(document).ready(function() {
     function retrieve_songs(){
         unencoded_title = $("#playlist_select").val();
         title = encodeURIComponent(unencoded_title);
-        $(".loading").show()
+        $("#gen-button").text('Loading...')
         $.ajax({
             url: window.location.origin + '/getsongslite/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
-                $(".loading").hide()
+                $("#gen-button").text('Generate New Playlist')
                 songs = data.songs;
                 //console.log(songs)
                 if (songs == undefined) {
@@ -154,7 +153,7 @@ $(document).ready(function() {
             },
             error: function (response) {
                 console.log(response)
-                $(".loading").hide()
+                $("#gen-button").text('Generate New Playlist')
             }
         }).responseJSON
     }
