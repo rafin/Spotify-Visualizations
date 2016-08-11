@@ -86,6 +86,8 @@ def get_playlists(user, token=None):
             start += 50
         pls = []
         for playlist in playlists:
+            if playlist['name'] == None:
+                continue
             pname = correct_spaces(playlist['name'])
             pid = to_ascii(playlist['id'])
             puser = to_ascii(playlist['owner']['id'])
