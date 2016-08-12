@@ -40,7 +40,7 @@ Current version online at: http://plotify.herokuapp.com/
 - six
 - spotipy
 - whitenoise
-#####Web Technologies
+##### Web Technologies
  - [Django web framework](https://www.djangoproject.com/)
  - [Heroku](https://dashboard.heroku.com/)
  - [jQuery](https://jquery.com/)
