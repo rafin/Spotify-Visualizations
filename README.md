@@ -29,7 +29,6 @@ Current version online at: http://plotify.herokuapp.com/
 - dj-database-url
 - Django
 - gunicorn
-- matplotlib
 - numpy
 - pandas
 - psycopg2
