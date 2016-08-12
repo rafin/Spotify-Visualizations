@@ -6,8 +6,8 @@ Current version online at: http://plotify.herokuapp.com/
 - you can compare song features or just plot the playlist sorted
 
 ## Playlist Sifter
-- Refine your playlists by limiting attributes.
-- sort the playlist based on attributes.
+- Refine your playlists by limiting features.
+- sort the playlist based on features.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
