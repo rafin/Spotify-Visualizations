@@ -23,9 +23,26 @@ Current version online at: http://plotify.herokuapp.com/
 - **sort**: only available on x, sorts whatever y-values are selected in ascending order.
 
 
-
-#### Work in Progress / Possible Future Features
-- better error handling and notifications
-- visualize an artists entire catalog
-- creating playlists from plot selection
-- individual song bar chart of features
+## Technologies Used
+##### Python Packages
+- cycler
+- dj-database-url
+- Django
+- gunicorn
+- matplotlib
+- numpy
+- pandas
+- psycopg2
+- pyparsing
+- python-dateutil
+- pytz
+- requests
+- six
+- spotipy
+- whitenoise
+#####Web Technologies
+ - [Django web framework](https://www.djangoproject.com/)
+ - [Heroku](https://dashboard.heroku.com/)
+ - [jQuery](https://jquery.com/)
+ - [jQuery ui](https://jqueryui.com/)
+ - [D3.js](https://d3js.org/)
