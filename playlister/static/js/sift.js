@@ -215,7 +215,7 @@ $(document).ready(function() {
         feature = $('#feature_select').val().toLowerCase()
         direction = $('#direction_select').val()
         songs = songs.sort(function(a, b){
-            return a[feature] > b[feature]
+            return a[feature] > b[feature];
         });
         if(direction == "Descending"){
             songs = songs.reverse();

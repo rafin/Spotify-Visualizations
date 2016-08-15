@@ -1,20 +1,14 @@
-html{
+html {
+    height: 100%;
 }
 body {
     font-family: 'Raleway', "Helvetica Neue", sans-serif;
-    background-color: #FFF;
-    margin: auto;
-    max-width: 1080px;
-}
-
-main {
-    max-width: 1080px;
-    padding-bottom: 10px;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
     background-color: #F8F8F8;
     position: relative;
     height: 100%;
-    border-bottom: 5px solid #333;
-    box-shadow: 0 -10px 16px 0 rgba(0,0,0, 0.1), 0 -10px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
 #title {
@@ -67,15 +61,23 @@ p {
     color: #666;
     margin: auto;
     margin-top: 10px;
-    max-width: 400px;
+    max-width: 500px;
     font-size: 14px;
 }
 
 /* Footer */
 
+#footerholder {
+    font-size: 14px;
+    background: none repeat scroll 0 0 transparent;
+    bottom: 5px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+
 #footer {
-    margin-top: 100px;
-    max-width: 100%
+    max-height: 100%
 }
 
 #github_link {

@@ -88,6 +88,7 @@ $(document).ready(function() {
                 means = data.means;
                 clean_canvas();
                 scatter(songs);
+                showdetails(songs);
             },
             error: function (response) {
                 console.log(response)
@@ -103,6 +104,9 @@ $(document).ready(function() {
         }
     }
 
+    function showdetails(songs) {
+        $('#count_data').text(songs.length)
+    }
 
     function clean_canvas() {
         audio = document.getElementById('preview_song');
@@ -114,7 +118,6 @@ $(document).ready(function() {
         $(".tooltip").remove();
         $(".details").remove();
     }
-
 
 
     //---------------------------------------------------------------------------------------
@@ -205,17 +208,19 @@ $(document).ready(function() {
             .on("mouseover", function(d) {
                 tooltip.transition()
                     .duration(200)
-                    .style("opacity", .9)
-
-                if (d3.event.pageX > w - 125) {
-                    tooltip.html('<div class="tooltip"><b>' + d["name"] +
-                            " : " + d["artist"] + "</div>")
-                        .style("left", (d3.event.pageX - 150) + "px")
+                    .style("opacity", .9);
+                tooltip.html('<div class="tooltip"><b>' + d["name"] +
+                            " : " + d["artist"] + "</b></br>" +
+                            x + ': ' + d[x] + "</br>" + y + ": " +
+                            d[y] + "</div>");
+                if (d3.event.pageX > w / 2) {
+                    tooltip.style("left", (d3.event.pageX - 150) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
+                } else if (d3.event.pageY > h / 2) {
+                    tooltip.style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 60) + "px");
                 } else {
-                    tooltip.html('<div class="tooltip"><b>' + d["name"] +
-                            " : " + d["artist"] + "</div>")
-                        .style("left", (d3.event.pageX) + "px")
+                    tooltip.style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 }
                 d3.select(this)

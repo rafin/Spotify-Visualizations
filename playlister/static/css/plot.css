@@ -29,7 +29,7 @@ header {
     overflow: hidden;
     height: 3em;
     background-color: #F8F8F8;
-    color: #041A0D;
+    color: #000;
 }
 
 #title {
@@ -38,18 +38,18 @@ header {
     text-align: center;
     margin: 8px 0px 0px 10px;
     text-decoration: none;
-    color: #495780;
+    color: #4DC2A3;
     font-size: 14px;
 }
 
 #title a {
     font-size: 22px;
     text-decoration: none;
-    color: #041A0D;
+    color: #333;
 }
 
 #title a:hover {
-    color: #777;
+    color: #DDD;
 }
 
 #stats_toggle {
@@ -57,7 +57,7 @@ header {
     position: absolute;
     top: 5px;
     right: 10px;
-    color: #041A0D;
+    color: #000;
     font-weight: 900;
     cursor: pointer;
 }
@@ -71,14 +71,18 @@ input {
     border: none;
     border-bottom: 1px solid #DDD;
     font-size: 12px;
-    color: #4DC2A3;
+    color: #333;
     padding: 5px;
 }
 
 #get_data_button {
     display: inline-block;
-    margin:10px 0px 0px 5px;
+    margin: 10px 0px 0px 5px;
+    color: #333;
+}
+#get_data_button:hover {
     font-weight: bold;
+    color: #000;
 }
 
 #github_link {
@@ -87,9 +91,8 @@ input {
     position: absolute;
     top: 13px;
     right: 20px;
-    color: #041A0D;
+    color: #333;
 }
-
 #github_link:hover {
     color: #7C6BD3;
     cursor: pointer;
@@ -105,7 +108,7 @@ input {
     position: absolute;
     width: 100%;
     height: 30px;
-    top: 3.0em;
+    top: 48px;
     left: 0;
     z-index: -1;
     background-color: #FFFFFF;
@@ -146,7 +149,7 @@ input {
 
 select {
     background-color: #FFFFFF;
-    color: #4DC2A3;
+    color: #333;
     font-size: 15px;
     border: none;
     background-image: none;
@@ -176,7 +179,7 @@ select {
     padding-top: 5px;
 }
 
-#genres, #means {
+#stats div {
     position: relative;
     margin: 5px;
     padding-top: 5px;
@@ -184,11 +187,11 @@ select {
     width: 190px;
 }
 
-#genres tr, #means tr {
+#stats div tr {
     text-align: left;
 }
 
-#genres table, #means table {
+#stats div table {
     width: 190px;
     margin: 0;
 }
