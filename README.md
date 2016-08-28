@@ -6,8 +6,8 @@ Current version online at: http://plotify.herokuapp.com/
 - you can compare song features or just plot the playlist sorted
 
 ## Playlist Sifter
-- Refine your playlists by limiting attributes.
-- sort the playlist based on attributes.
+- Refine your playlists by limiting features.
+- sort the playlist based on features.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
@@ -23,9 +23,26 @@ Current version online at: http://plotify.herokuapp.com/
 - **sort**: only available on x, sorts whatever y-values are selected in ascending order.
 
 
+## Technologies Used
+##### Python Packages
+- cycler
+- dj-database-url
+- Django
+- gunicorn
+- numpy
+- pandas
+- psycopg2
+- pyparsing
+- python-dateutil
+- pytz
+- requests
+- six
+- spotipy
+- whitenoise
 
-#### Work in Progress / Possible Future Features
-- better error handling and notifications
-- visualize an artists entire catalog
-- creating playlists from plot selection
-- individual song bar chart of features
+##### Web Technologies
+ - [Django web framework](https://www.djangoproject.com/)
+ - [Heroku](https://dashboard.heroku.com/)
+ - [jQuery](https://jquery.com/)
+ - [jQuery ui](https://jqueryui.com/)
+ - [D3.js](https://d3js.org/)
