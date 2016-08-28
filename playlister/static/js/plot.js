@@ -85,6 +85,10 @@ $(document).ready(function() {
                 $(".loading").hide()
                 songs = data.songs;
                 sorted_genres = data.sorted_genres;
+                songs = songs.map(function(d) {
+                    d['release_date'] = parseInt(d['release_date'].substring(0, 4));
+                    return d;
+                })
                 means = data.means;
                 clean_canvas();
                 scatter(songs);

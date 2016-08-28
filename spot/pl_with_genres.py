@@ -143,13 +143,13 @@ def existing_playlist(name, username, token=None):
     print 'ERROR: playlist name invalid'
     return ''
 
-def clean_data(songs, l_features, afeatures):
+def clean_data(songs, l_features, genres):
     '''sets all class variables for the songs corresponding to each
     '''
     playlist = []
     i = 1
-    for song, features, afeatures in zip(songs, l_features, afeatures):
-        release_date = to_date(afeatures['release_date'])
+    for song, features, genre in zip(songs, l_features, genres):
+        #release_date = to_date(afeatures['release_date'])
         for k,v in features.iteritems():
             if v == None or v == "":
                 features[k] = 0
@@ -163,7 +163,7 @@ def clean_data(songs, l_features, afeatures):
         song['valence'] = round(features['valence'] * 100, 2)
         song['tempo'] = round(features['tempo'], 0)
         song['duration'] = round(features['duration_ms'] / 1000, 0)
-        song['release_date'] = release_date
+        song['genre'] = genre
         playlist.append(song)
         i += 1
     return playlist
@@ -238,10 +238,9 @@ def pl_data(pl_name, username, token=None):
     if playlist == "":
         return ""
     features = get_song_features(feature(playlist, 'id'))
-    album_features = get_album_data(feature(playlist, 'album_id'))
-    #genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
-    songs = clean_data(playlist['songs'], features, album_features)
-    sorted_genres = []
+    #album_features = get_album_data(feature(playlist, 'album_id'))
+    genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
+    songs = clean_data(playlist['songs'], features, genres)
     means = analysis.simple_stats(songs)
     return {'sorted_genres': sorted_genres, 'songs': songs, 
             'means': means}

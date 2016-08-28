@@ -1,6 +1,6 @@
 import spotipy
 import spotipy.util as util
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 import os, ast, requests
 
 #Spotify API keys
@@ -29,11 +29,17 @@ def get_token(code, mode):
   else:
     return None
 
-def get_private_access(token):
-  try:
+def get_private_access(token=None):
+  if token:
+    print "retrieving private access"
     return spotipy.Spotify(auth=token)
-  except:
-    print "token invalid"
+    print "SUCCESS"
+  else:
+    print "retrieving public access"
+    key = keys()
+    token = SpotifyClientCredentials(client_id=key["uid"], client_secret=key["usec"]).get_access_token()
+    print token
+    return spotipy.Spotify(auth=token)
 
 # def get_access():
 #     print "at get access"
@@ -47,4 +53,3 @@ def get_private_access(token):
 #         except:
 #             print "FAILED TO LOAD"
 #             continue
-
