@@ -49,7 +49,7 @@ def pca(playlist):
     '''
     pl_frame = pd.DataFrame(playlist)
     features = ['energy', 'speechiness', 'acousticness',
-                'danceability', 'loudness', 'valence', 'release_date',
+                'danceability', 'loudness', 'valence',
                 'instrumentalness']
     raw_data = pl_frame[features]
     data = raw_data
