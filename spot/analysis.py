@@ -1,7 +1,6 @@
 import pl as spotify
 import pandas as pd
 import numpy as np
-import scipy as sp 
 import scipy.stats
 
 def dict_to_frame(playlist):

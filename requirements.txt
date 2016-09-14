@@ -10,5 +10,6 @@ python-dateutil==2.5.3
 pytz==2016.6.1
 requests==2.10.0
 six==1.10.0
+scipy==0.18.0
 spotipy==2.3.8
 whitenoise==3.2
