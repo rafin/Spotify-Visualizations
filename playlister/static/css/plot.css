@@ -53,6 +53,7 @@ header {
 }
 
 #stats_toggle {
+    display: none;
     float: right;
     position: absolute;
     top: 5px;
@@ -171,29 +172,63 @@ select {
 }
 
 /*-------------------------------------
- Stats Bar */
-
-#stats {
-    position: absolute;
+ Options/Stats Bar */
+ #more_options {
+    position: static;
+    width: 100%;
     margin: 0px;
-    padding-top: 5px;
+ }
+.side_button {
+    postion: relative;
+    margin: 5px;
+    padding: 5px;
+    background-color: #FFF;
+    text-align: center;
+    border-bottom: 1px solid #DDD;
+}
+
+.side_button:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+#pca_table {
+    margin-left: 5px;
+    font-size: 13px;
+};
+
+#pca_table td:first-child{
+    font-size: 20px;
+    font-weight: bold; 
+}
+#stats {
+    position: static;
+    margin: 0px;
 }
 
 #stats div {
     position: relative;
     margin: 5px;
-    padding-top: 5px;
-    border-top: 1px solid #DDD;
     width: 190px;
+}
+
+#stats b {
+    font-size: 16px;
 }
 
 #stats div tr {
     text-align: left;
+    font-size: 13px;
+    color: #333;
 }
 
 #stats div table {
     width: 190px;
     margin: 0;
+}
+
+#stats div tr td {
+    width: 100px;
 }
 
 

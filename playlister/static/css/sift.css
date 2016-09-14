@@ -1,5 +1,9 @@
+:root {
+    --accent-color: #41C696;
+}
+
 body {
-    font-family: 'Raleway', "Helvetica Neue", sans-serif;
+    font-family: "Raleway", "Helvetica Neue", sans-serif;
     background-color: #FFF;
     margin: auto;
     max-width: 1080px;
@@ -29,7 +33,7 @@ main {
 
 #title {
     background-color: #333;
-    color: #4DC2A3;
+    color: var(--accent-color);
     padding: 8px 0px;
     font-size: 20px;
     text-align: center;
@@ -87,7 +91,7 @@ input {
     border: none;
     border-bottom: 1px solid #DDD;
     font-size: 15px;
-    color: #4DC2A3;
+    color: var(--accent-color);
     padding: 5px;
 }
 
@@ -109,13 +113,52 @@ input {
 
 select {
     background-color: #FFFFFF;
-    color: #4DC2A3;
+    color: var(--accent-color);
     font-size: 15px;
     border: none;
     background-image: none;
     -webkit-appearance: none;
     padding: 6px;
     width: 170px;
+}
+
+#playlist-table {
+    max-width: 300px;
+}
+
+#pl-title {
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px 0px 10px 10px;
+}
+
+#add-button{
+    text-align: center;
+    width: 90px;
+    background-color: var(--accent-color);
+    color: #F8F8F8;
+    padding: 0px 15px 0px 15px;
+    border: 0px;
+    border-radius: 20px;
+}
+#add-button:hover {
+    color: var(--accent-color);
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+.remove-button {
+    background-color: #F84C5A;
+    color: #F8F8F8;
+    border: 0px;
+    border-radius: 200px;
+    text-align: center;
+    padding: 0px 3.5px 0px 3.5px;
+    width: 15px;
+}
+.remove-button:hover {
+    color: #F84C5A;
+    background-color: #F8F8F8;
+    cursor: pointer;
 }
 
 /* filter styles */
@@ -127,16 +170,18 @@ select {
 }
 
 #preset-table td {
-    background-color: #4DC2A3;
+    background-color: var(--accent-color);
     color: #F8F8F8;
     padding: 2px;
-    border: 1px solid #F8F8F8;
-    border-radius: 5px;
+    margin: 1px;
+    border: 0px;
+    border-radius: 12px;
 }
 
 #preset-table td:hover {
     background-color: #F8F8F8;
-    color: #4DC2A3;
+    color: var(--accent-color);
+    cursor: pointer;
 }
 
 #preset-table td:first-child {
@@ -155,6 +200,11 @@ select {
     width: 100%;
 }
 
+.range {
+    font-size: 14px;
+    width: 100%;
+}
+
 .button {
     -webkit-transition-duration: 0.1s; /* Safari */
     transition-duration: 0.1s;
@@ -164,7 +214,7 @@ select {
     text-decoration: none;
     margin: auto;
     margin-top: 10px;
-    background-color: #4DC2A3;
+    background-color: var(--accent-color);
     color: #F8F8F8;
     font-size: 20px;
     width: 220px;
@@ -174,7 +224,7 @@ select {
 
 .button:hover {
     background-color: #F8F8F8;
-    color: #4DC2A3;
+    color: var(--accent-color);
 }
 
 /* Sort styles */

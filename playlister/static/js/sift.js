@@ -4,9 +4,15 @@ var title = "";
 var unencoded_title = "";
 var username;
 var refined_songs;
+var playlists = [];
+var curr_playlists = [];
+var confidence_intervals;
 
 $(document).ready(function() {
     $('#title a').attr("href", window.location.origin);
+    
+
+    //initialize sliders
     $('.slider').slider({
         range: true,
         min: 0,
@@ -15,12 +21,25 @@ $(document).ready(function() {
         animate: "fast"
     })
     $('#loudness').slider({
-        range: true,
         min: -60,
         max: 0,
-        values: [-60,0],
-        animate: "fast"
+        values: [-60,0]
     })
+    $('#release_date').slider({
+        min: 1900,
+        max: 2016,
+        values: [1900,2016],
+    })
+    var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
+                    "instrumentalness", "valence", "popularity", "release_date"]
+    for (var i = 0; i < sliders.length; i++) {
+        $("#" + sliders[i]).slider({
+            slide: function(event, ui) {
+                $("#" + event.target.id + "_val").html(ui.values[0] + " to " + ui.values[1]);
+            }
+        })
+    }
+    //end of slide initialization
 
 
     $('#get-data-button').click(function() {
@@ -56,12 +75,34 @@ $(document).ready(function() {
     });
 
 
+    $('#add-button').click(function() {
+        var t = $("#playlist_select").val();
+        if (t != null) {
+            if (playlists.indexOf(t) == -1){
+                $("#playlist-table").append("<tr><td class='pl-title' colspan='2'>" + 
+                    $("#playlist_select").val() +
+                    "</td><td class='remove-button'>-</td></tr>")
+                playlists.push(t)
+            }
+        }
+    })
+
+    $('#playlist-table').on("click", ".remove-button", function() {
+        $(this).parent().remove();
+        var index = playlists.indexOf($(this).prev('td').text())
+        playlists.splice(index, 1);
+    })
+
+
     $('#gen-button').click(function() {
-        if ($("#playlist_select").val() != "Select Playlist") {
-            if ($("#playlist_select").val() != unencoded_title) {
-                retrieve_songs();
-            } else {
+        if (playlists != []) {
+            console.log(playlists)
+            console.log(curr_playlists)
+            console.log(arraysIdentical(playlists, curr_playlists))
+            if (arraysIdentical(playlists, curr_playlists)) {
                 generate_playlist();
+            } else {
+                retrieve_songs();
             }
         }
     });
@@ -92,40 +133,33 @@ $(document).ready(function() {
         }).responseJSON;
     })
 
+
     //------Presets------//
     $("#exercise-button").click(function() {
-        $("#danceability").slider( "values", [38,100]);
-        $("#energy").slider( "values", [52,100]);
-        $("#loudness").slider( "values", [-12,0]);
-        $("#speechiness").slider( "values", [0,48]);
-        $("#acousticness").slider( "values", [0,100]);
-        $("#instrumentalness").slider( "values", [0,100]);
-        $("#valence").slider( "values", [8,100]);
-        $("#popularity").slider( "values", [0,100]);
+        //var setvalues = [[38,100],[52,100],[-12,0],[0,48],[0,100],[0,100],[8,100],[0,100],[1900,2016]];
+        preset(confidence_intervals);
     })
 
     $("#relaxing-button").click(function() {
-        $("#danceability").slider( "values", [0,82]);
-        $("#energy").slider( "values", [0,42]);
-        $("#loudness").slider( "values", [-60,-9]);
-        $("#speechiness").slider( "values", [0,15]);
-        $("#acousticness").slider( "values", [0,100]);
-        $("#instrumentalness").slider( "values", [0,100]);
-        $("#valence").slider( "values", [0,71]);
-        $("#popularity").slider( "values", [0,100]);
+        var setvalues = [[0,82],[0,42],[-60,-9],[0,15],[0,100],[0,100],[0,71],[0,100],[1900,2016]];
+        preset(setvalues);
     })
 
     $("#acoustic-button").click(function() {
-        $("#danceability").slider( "values", [0,77]);
-        $("#energy").slider( "values", [0,47]);
-        $("#loudness").slider( "values", [-60,-5]);
-        $("#speechiness").slider( "values", [0,26]);
-        $("#acousticness").slider( "values", [58,100]);
-        $("#instrumentalness").slider( "values", [0,100]);
-        $("#valence").slider( "values", [0,71]);
-        $("#popularity").slider( "values", [0,100]);       
+        var setvalues = [[0,77],[0,47],[-60,-5],[0,26],[58,100],[0,100],[0,71],[0,100],[1900,2016]];
+        preset(setvalues);     
     })
+
+    function preset(setvalues){
+        var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
+                    "instrumentalness", "valence", "popularity", "release_date"]
+        for (var i = 0; i < sliders.length; i++) {
+            $("#" + sliders[i]).slider( "values", setvalues[i])
+            $("#" + sliders[i] + "_val").html(setvalues[i][0] + " to " + setvalues[i][1]);
+        }
+    } 
     //-------------------//
+
 
     function loadtitles(titles) {
         for (var i = 0; i < titles.length; i++) {
@@ -135,20 +169,25 @@ $(document).ready(function() {
 
 
     function retrieve_songs(){
-        unencoded_title = $("#playlist_select").val();
-        title = encodeURIComponent(unencoded_title);
+        curr_playlists = playlists.slice();
+        //encode playlist titles to be passed through url
+        encoded_playlists = []
+        for (var i = 0; i < playlists.length; i++){
+            encoded_playlists.push(encodeURIComponent(playlists[i]));
+        }
         $("#gen-button").text('Loading...')
         $.ajax({
-            url: window.location.origin + '/getsongslite/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),
+            url: window.location.origin + '/getsongs/?title='.concat(encoded_playlists) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
-                $("#gen-button").text('Generate New Playlist')
+                $("#gen-button").text('Generate New Playlist');
                 songs = data.songs;
-                //console.log(songs)
                 if (songs == undefined) {
                     $("#playlist-group").append('<div class="error">Playlist not Specified</div>');
                 } else {
-                    $(".error").remove()
-                    generate_playlist()
+                    confidence_intervals = data.intervals;
+                    console.log(confidence_intervals);
+                    $(".error").remove();
+                    generate_playlist();
                 }
             },
             error: function (response) {
@@ -164,7 +203,6 @@ $(document).ready(function() {
             //format: {"danceability": [min, max], ...}
         $('#song-list tr').remove()
         refined_songs = []
-
         //build refined_songs
         for (var i = 0; i < songs.length; i++) {
             for (var key in ranges) {
@@ -179,8 +217,6 @@ $(document).ready(function() {
                 refined_songs.push(songs[i])
             }
         }
-
-        //console.log($('#feature_select').val())
         if($('#feature_select').val() == null) {
             $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
         } else {
@@ -199,7 +235,7 @@ $(document).ready(function() {
 
     function get_ranges() {
         ranges = {'danceability':[0,0],'energy':[0,0], 'loudness':[0,0], 'speechiness':[0,0],
-                  'acousticness':[0,0],'instrumentalness':[0,0],'valence':[0,0], 'popularity':[0,0]}
+                  'acousticness':[0,0],'instrumentalness':[0,0],'valence':[0,0], 'popularity':[0,0], 'release_date':[0,0]}
         ranges.danceability = $('#danceability').slider('values')
         ranges.energy= $('#energy').slider('values')
         ranges.loudness= $('#loudness').slider('values')
@@ -208,6 +244,7 @@ $(document).ready(function() {
         ranges.instrumentalness= $('#instrumentalness').slider('values')
         ranges.valence= $('#valence').slider('values')
         ranges.popularity= $('#popularity').slider('values')
+        ranges.release_date = $('#release_date').slider('values')
         return ranges
     }
 
@@ -242,6 +279,16 @@ $(document).ready(function() {
         }
 
     }
+
+    function arraysIdentical(a, b) {
+        var i = a.length;
+        if (i != b.length) return false;
+        while (i--) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    };
+
 });
 
 

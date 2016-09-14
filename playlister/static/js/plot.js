@@ -1,11 +1,15 @@
 var audio;
+var title = "";
+var unencoded_title = "";
+
+// ajax globals
+var username;
 var titles;
 var songs;
 var sorted_genres;
 var means;
-var title = "";
-var unencoded_title = "";
-var username;
+var pcaweights;
+
 $(document).ready(function() {
     $('#title a').attr("href", window.location.origin);
     $('#get_data_button').click(function() {
@@ -64,6 +68,13 @@ $(document).ready(function() {
         }
     })
 
+    $(document).on('click', '#pca', function() {
+        $("#x_select").val('pcax');    
+        $("#y_select").val('pcay');
+        $("#go_button").click();
+
+    })
+
     $(window).resize(function() {
         if ($("main svg").length > 0) {
             clearTimeout(resizeTimer);
@@ -83,13 +94,11 @@ $(document).ready(function() {
             url: window.location.origin + '/getsongs/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
                 $(".loading").hide()
+                $("#stats_toggle").show()
                 songs = data.songs;
                 sorted_genres = data.sorted_genres;
-                songs = songs.map(function(d) {
-                    d['release_date'] = parseInt(d['release_date'].substring(0, 4));
-                    return d;
-                })
                 means = data.means;
+                pcaweights = data.pcaweights;
                 clean_canvas();
                 scatter(songs);
                 showdetails(songs);
@@ -128,14 +137,26 @@ $(document).ready(function() {
     // Scatter Plot
     //---------------------------------------------------------------------------------------
     function scatter(playlist) {
-        var x = $("#x_select").val().toLowerCase();
-        var y = $("#y_select").val().toLowerCase();
+        var x = $("#x_select").val();
+        var y = $("#y_select").val();
+        // set up domains
         var dmax = d3.max(playlist, function(d) {
             return d['duration'] });
         var dmin = d3.min(playlist, function(d) {
             return d['duration'] });
+
+        var pcaxmax = d3.max(playlist, function(d) {
+            return d['pcax'] });
+        var pcaxmin = d3.min(playlist, function(d) {
+            return d['pcax'] });
+        var pcaymax = d3.max(playlist, function(d) {
+            return d['pcay'] });
+        var pcaymin = d3.min(playlist, function(d) {
+            return d['pcay'] });
+
         var omax = d3.max(playlist, function(d) {
             return d['order'] });
+
         var domains = {
             'order': [0, omax],
             'sort': [0, omax],
@@ -149,7 +170,9 @@ $(document).ready(function() {
             'tempo': [40, 220],
             'duration': [dmin - 15, dmax], //must get from input
             'popularity': [-4, 100],
-            'release_date': [1900, 2020]
+            'release_date': [1900, 2020],
+            'pcax': [pcaxmin, pcaxmax],
+            'pcay': [pcaymin, pcaymax]
         }
 
         //generate data for sort option
@@ -201,6 +224,9 @@ $(document).ready(function() {
             .attr("cy", function(d) {
                 return yscale(d[y]);
             })
+            // .attr("r", function(d) {
+            //     return d[x] * 0.05 + 1;
+            // })
             .attr("r", 4)
             .attr("fill", function(d) {
                 if (d["preview_url"] == "") {
@@ -308,8 +334,9 @@ $(document).ready(function() {
             .style("opacity", 1);
 
         d3.select("#go_button").on("click", function() {
-            x = $("#x_select").val().toLowerCase();
-            y = $("#y_select").val().toLowerCase();
+            x = $("#x_select").val();
+            y = $("#y_select").val();
+
 
             if ($("#playlist_select").val() == unencoded_title){
                 if (x == "sort") {
@@ -335,7 +362,11 @@ $(document).ready(function() {
                     })
                     .attr("cy", function(d) {;
                         return yscale(d[y]);
-                    });
+                    })
+                    .attr("r", 4);
+                    // .attr("r", function(d) {
+                    //     return d[x] * 0.05 + 1;
+                    // });
 
                 // Update X Axis
                 svg.select(".x.axis")
@@ -377,16 +408,16 @@ $(document).ready(function() {
                 return d
             });
 
-        //create genres bar
-        var gtable = d3.select('#genres table');
+        //create pca table
+        var ptable = d3.select('#pca_table');
 
-        var gtr = gtable.selectAll('tr')
-            .data(sorted_genres)
+        var ptr = ptable.selectAll('tr')
+            .data(pcaweights)
             .enter()
             .append('tr')
-            .attr("class", "genre_row");
+            .attr("class", "pca_row")
 
-        var gtd = gtr.selectAll("td")
+        var ptd = ptr.selectAll("td")
             .data(function(d) {
                 return d3.values(d)
             })
@@ -394,52 +425,6 @@ $(document).ready(function() {
             .append("td")
             .text(function(d) {
                 return d
-            });
-        gtr.on("mouseover", function(d) {
-                var row = d3.select(this).selectAll('td')
-                    .style("font-weight", "bold")
-                    .style("color", "#4DC2A3");
-                svg.selectAll("circle")
-                    .transition()
-                    .duration(400)
-                    .attr("fill", function(d) {
-                        if (d["genre"].indexOf(row.text()) > -1) {
-                            return "#FF5C46";
-                        } else {
-                            if (d["preview_url"] == "") {
-                                return "#A4ADC9";
-                            } else {
-                                return "#495780";
-                            }
-                        }
-                    })
-                    .attr("r", function(d) {
-                        if (d["genre"].indexOf(row.text()) > -1) {
-                            return 6;
-                        } else {
-                            return 4;
-                        }
-                    });
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).selectAll('td')
-                    .style("font-weight", "normal")
-                    .style("color", "#041A0D");
-                svg.selectAll("circle")
-                    .transition()
-                    .duration(400)
-                    .attr("r", 4)
-                    .attr("fill", function(d) {
-                        if (d["preview_url"] == "") {
-                            return "#A4ADC9";
-                        } else {
-                            return "#495780";
-                        }
-                    })
-            })
-            .on("click", function(d) {
-                var row = d3.select(this).selectAll('td').text();
-                //TODO
             });
 
     }

@@ -28,35 +28,20 @@ def plot(request, token, username):
 def sift(request, token, username):
     return render_to_response('sift.html', {'token': token, 'name': username})
 
-# def index(request):
-#     #return render(request, 'playlister/table.html', context)
-#     playlist = models.Playlist.objects.get(title='study')
-#     print playlist
-#     songs = json_serializer.serialize(playlist.songs.all(), ensure_ascii=True)
-#     return render_to_response('index.html', {'playlist': songs})
-
-# def getsongs(request):
-#     '''returns json response of given playlist title'''
-#     title = request.GET.get('title', '')
-#     songs = models.Playlist.objects.get(title=title).songs.all()
-#     json_songs = json_serializer.serialize(songs, ensure_ascii=True)
-#     return JsonResponse(dict(json_songs), safe=False )
-
 def getsongs(request):
     '''returns json response of given playlist title'''
     username = request.GET.get('username', '')
     title = unquote(request.GET.get('title', ''))
     token = request.GET.get('token','')
-    songs = pl.pl_data(title, username, token)
-    #json_songs = json_serializer.serialize(songs, ensure_ascii=True)
-    return JsonResponse(songs, safe=False )
-
-def getsongslite(request):
-    '''returns json response of given playlist title'''
-    username = request.GET.get('username', '')
-    title = unquote(request.GET.get('title', ''))
-    token = request.GET.get('token','')
-    songs = pl.pl_data_lite(title, username, token)
+    #if title is a list of titles instead of just 1
+    if ',' in title: 
+        titles = title.split(',')
+        songs = []
+        for title in titles:
+            songs += pl.pl_data(title, username, token)['songs']
+        songs = {"songs":songs}
+    else:
+        songs = pl.pl_data(title, username, token)
     #json_songs = json_serializer.serialize(songs, ensure_ascii=True)
     return JsonResponse(songs, safe=False )
 
@@ -83,7 +68,7 @@ def authorize_plot(request):
     token = keys.get_token(code, 0)
     #get username
     sp = keys.get_private_access(token)
-    username = pl.to_ascii(sp.current_user()['id'])
+    username = sp.current_user()['id']
 
     url = reverse('plot', args=(), kwargs={'token': token, 'username': username})
     print "URL IN AUTHORIZE ="
@@ -95,23 +80,10 @@ def authorize_sift(request):
     token = keys.get_token(code, 1)
     #get username
     sp = keys.get_private_access(token)
-    username = pl.to_ascii(sp.current_user()['id'])
+    username = sp.current_user()['id']
 
     url = reverse('sift', args=(), kwargs={'token': token, 'username': username})
     print "URL IN AUTHORIZE ="
     print url
     return HttpResponseRedirect(url)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
