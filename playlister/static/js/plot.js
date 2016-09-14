@@ -130,6 +130,7 @@ $(document).ready(function() {
         $("svg").remove();
         $(".tooltip").remove();
         $(".details").remove();
+        $("#pca_table tr").remove();
     }
 
 
@@ -391,7 +392,6 @@ $(document).ready(function() {
 
         //create means bar
         var mtable = d3.select('#means table');
-
         var mtr = mtable.selectAll('tr')
             .data(means)
             .enter()
@@ -410,13 +410,13 @@ $(document).ready(function() {
 
         //create pca table
         var ptable = d3.select('#pca_table');
-
+        
         var ptr = ptable.selectAll('tr')
             .data(pcaweights)
             .enter()
             .append('tr')
             .attr("class", "pca_row")
-
+        console.log(pcaweights);
         var ptd = ptr.selectAll("td")
             .data(function(d) {
                 return d3.values(d)

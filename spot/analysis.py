@@ -91,7 +91,7 @@ def pca(playlist):
     ## store two largest eigenvectors for display
     vector1 = [round(n, 2) for n in eig_pairs[0][1].tolist()]
     vector2 = [round(n, 2) for n in eig_pairs[1][1].tolist()]
-    weights = zip(features, vector1, vector2)
+    weights = map(list, zip(features, vector1, vector2))
     print weights.insert(0, ('Weights', 'X', 'Y'))
 
 

@@ -195,12 +195,9 @@ select {
 #pca_table {
     margin-left: 5px;
     font-size: 13px;
+    color: #333;
 };
 
-#pca_table td:first-child{
-    font-size: 20px;
-    font-weight: bold; 
-}
 #stats {
     position: static;
     margin: 0px;
