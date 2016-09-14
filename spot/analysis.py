@@ -92,7 +92,7 @@ def pca(playlist):
     vector1 = [round(n, 2) for n in eig_pairs[0][1].tolist()]
     vector2 = [round(n, 2) for n in eig_pairs[1][1].tolist()]
     weights = map(list, zip(features, vector1, vector2))
-    print weights.insert(0, ('Weights', 'X', 'Y'))
+    print weights.insert(0, ('Weights', '1', '2'))
 
 
     ## Choosing k eigenvectors with the largest eigenvalues
@@ -105,8 +105,8 @@ def pca(playlist):
 
 def merge_pca(songs, pca):
     for index, row in pca.iterrows():
-        songs[index]['pcax'] = round(row[0], 3)
-        songs[index]['pcay'] = round(row[1], 3)
+        songs[index]['pca1'] = round(row[0], 3)
+        songs[index]['pca2'] = round(row[1], 3)
     return songs
 
 if __name__ == '__main__':

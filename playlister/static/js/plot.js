@@ -69,8 +69,8 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#pca', function() {
-        $("#x_select").val('pcax');    
-        $("#y_select").val('pcay');
+        $("#x_select").val('pca1');    
+        $("#y_select").val('pca2');
         $("#go_button").click();
 
     })
@@ -146,14 +146,14 @@ $(document).ready(function() {
         var dmin = d3.min(playlist, function(d) {
             return d['duration'] });
 
-        var pcaxmax = d3.max(playlist, function(d) {
-            return d['pcax'] });
-        var pcaxmin = d3.min(playlist, function(d) {
-            return d['pcax'] });
-        var pcaymax = d3.max(playlist, function(d) {
-            return d['pcay'] });
-        var pcaymin = d3.min(playlist, function(d) {
-            return d['pcay'] });
+        var pca1max = d3.max(playlist, function(d) {
+            return d['pca1'] });
+        var pca1min = d3.min(playlist, function(d) {
+            return d['pca1'] });
+        var pca2max = d3.max(playlist, function(d) {
+            return d['pca2'] });
+        var pca2min = d3.min(playlist, function(d) {
+            return d['pca2'] });
 
         var omax = d3.max(playlist, function(d) {
             return d['order'] });
@@ -172,8 +172,8 @@ $(document).ready(function() {
             'duration': [dmin - 15, dmax], //must get from input
             'popularity': [-4, 100],
             'release_date': [1900, 2020],
-            'pcax': [pcaxmin, pcaxmax],
-            'pcay': [pcaymin, pcaymax]
+            'pca1': [pca1min, pca1max],
+            'pca2': [pca2min, pca2max]
         }
 
         //generate data for sort option
@@ -416,7 +416,6 @@ $(document).ready(function() {
             .enter()
             .append('tr')
             .attr("class", "pca_row")
-        console.log(pcaweights);
         var ptd = ptr.selectAll("td")
             .data(function(d) {
                 return d3.values(d)
