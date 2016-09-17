@@ -71,8 +71,6 @@ def authorize_plot(request):
     username = sp.current_user()['id']
 
     url = reverse('plot', args=(), kwargs={'token': token, 'username': username})
-    print "URL IN AUTHORIZE ="
-    print url
     return HttpResponseRedirect(url)
 
 def authorize_sift(request):
@@ -83,7 +81,5 @@ def authorize_sift(request):
     username = sp.current_user()['id']
 
     url = reverse('sift', args=(), kwargs={'token': token, 'username': username})
-    print "URL IN AUTHORIZE ="
-    print url
     return HttpResponseRedirect(url)
 

@@ -51,40 +51,26 @@ def pca(playlist):
     features = ['energy', 'speechiness', 'acousticness',
                 'danceability', 'loudness', 'valence',
                 'instrumentalness']
-    raw_data = pl_frame[features]
-    data = raw_data
-    data_clean = data.as_matrix()
-    data = data.transpose()
-    data = data.as_matrix()
+    data = pl_frame[features].T.as_matrix()
 
     ## computing d-dimensional mean vector
     mean = []
     for row in data:
         mean.append(np.mean(row))
     mean_vector = np.array([mean]).T
-    # print "Mean Vector:\n", mean_vector
     size = len(mean_vector)
 
     ## computing the scatter matrix
     scatter_matrix = np.zeros((size,size))
     for i in range(data.shape[1]):
         scatter_matrix += (data[:,i].reshape(size,1) - mean_vector).dot((data[:,i].reshape(size,1) - mean_vector).T)
-    # print 'Scatter Matrix:\n', scatter_matrix
 
     ## computing eigenvectors and coor. eigenvalues with scatter ..
     eig_val_sc, eig_vec_sc = np.linalg.eig(scatter_matrix) 
     for i in range(len(eig_val_sc)):
         eigvec_sc = eig_vec_sc[:,i].reshape(1,size).T
 
-    ## check if eigenvector-eigenvalue calculation are correct
-    for i in range(len(eig_val_sc)):
-        eigv = eig_vec_sc[:,i].reshape(1,size).T
-        np.testing.assert_array_almost_equal(scatter_matrix.dot(eigv), eig_val_sc[i] * eigv,
-                                            decimal=6, err_msg='', verbose=True)
-
     ## Sorting Eignevectors by Decreasing eigenvalues
-    for ev in eig_vec_sc: #vertify they're of equal length, 1
-        np.testing.assert_array_almost_equal(1.0, np.linalg.norm(ev))
     eig_pairs = [(np.abs(eig_val_sc[i]), eig_vec_sc[:,i]) for i in range(len(eig_val_sc))]
     eig_pairs.sort(key = lambda x: x[0], reverse=True)
 
@@ -108,11 +94,6 @@ def merge_pca(songs, pca):
         songs[index]['pca1'] = round(row[0], 3)
         songs[index]['pca2'] = round(row[1], 3)
     return songs
-
-if __name__ == '__main__':
-    playlist = spotify.pl_data('Sleepwalk', 'rino21111')['songs']
-    print confidence_interval(playlist)
-    #print spotify.pl_data('Starred', 'rino21111')['songs']
 
 
 

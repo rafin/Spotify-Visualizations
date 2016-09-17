@@ -111,8 +111,6 @@ def get_songs(p_id, p_name, userid):
         try:
             artist = track['track']['artists'][0]['name']
             artist_id = track['track']['artists'][0]['id']
-            artist = ""
-            artist_id = ""
             name = track['track']['name']
             s_id = track['track']['id']
             if s_id == None:
