@@ -45,6 +45,8 @@ $(document).ready(function() {
     $('#get-data-button').click(function() {
         username = $("#user-input").val();
         $("#get-data-button").text('Loading...')
+        $(".plr").remove()
+        playlists = []
         $.ajax({
             url: window.location.origin + '/getplaylists/?username='.concat(username) + '&token='.concat(token),
             success: function (jsontitles) {
@@ -79,7 +81,7 @@ $(document).ready(function() {
         var t = $("#playlist_select").val();
         if (t != null) {
             if (playlists.indexOf(t) == -1){
-                $("#playlist-table").append("<tr><td class='pl-title' colspan='2'>" + 
+                $("#playlist-table").append("<tr class='plr'><td class='pl-title' colspan='2'>" + 
                     $("#playlist_select").val() +
                     "</td><td class='remove-button'>-</td></tr>")
                 playlists.push(t)
@@ -136,7 +138,7 @@ $(document).ready(function() {
 
     //------Presets------//
     $("#exercise-button").click(function() {
-        //var setvalues = [[38,100],[52,100],[-12,0],[0,48],[0,100],[0,100],[8,100],[0,100],[1900,2016]];
+        var setvalues = [[38,100],[52,100],[-12,0],[0,48],[0,100],[0,100],[8,100],[0,100],[1900,2016]];
         preset(confidence_intervals);
     })
 
@@ -153,6 +155,7 @@ $(document).ready(function() {
     function preset(setvalues){
         var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
                     "instrumentalness", "valence", "popularity", "release_date"]
+        console.log(setvalues)
         for (var i = 0; i < sliders.length; i++) {
             $("#" + sliders[i]).slider( "values", setvalues[i])
             $("#" + sliders[i] + "_val").html(setvalues[i][0] + " to " + setvalues[i][1]);
