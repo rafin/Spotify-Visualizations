@@ -139,7 +139,7 @@ $(document).ready(function() {
     //------Presets------//
     $("#exercise-button").click(function() {
         var setvalues = [[38,100],[52,100],[-12,0],[0,48],[0,100],[0,100],[8,100],[0,100],[1900,2016]];
-        preset(confidence_intervals);
+        preset(setvalues);
     })
 
     $("#relaxing-button").click(function() {
