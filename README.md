@@ -1,11 +1,10 @@
-# Plotify
 Current version online at: http://plotify.herokuapp.com/
 
 ## Playlist Plotter
 - webapp that helps visualize a user's public playlists on spotify
 - you can compare song features or just plot the playlist sorted
 
-## Playlist Sifter
+## Playlist Sifter (currently unavailable)
 - Refine your playlists by limiting features.
 - sort the playlist based on features.
 
