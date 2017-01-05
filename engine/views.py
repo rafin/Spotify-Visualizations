@@ -17,6 +17,9 @@ json_serializer = serializers.get_serializer("json")()
 
 import models
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+@ensure_csrf_cookie
+
 def index(request):
     s_auth_url = keys.auth_url(1)
     p_auth_url = keys.auth_url(0)
@@ -56,13 +59,28 @@ def getplaylists(request):
     return JsonResponse(playlists, safe=False)
 
 def newplaylist(request):
-    name = request.GET.get('name', '')
-    ids = request.GET.get('songs', '')
-    try:
-        pl.new_playlist(name, ids)
-        return JsonResponse("Success creating new playlist", safe=False)
-    except:
-        return JsonResponse("Failed to Create new Playlist", safe=False)
+    # name = request.GET.get('name', '')
+    # ids = request.GET.get('songs', '')
+    # try:
+    #     pl.new_playlist(name, ids)
+    #     return JsonResponse("Success creating new playlist", safe=False)
+    # except:
+    #     return JsonResponse("Failed to Create new Playlist", safe=False)
+    print "RECIEVED REQUEST: " + request.method
+    if request.is_ajax():
+        if request.method == 'POST':
+            print 'Raw Data: {}'.format(request.body)
+            title = request.POST.get("title","")
+            print 'title: {}'.format(title)
+            songs = request.POST.get("songs","")
+            #format songs
+            print songs
+            songs = songs[1:-1]
+            print songs
+            songs = songs.replace('"', '')
+            print  songs
+            pl.new_playlist(title, songs)
+    return JsonResponse({"success":"yes"})
 
 def authorize_plot(request):
     code = request.GET.get('code', '')

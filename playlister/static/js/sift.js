@@ -117,23 +117,71 @@ $(document).ready(function() {
             new_name = $("#save-input").val()
         }
         ids = refined_songs.map(function(s){ return s['id'] });
+        ids = JSON.stringify(ids);
         // pass new_name and refined_songs into an ajax request
         // which will create the new playlist
         $("#save-button").text('Loading...')
+        console.log(ids)
+
+        // get cookie for post
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        console.log("csrftoken: " + csrftoken);
+
+
+        // post song data
         $.ajax({
-            url: window.location.origin + '/newplaylist/?name='.concat(new_name) + '&songs='.concat(ids),
-            success: function (response) {
+            type: "POST",
+            url: window.location.origin + "/newplaylist/",
+            data: {"songs":ids, 
+                   "title":new_name,
+                   "csrfmiddlewaretoken":csrftoken
+            },
+            success: function (response){
                 console.log(response)
                 $(".error").remove()
                 $("#save-button").text('Save Playlist')
             },
-            error: function (response) {
+            error: function (response){
                 console.log(response)
                 $("#save-group").append('<div class="error">new playlist has too many songs for plotify to handle, sorry for inconvenience</div>');
                 $("#save-button").text('Save Playlist')
+            },
+            dataType: 'json'
             }
-        }).responseJSON;
+        )
+        // // create playlist
+        // $.ajax({
+        //     url: window.location.origin + '/newplaylist/?name='.concat(new_name) + '&songs='.concat(ids),
+        //     success: function (response) {
+        //         console.log(response)
+        //         $(".error").remove()
+        //         $("#save-button").text('Save Playlist')
+        //     },
+        //     error: function (response) {
+        //         console.log(response)
+        //         $("#save-group").append('<div class="error">new playlist has too many songs for plotify to handle, sorry for inconvenience</div>');
+        //         $("#save-button").text('Save Playlist')
+        //     }
+        // }).responseJSON;
     })
+
+
+
 
     //------Presets------//
     $("#exercise-button").click(function() {
