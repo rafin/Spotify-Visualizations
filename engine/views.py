@@ -34,10 +34,12 @@ def getsongs(request):
     title = unquote(request.GET.get('title', ''))
     token = request.GET.get('token','')
     #if title is a list of titles instead of just 1
+    print(title);
     if ',' in title: 
         titles = title.split(',')
         songs = []
         for title in titles:
+            title.replace('~?$', ',')
             songs += pl.pl_data(title, username, token)['songs']
         songs = {"songs":songs}
     else:
@@ -67,7 +69,7 @@ def authorize_plot(request):
     code = request.GET.get('code', '')
     token = keys.get_token(code, 0)
     #get username
-    sp = keys.get_private_access(token)
+    sp = keys.get_access(token)
     username = sp.current_user()['id']
 
     url = reverse('plot', args=(), kwargs={'token': token, 'username': username})
@@ -77,7 +79,7 @@ def authorize_sift(request):
     code = request.GET.get('code', '')
     token = keys.get_token(code, 1)
     #get username
-    sp = keys.get_private_access(token)
+    sp = keys.get_access(token)
     username = sp.current_user()['id']
 
     url = reverse('sift', args=(), kwargs={'token': token, 'username': username})

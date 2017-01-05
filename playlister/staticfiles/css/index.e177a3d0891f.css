@@ -1,0 +1,91 @@
+html {
+    height: 100%;
+}
+body {
+    font-family: 'Raleway', "Helvetica Neue", sans-serif;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-color: #F8F8F8;
+    position: relative;
+    height: 100%;
+}
+
+#title {
+    background-color: #333;
+    color: #FFF;
+    padding: 8px 0px;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    border-bottom: 5px solid #DDD;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.button {
+    -webkit-transition-duration: 0.1s; /* Safari */
+    transition-duration: 0.1s;
+    display: block;
+    text-align: center;
+    padding: 4px 8px;
+    text-decoration: none;
+    font-size: 20px;
+    margin: auto;
+    margin-top: 40px;
+    width: 200px;
+    border-radius: 25px;
+}
+
+#plot {
+    background-color: #4DC2A3;
+    color: #F8F8F8;
+}
+
+#plot:hover {
+    background-color: #F8F8F8;
+    color: #4DC2A3;
+}
+
+#sift {
+    background-color: #6CDE8E;
+    color: #F8F8F8;
+}
+
+#sift:hover {
+    background-color: #F8F8F8;
+    color: #6CDE8E;
+}
+
+p {
+    text-align: center;
+    color: #666;
+    margin: auto;
+    margin-top: 10px;
+    max-width: 500px;
+    font-size: 14px;
+}
+
+/* Footer */
+
+#footerholder {
+    font-size: 14px;
+    background: none repeat scroll 0 0 transparent;
+    bottom: 5px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+#footer {
+    max-height: 100%
+}
+
+#github_link {
+    text-decoration: none;
+    color: #000;
+}
+
+#github_link:hover {
+    color: #7C6BD3;
+    cursor: pointer;
+}

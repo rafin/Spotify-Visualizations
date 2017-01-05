@@ -21,7 +21,9 @@
         <div id="title"><a href="">Plotify</a> Playlist Sifter</div>
 
         <div class="light_bar"></div>
-        <div class="group-label">Username</div>
+        <div class="group-label" 
+            title="enter a username (defaults to your own)">
+            Username</div>
 
         <section id="user-group">
             <div id="user-input-div">
@@ -31,7 +33,9 @@
         </section>
 
         <div class="light_bar"></div>
-        <div class="group-label">Playlists</div>
+        <div class="group-label" 
+            title="add playlist(s) you want to filter">
+            Playlists</div>
 
         <section id="playlist-group">
             <table id="playlist-table">
@@ -47,7 +51,9 @@
         </section>
 
         <div class="light_bar"></div>
-        <div class="group-label">Filter</div>
+        <div class="group-label" 
+            title="choose preset filter, or create your own">
+            Filter</div>
 
         <section id="filter-group">
             <table id="preset-table">
@@ -79,7 +85,9 @@
         </section>
 
         <div class="light_bar"></div>
-        <div class="group-label">Sort</div>
+        <div class="group-label" 
+            title="select sorting parameter and direction for playlist order">
+            Sort</div>
 
         <section id="sort-group">
             <div class="select">
@@ -110,7 +118,9 @@
         </section>
 
         <div class="light_bar"></div>
-        <div class="group-label">Results</div>
+        <div class="group-label" 
+            title="this is your completed playlist, click on a track to here a quick sample">
+            Results</div>
 
         <section id="results-group">
             <div id="song-list-div">
@@ -130,7 +140,9 @@
         </section>
 
         <div class="light_bar"></div>
-        <div class="group-label">Save</div>
+        <div class="group-label" 
+            title="create a name and save your new playlist">
+            Save</div>
 
         <section id="save-group">
             <div id="save-input-div">
@@ -148,8 +160,6 @@
             <b style="color:#333">Ryan Finley</b>, unaffiliated with Spotify
          </p>
     </main>
-
-
 
     <script src="{% static "js/jquery.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery-ui.min.js" %}"></script>

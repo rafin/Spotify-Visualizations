@@ -1,0 +1,285 @@
+:root {
+    --accent-color: #41C696;
+}
+
+body {
+    font-family: "Raleway", "Helvetica Neue", sans-serif;
+    background-color: #FFF;
+    margin: auto;
+    max-width: 1080px;
+}
+
+*:focus {
+    outline: none;
+}
+
+main {
+    padding-bottom: 10px;
+    background-color: #F8F8F8;
+    position: relative;
+    height: 100%;
+    border-bottom: 5px solid #333;
+    box-shadow: 0 -10px 16px 0 rgba(0,0,0, 0.1), 0 -10px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.error {
+    width: 80%;
+    max-width: 200px;
+    margin: auto;
+    color: #FF4A50;
+    text-align: center;
+}
+
+
+#title {
+    background-color: #333;
+    color: var(--accent-color);
+    padding: 8px 0px;
+    font-size: 20px;
+    text-align: center;
+    border-bottom: 5px solid #DDD;
+    border-radius: 0px 0px 5px 5px;
+    margin-bottom: 25px;
+}
+
+#title a {
+    color: #FFF;
+    text-decoration: none;
+    font-size: 30px;
+}
+
+#title a:hover {
+    font-weight: bold;
+}
+
+.light_bar {
+    height: 2px;
+    background-color: #EDEDED;
+    margin: 10px 10% 0px 10%;
+}
+
+.group-label {
+    margin-left: 10%;
+    color: #DDD;
+    font-size: 13px;
+}
+
+table {
+    margin: auto;
+}
+
+p {
+    text-align: center;
+    color: #666;
+    margin: auto;
+    margin-top: 10px;
+    max-width: 500px;
+    font-size: 14px;
+}
+
+
+/* username input styles */
+#user-group {
+    margin: auto;
+}
+#user-input-div, #save-input-div {
+    margin: auto;
+    width: 170px;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid #DDD;
+    font-size: 15px;
+    color: var(--accent-color);
+    padding: 5px;
+}
+
+/* playlist select styles */ 
+#playlist-group, 
+#filter-group, 
+#sort-group, 
+#results-group, 
+#save-group {
+    display: none;
+}
+
+.select {
+    background-color: #FFF;
+    border-bottom: 1px solid #DDD;
+    margin: auto;
+    width: 170px;
+}
+
+select {
+    background-color: #FFFFFF;
+    color: var(--accent-color);
+    font-size: 15px;
+    border: none;
+    background-image: none;
+    -webkit-appearance: none;
+    padding: 6px;
+    width: 170px;
+}
+
+#playlist-table {
+    max-width: 300px;
+}
+
+#pl-title {
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px 0px 10px 10px;
+}
+
+#add-button{
+    text-align: center;
+    width: 90px;
+    background-color: var(--accent-color);
+    color: #F8F8F8;
+    padding: 0px 15px 0px 15px;
+    border: 0px;
+    border-radius: 20px;
+}
+#add-button:hover {
+    color: var(--accent-color);
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+.remove-button {
+    background-color: #F84C5A;
+    color: #F8F8F8;
+    border: 0px;
+    border-radius: 200px;
+    text-align: center;
+    padding: 0px 3.5px 0px 3.5px;
+    width: 15px;
+}
+.remove-button:hover {
+    color: #F84C5A;
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+/* filter styles */
+
+#preset-table {
+    text-align: center;
+    width: 50%;
+    min-width: 200px;
+}
+
+#preset-table td {
+    background-color: var(--accent-color);
+    color: #F8F8F8;
+    padding: 2px;
+    margin: 1px;
+    border: 0px;
+    border-radius: 12px;
+}
+
+#preset-table td:hover {
+    background-color: #F8F8F8;
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+#preset-table td:first-child {
+    background-color: #F8F8F8;
+    font-weight: bold;
+    color: #000;
+}
+
+#slider-table {
+    width: 50%;
+    min-width: 200px;
+}
+
+.slider {
+    margin-left: 0px;
+    width: 100%;
+}
+
+.range {
+    font-size: 14px;
+    width: 100%;
+}
+
+.button {
+    -webkit-transition-duration: 0.1s; /* Safari */
+    transition-duration: 0.1s;
+    display: block;
+    text-align: center;
+    padding: 4px 8px;
+    text-decoration: none;
+    margin: auto;
+    margin-top: 10px;
+    background-color: var(--accent-color);
+    color: #F8F8F8;
+    font-size: 20px;
+    width: 220px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #F8F8F8;
+    color: var(--accent-color);
+}
+
+/* Sort styles */
+#direction_select, #feature_select {
+    display: inline;
+}
+
+/* results styles */
+
+#song-list-div {
+    max-height: 400px;
+    overflow-y: scroll;
+    margin: auto;
+    max-width: 80%;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+}
+
+#song-list {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    color: #555;
+    padding: 3px;
+}
+
+#song-list-div table{
+    max-width: 100%;
+}
+
+#song-list tr td {
+    padding: 0px 0px 5px 0px;
+}
+#song-list tr td:first-child {
+    color: #000;
+    padding: 0px 15px 5px 0px;
+}
+
+#details_table tr td:first-child {
+    text-align: right;
+}
+
+/* Footer */
+#footer {
+    margin-top: 100px;
+    max-width: 100%;
+}
+
+#github_link {
+    text-decoration: none;
+    color: #000;
+}
+
+#github_link:hover {
+    color: #7C6BD3;
+    cursor: pointer;
+}
+
+

@@ -16,7 +16,7 @@ def set_access(token=None):
     #     sp = keys.get_access()
     #     print "have public access only"
     #     return
-    sp = keys.get_private_access(token)
+    sp = keys.get_access(token)
     print "have private access"
 
 
