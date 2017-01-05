@@ -35,11 +35,10 @@ def getsongs(request):
     token = request.GET.get('token','')
     #if title is a list of titles instead of just 1
     print(title);
-    if ',' in title: 
-        titles = title.split(',')
+    if '~[' in title: 
+        titles = title.split('~[')
         songs = []
         for title in titles:
-            title.replace('~?$', ',')
             songs += pl.pl_data(title, username, token)['songs']
         songs = {"songs":songs}
     else:

@@ -5,8 +5,8 @@ import os, ast, requests
 
 #Spotify API keys
 scope = "playlist-read-private"
-#uirs = ["http://localhost:8000/authorize_plot/", "http://localhost:8000/authorize_sift/"]
-uirs = ["http://plotify.herokuapp.com/authorize_plot/", "http://plotify.herokuapp.com/authorize_sift/"]
+uirs = ["http://localhost:8000/authorize_plot/", "http://localhost:8000/authorize_sift/"]
+#uirs = ["http://plotify.herokuapp.com/authorize_plot/", "http://plotify.herokuapp.com/authorize_sift/"]
 
 def keys():
   spotify_keys = os.environ["SPOTIFY_KEYS"]

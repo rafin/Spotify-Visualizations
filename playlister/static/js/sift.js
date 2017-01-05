@@ -177,7 +177,7 @@ $(document).ready(function() {
         for (var i = 0; i < playlists.length; i++){
             encoded_playlists.push(encodeURIComponent(playlists[i]));
         }
-        console.log("encoded playlists")
+        encoded_playlists = encoded_playlists.join("~[") // fixes comma error
         console.log(encoded_playlists)
         $("#gen-button").text('Loading...')
         $.ajax({

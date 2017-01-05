@@ -88,8 +88,7 @@ $(document).ready(function() {
 
     function createscatter() {
         unencoded_title = $("#playlist_select").val();
-        title = unencoded_title.replace(",","~?$") //prevents ',' url error
-        title = encodeURIComponent(title);
+        title = encodeURIComponent(unencoded_title);
         $(".loading").show()
         $.ajax({
             url: window.location.origin + '/getsongs/?title='.concat(title) + '&username='.concat(username) + '&token='.concat(token),

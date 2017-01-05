@@ -252,13 +252,12 @@ def pl_data(pl_name, username, token=None):
     songs = clean_data(playlist['songs'], features, album_features)
     sorted_genres = []
     means = analysis.simple_stats(songs)
-    intervals = analysis.confidence_interval(songs)
+    #intervals = analysis.confidence_interval(songs)
     # add pca values
     pca_data = analysis.pca(songs)
     songs = analysis.merge_pca(songs, pca_data['coords'])
     return {'sorted_genres': sorted_genres, 'songs': songs, 
-            'means': means, 'intervals': intervals, 
-            'pcaweights': pca_data['weights']}
+            'means': means,'pcaweights': pca_data['weights']}
 
 
 def new_playlist(playlist_name, ids):
