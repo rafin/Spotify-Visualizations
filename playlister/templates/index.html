@@ -9,19 +9,28 @@
     <title>Plotify</title>
     {% load staticfiles %}
     <link href="{% static "css/index.css" %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
     <script type="text/javascript">
     var s_auth_url = "{{s_auth_url}}";
     var p_auth_url = "{{p_auth_url}}";
+    var sh_auth_url = "{{sh_auth_url}}";
     </script>
 </head>
 
 <body>
     <div id="title">Plotify</div>
-    <a id=plot class=button href=''><b>Playlist Plotter</b></a>
-    <p>Visualize playlists by plotting their attributes (web only)</p> 
-    <a id=sift class=button href=''><b>Playlist Sifter</b></a>
+
+    <div id="center"></div>
+
+    <div class="box">
+    <a id=plot class=button href=''><b>Plot your Music</b></a>
+    <p>Visualize playlists by plotting their attributes (web only).</p> 
+    </div>
+
+    <div class="box">
+    <a id=sift class=button href=''><b>Filter your Music</b></a>
     <p>Refine your playlists by limiting song attributes.</p>
+    </div>
 
     <div id="footerholder">
         <p id="footer">

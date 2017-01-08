@@ -1,9 +1,9 @@
 html{
-    background-color: #F8F8F8;
+    background-color: #FDF8EF;
 }
 body {
     margin: 0px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Quattrocento Sans', sans-serif;
 }
 
 *:focus {
@@ -28,8 +28,8 @@ header {
     padding: 0;
     overflow: hidden;
     height: 3em;
-    background-color: #F8F8F8;
-    color: #000;
+    background-color: #FDF8EF;
+    color: #2A2D34;
 }
 
 #title {
@@ -38,14 +38,14 @@ header {
     text-align: center;
     margin: 8px 0px 0px 10px;
     text-decoration: none;
-    color: #4DC2A3;
+    color: #2A2D34;
     font-size: 14px;
 }
 
 #title a {
     font-size: 22px;
     text-decoration: none;
-    color: #333;
+    color: #2A2D34;
 }
 
 #title a:hover {
@@ -70,16 +70,17 @@ header {
 
 input {
     border: none;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #64A6BD;
     font-size: 12px;
-    color: #333;
+    color: #2A2D34;
     padding: 5px;
+    background-color: #FDF8EF;
 }
 
 #get_data_button {
     display: inline-block;
     margin: 10px 0px 0px 5px;
-    color: #333;
+    color: #2A2D34;
 }
 #get_data_button:hover {
     font-weight: bold;
@@ -92,7 +93,7 @@ input {
     position: absolute;
     top: 13px;
     right: 20px;
-    color: #333;
+    color: #2A2D34;
 }
 #github_link:hover {
     color: #7C6BD3;
@@ -112,21 +113,22 @@ input {
     top: 48px;
     left: 0;
     z-index: -1;
-    background-color: #FFFFFF;
+    background-color: #FDF8EF;
     border-bottom: 1px solid #DDD;
+    color: #2A2D34;
 }
 
 #right_aside {
     float: right;
     position: absolute;
     width: 0px;
-    top: 79px;
+    top: 78px;
     bottom: 0;
     right: 0;
     height: auto;
     z-index: -1;
     border-left: 1px solid #DDD;
-    background-color: #F8F8F8;
+    background-color: #FDF8EF;
     overflow-y: scroll;
 }
 
@@ -149,8 +151,8 @@ input {
 }
 
 select {
-    background-color: #FFFFFF;
-    color: #333;
+    background-color: #FDF8EF;
+    color: #2A2D34;
     font-size: 15px;
     border: none;
     background-image: none;
@@ -182,20 +184,20 @@ select {
     postion: relative;
     margin: 5px;
     padding: 5px;
-    background-color: #FFF;
     text-align: center;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #64A6BD;
+    cursor: pointer;
 }
 
 .side_button:hover {
-    background-color: #F8F8F8;
-    cursor: pointer;
+    border-color: #FDF8EF;
 }
 
 #pca_table {
     margin-left: 5px;
     font-size: 13px;
     color: #333;
+    text-align: right;
 };
 
 #stats {
@@ -216,7 +218,7 @@ select {
 #stats div tr {
     text-align: left;
     font-size: 13px;
-    color: #333;
+    color: #2A2D34;
 }
 
 #stats div table {
@@ -226,6 +228,7 @@ select {
 
 #stats div tr td {
     width: 100px;
+    text-align: right;
 }
 
 
@@ -241,7 +244,7 @@ main {
     top: 79px;
     bottom: 0px;
     padding: 0;
-    background-color: #F8F8F8;
+    background-color: #FDF8EF;
     z-index: -2;
 }
 

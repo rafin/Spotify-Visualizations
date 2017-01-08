@@ -8,9 +8,9 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Plotify - Playlist Sifter</title>
     {% load staticfiles %}
-    <link href="{% static "css/sift.css" %}" rel="stylesheet">
     <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="{% static "css/sift.css" %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
     <script type="text/javascript">
         var token = "{{token}}";
     </script>
@@ -20,145 +20,172 @@
     <main>
         <div id="title"><a href="">Plotify</a> Playlist Sifter</div>
 
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="enter a username (defaults to your own)">
-            Username</div>
+        <div id="left-column">
+            <div class="group-label" 
+                title="enter a username (defaults to your own)">
+                Username</div>
 
-        <section id="user-group">
-            <div id="user-input-div">
-                <input type="text" id="user-input" placeholder="username" value="{{name}}"></input>
-            </div>
-            <div id="get-data-button" class="button">Retrieve Playlists</div>
-        </section>
+            <section id="user-group">
+                <div class="input">
+                    <input type="text" id="user-input" placeholder="username" value="{{name}}">
+                    </input>
+                </div>
+                <div id="get-data-button" class="button same-line">
+                    Retrieve Playlists
+                </div>
+            </section>
 
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="add playlist(s) you want to filter">
-            Playlists</div>
+            <div class="group-label" 
+                title="add playlist you want to filter">
+                Playlist</div>
 
-        <section id="playlist-group">
-            <table id="playlist-table">
-                <tr>
-                    <td class="select">
-                        <select id="playlist_select">
-                            <option disabled selected>Select Playlist</option>
-                        </select>
-                    </td>
-                    <td id="add-button" colspan="2">Add Playlist</td>
-                </tr>
-            </table>
-        </section>
+            <section id="playlist-group">
+                <div class="select percent50">
+                    <select id="playlist_select">
+                        <option disabled selected>Select Playlist</option>
+                    </select>
+                </div>
+                <div id="songs-button" class = "button same-line">
+                    Retrieve Songs
+                </div>
+            </section>
 
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="choose preset filter, or create your own">
-            Filter</div>
+            <div class="group-label" 
+                title="choose preset filter, or create your own">
+                Filter</div>
 
-        <section id="filter-group">
-            <table id="preset-table">
-                <tr>
-                    <td>Presets</td>
-                    <td id="exercise-button">Exercise</td>
-                    <td id="relaxing-button">Relaxing</td>
-                    <td id="acoustic-button">Acoustic</td>
-            <table id="slider-table">
-                <tr><td>Danceability</td><td class="range" id="danceability_val">0 to 100</td></tr>
-                <tr> <td colspan="2"><div class="slider" id="danceability"></div></td></tr>
-                <tr><td>Energy</td><td class="range" id="energy_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="energy"></div></td></tr>
-                <tr><td>Loudness</td><td class="range" id="loudness_val">-60 to 0</td></tr>
-                <tr><td colspan="2"><div class="slider" id="loudness"></div></td></tr>
-                <tr><td>Speechiness</td><td class="range" id="speechiness_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="speechiness"></div></td></tr>
-                <tr><td>Acousticness</td><td class="range" id="acousticness_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="acousticness"></div></td></tr>
-                <tr><td>Instrumentalness</td><td class="range" id="instrumentalness_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="instrumentalness"></div></td></tr>
-                <tr><td>Valence</td><td class="range" id="valence_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="valence"></div></td></tr>
-                <tr><td>Popularity</td><td class="range" id="popularity_val">0 to 100</td></tr>
-                <tr><td colspan="2"><div class="slider" id="popularity"></div></td></tr>
-                <tr><td>Release Date</td><td class="range" id="release_date_val">1900 to 2016</td></tr>
-                <tr><td colspan="2"><div class="slider" id="release_date"></div></td></tr>
-            </table>
-        </section>
-
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="select sorting parameter and direction for playlist order">
-            Sort</div>
-
-        <section id="sort-group">
-            <div class="select">
-                <select id="feature_select">
-                    <option disabled selected>Select Sort Feature</option>
-                    <option>Order</option>
-                    <option>Danceability</option>
-                    <option>Energy</option>
-                    <option>Loudness</option>
-                    <option>Speechiness</option>
-                    <option>Acousticness</option>
-                    <option>Instrumentalness</option>
-                    <option>Valence</option>
-                    <option>Duration</option>
-                    <option>Popularity</option>
-                    <option>Release_Date</option>
-                </select>
-            </div>
-            </br>
-            <div class="select">
-                <select id="direction_select">
-                    <option>Ascending</option>
-                    <option>Descending</option>
-                </select>
-            </div>
-
-            <div id="gen-button" class="button">Generate New Playlist</div>
-        </section>
-
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="this is your completed playlist, click on a track to here a quick sample">
-            Results</div>
-
-        <section id="results-group">
-            <div id="song-list-div">
-                <table id="song-list">
+            <section id="filter-group">
+                <table id="preset-table">
+                    <tr>
+                        <td id="reset-button">Presets</td>
+                        <td id="exercise-button">Exercise</td>
+                        <td id="relaxing-button">Relaxing</td>
+                        <td id="acoustic-button">Acoustic</td>
+                    </tr>
+                <table id="slider-table">
+                    <tr><td>Danceability</td><td class="range" id="danceability_val">0 to 100</td></tr>
+                    <tr> <td colspan="2"><div class="slider" id="danceability"></div></td></tr>
+                    <tr><td>Energy</td><td class="range" id="energy_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="energy"></div></td></tr>
+                    <tr><td>Loudness</td><td class="range" id="loudness_val">-60 to 0</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="loudness"></div></td></tr>
+                    <tr><td>Speechiness</td><td class="range" id="speechiness_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="speechiness"></div></td></tr>
+                    <tr><td>Acousticness</td><td class="range" id="acousticness_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="acousticness"></div></td></tr>
+                    <tr><td>Instrumentalness</td><td class="range" id="instrumentalness_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="instrumentalness"></div></td></tr>
+                    <tr><td>Valence</td><td class="range" id="valence_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="valence"></div></td></tr>
+                    <tr><td>Popularity</td><td class="range" id="popularity_val">0 to 100</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="popularity"></div></td></tr>
+                    <tr><td>Release Date</td><td class="range" id="release_date_val">1900 to 2016</td></tr>
+                    <tr><td colspan="2"><div class="slider" id="release_date"></div></td></tr>
                 </table>
-            </div>
-            <table id="details_table">
-                <tr>
-                    <td>Song Count:</td>
-                    <td id="count-display"></td>
-                </tr>
-                <tr>
-                    <td>Length:</td>
-                    <td id="length-display"></td>
-                </tr>
-            </table>
-        </section>
+                <div id="apply-filter" class="button apply-button">
+                    APPLY
+                </div>
+            </section>
 
-        <div class="light_bar"></div>
-        <div class="group-label" 
-            title="create a name and save your new playlist">
-            Save</div>
+            <div class="group-label" 
+                title="Tinker with playlist order">
+                Order</div>
 
-        <section id="save-group">
-            <div id="save-input-div">
-                <input type="text" id="save-input" placeholder="new playlist name"></input>
-            </div>
-            <div id="save-button" class="button">Save Playlist</div>
-        </section>
+            <section id="sort-group">
+                <table id="sort-table">
+                    <tr class="sort-row active">
+                        <td id="gen-button" class="toggle">Sort by Feature</td>
+                        <td class="select">
+                            <select id="feature_select">
+                                <option disabled selected>Select Feature</option>
+                                <option>Order</option>
+                                <option>Danceability</option>
+                                <option>Energy</option>
+                                <option>Loudness</option>
+                                <option>Speechiness</option>
+                                <option>Acousticness</option>
+                                <option>Instrumentalness</option>
+                                <option>Valence</option>
+                                <option>Duration</option>
+                                <option>Popularity</option>
+                                <option>Release_Date</option>
+                            </select>
+                        </td>
+                        <td class="select">
+                            <select id="f_direction_select">
+                                <option>Descending</option>
+                                <option>Ascending</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="sort-row">
+                        <td class="toggle">Sort by Similarity</td>
+                        <td class="select">
+                            <select id="song_select">
+                                <option disabled selected>Select Song</option>
+                            </select>
+                        </td>
+                        <td class="select">
+                            <select id="r_direction_select">
+                                <option>Descending</option>
+                                <option>Ascending</option>
+                            </select>
+                        </td>
+                    </tr>
+<!--                     <tr class="sort-row">
+                        <td class="toggle">Flowing Order</td>
+                    </tr> -->
+                </table>
+                <div id="apply-sort" class="button apply-button">
+                    APPLY
+                </div>
+            </section>
 
-        <p id="footer">
+            <div class="group-label" 
+                title="create a name and save your new playlist">
+                Save</div>
+
+            <section id="save-group">
+                <div class="input">
+                    <input type="text" id="save-input" placeholder="new playlist name"></input>
+                </div>
+                <div id="save-button" class="button same-line">
+                    Save Playlist
+                </div>
+            </section>
+        </div>
+
+        <div id="right-column">
+            <div class="group-label" 
+                title="this is your completed playlist, click on a track to here a quick sample">
+                Results</div>
+            <section id="results-group">
+                <div id="song-list-div">
+                    <table id="song-list">
+                    </table>
+                </div>
+                <table id="details_table">
+                    <tr>
+                        <td>Song Count:</td>
+                        <td id="count-display"></td>
+                    </tr>
+                    <tr>
+                        <td>Length:</td>
+                        <td id="length-display"></td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+
+
+        <!--<p id="footer">
             source on
             <a href="https://github.com/rafin/playlists" target="_blank" id="github_link">
             <b>github</b>,
             </a>
             created by
             <b style="color:#333">Ryan Finley</b>, unaffiliated with Spotify
-         </p>
+         </p>-->
     </main>
 
     <script src="{% static "js/jquery.js" %}"></script>

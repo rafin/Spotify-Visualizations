@@ -2,23 +2,23 @@ html {
     height: 100%;
 }
 body {
-    font-family: 'Raleway', "Helvetica Neue", sans-serif;
+    font-family: "Quattrocento Sans", "Helvetica Neue", sans-serif;
     margin: 0px;
     padding: 0px;
     height: 100%;
-    background-color: #F8F8F8;
+    background-color: #FDF8EF;
     position: relative;
     height: 100%;
 }
 
 #title {
-    background-color: #333;
-    color: #FFF;
+    background-color: #FDF8EF;
+    color: #2A2D34;
     padding: 8px 0px;
     font-weight: bold;
     font-size: 30px;
     text-align: center;
-    border-bottom: 5px solid #DDD;
+    /*border-bottom: 5px solid #DB5461;*/
     border-radius: 0px 0px 5px 5px;
 }
 
@@ -33,35 +33,21 @@ body {
     margin: auto;
     margin-top: 40px;
     width: 200px;
-    border-radius: 25px;
+    border-bottom: 3px solid #3C4C75;
+    color: #2A2D34;
+    border-color: #64A6BD;
 }
 
-#plot {
-    background-color: #4DC2A3;
-    color: #F8F8F8;
-}
-
-#plot:hover {
-    background-color: #F8F8F8;
-    color: #4DC2A3;
-}
-
-#sift {
-    background-color: #6CDE8E;
-    color: #F8F8F8;
-}
-
-#sift:hover {
-    background-color: #F8F8F8;
-    color: #6CDE8E;
+.button:hover {
+    border-color: #F8F8F8;
 }
 
 p {
     text-align: center;
-    color: #666;
+    color: #2A2D34;
     margin: auto;
     margin-top: 10px;
-    max-width: 500px;
+    max-width: 200px;
     font-size: 14px;
 }
 
@@ -77,7 +63,8 @@ p {
 }
 
 #footer {
-    max-height: 100%
+    max-height: 100%;
+    max-width: 500px;
 }
 
 #github_link {

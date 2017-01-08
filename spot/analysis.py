@@ -2,6 +2,8 @@ import pl as spotify
 import pandas as pd
 import numpy as np
 import scipy.stats
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import scale
 
 def dict_to_frame(playlist):
     pl_frame = pd.DataFrame(playlist)
@@ -45,14 +47,13 @@ def confidence_interval(songs, confidence=.9999):
     return set
 
 def pca(playlist):
-    ''' Principle Component Analysis
+    ''' Principle Component Analysis implementation
     '''
     pl_frame = pd.DataFrame(playlist)
     features = ['energy', 'speechiness', 'acousticness',
                 'danceability', 'loudness', 'valence',
-                'instrumentalness']
+                'instrumentalness', 'release_date']
     data = pl_frame[features].T.as_matrix()
-
     ## computing d-dimensional mean vector
     mean = []
     for row in data:
@@ -87,7 +88,7 @@ def pca(playlist):
     ## Transforming the samples onto the new subspace
     transformed = matrix_w.T.dot(data)
     coords = pd.DataFrame(transformed.T)
-    return {"coords": coords, "weights": weights,}
+    return {"coords": coords, "weights": weights}
 
 def merge_pca(songs, pca):
     for index, row in pca.iterrows():
@@ -95,16 +96,31 @@ def merge_pca(songs, pca):
         songs[index]['pca2'] = round(row[1], 3)
     return songs
 
+def tSNE(playlist):
+    ''' t-distributed stochastic neighbor embedding implementation
+        (heavier alternate to pca)
+    '''
+    pl_frame = pd.DataFrame(playlist)
+    features = ['energy', 'speechiness', 'acousticness',
+                'danceability', 'loudness', 'valence',
+                'instrumentalness', 'release_date']
+    data = pl_frame[features].T.as_matrix()
+    print data.T
+    ## standardize
+    data = scale(data)
+    print data.T
+    data = data.T
 
+    data_tsne = TSNE(learning_rate=100).fit_transform(data)
+    print data_tsne.T
 
+    return pd.DataFrame(data_tsne)
 
-
-
-
-
-
-
-
+def merge_tsne(songs, tsne):
+    for index, row in tsne.iterrows():
+        songs[index]['tSNE1'] = round(row[0] * 1000, 3)
+        songs[index]['tSNE2'] = round(row[1] * 1000, 3) 
+    return songs
 
 
 

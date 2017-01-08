@@ -10,6 +10,7 @@
     {% load staticfiles %}
     <link href="{% static "css/plot.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
     <script type="text/javascript">
         var token = "{{token}}";
     </script>
@@ -49,6 +50,8 @@
                     <option value="release_date">Release Date</option>
                     <option value="pca1">PCA1</option>
                     <option value="pca2">PCA2</option>
+                    <option value="tSNE1">tSNE1</option>
+                    <option value="tSNE2">tSNE2</option>
                 </select>
             </div>
             vs
@@ -69,6 +72,8 @@
                     <option value="release_date">Release Date</option>
                     <option value="pca1">PCA1</option>
                     <option value="pca2">PCA2</option>
+                    <option value="tSNE1">tSNE1</option>
+                    <option value="tSNE2">tSNE2</option>
                 </select>
             </div>
             <div id="go_button">Go</div>

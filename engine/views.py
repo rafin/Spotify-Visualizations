@@ -69,16 +69,11 @@ def newplaylist(request):
     print "RECIEVED REQUEST: " + request.method
     if request.is_ajax():
         if request.method == 'POST':
-            print 'Raw Data: {}'.format(request.body)
             title = request.POST.get("title","")
             print 'title: {}'.format(title)
             songs = request.POST.get("songs","")
-            #format songs
-            print songs
             songs = songs[1:-1]
-            print songs
             songs = songs.replace('"', '')
-            print  songs
             pl.new_playlist(title, songs)
     return JsonResponse({"success":"yes"})
 
@@ -101,4 +96,3 @@ def authorize_sift(request):
 
     url = reverse('sift', args=(), kwargs={'token': token, 'username': username})
     return HttpResponseRedirect(url)
-

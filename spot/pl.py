@@ -175,6 +175,29 @@ def clean_data(songs, l_features, afeatures):
         i += 1
     return playlist
 
+def clean_data_lite(songs, l_features):
+    '''sets all class variables for the songs corresponding to each
+    '''
+    playlist = []
+    i = 1
+    for song, features in zip(songs, l_features):
+        if features == None:
+            continue
+        for k,v in features.iteritems():
+            if v == None or v == "":
+                features[k] = 0
+        song['order'] = i
+        song['danceability'] = round(features['danceability'] * 100, 2)
+        song['energy'] = round(features['energy'] * 100, 2)
+        song['loudness'] = round(features['loudness'], 1)
+        song['speechiness'] = round(features['speechiness'] * 100, 2)
+        song['acousticness'] = round((features['acousticness']) * 100, 2)
+        song['instrumentalness'] = round(features['instrumentalness'] * 100, 2)
+        song['valence'] = round(features['valence'] * 100, 2)
+        playlist.append(song)
+        i += 1
+    return playlist
+
 
 def get_song_features(song_ids):
     '''returns json of all song features corresponding to input ids
@@ -241,8 +264,6 @@ def get_genres(artist_ids):
 def pl_data(pl_name, username, token=None):
     '''returns Dict of specified playlist with all songs and features
     '''
-    print u"Retrieved playlist data for : {}".format(pl_name)
-    print u"pl_name = {}, username = {}".format(pl_name, username)
     playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
@@ -253,15 +274,21 @@ def pl_data(pl_name, username, token=None):
     sorted_genres = []
     means = analysis.simple_stats(songs)
     #intervals = analysis.confidence_interval(songs)
+
     # add pca values
     pca_data = analysis.pca(songs)
     songs = analysis.merge_pca(songs, pca_data['coords'])
+    # add tsne values (slow on large playlists)
+    tsne_data = analysis.tSNE(songs) ## DEBUG
+    songs = analysis.merge_tsne(songs, tsne_data)
+
     return {'sorted_genres': sorted_genres, 'songs': songs, 
             'means': means,'pcaweights': pca_data['weights']}
 
 
 def new_playlist(playlist_name, ids):
-    #create playlist
+    '''create playlist
+    '''
     username = sp.current_user()['id']
     print "IN NEW PLAYLIST"
     print "username", username

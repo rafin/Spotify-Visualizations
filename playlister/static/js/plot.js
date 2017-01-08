@@ -140,6 +140,8 @@ $(document).ready(function() {
     function scatter(playlist) {
         var x = $("#x_select").val();
         var y = $("#y_select").val();
+        console.log(x)
+        console.log(y)
         // set up domains
         var dmax = d3.max(playlist, function(d) {
             return d['duration'] });
@@ -154,6 +156,14 @@ $(document).ready(function() {
             return d['pca2'] });
         var pca2min = d3.min(playlist, function(d) {
             return d['pca2'] });
+        var tSNE1max = d3.max(playlist, function(d) {
+            return d['tSNE1'] });
+        var tSNE1min = d3.min(playlist, function(d) {
+            return d['tSNE1'] });
+        var tSNE2max = d3.max(playlist, function(d) {
+            return d['tSNE2'] });
+        var tSNE2min = d3.min(playlist, function(d) {
+            return d['tSNE2'] });
 
         var omax = d3.max(playlist, function(d) {
             return d['order'] });
@@ -173,7 +183,9 @@ $(document).ready(function() {
             'popularity': [-4, 100],
             'release_date': [1900, 2020],
             'pca1': [pca1min, pca1max],
-            'pca2': [pca2min, pca2max]
+            'pca2': [pca2min, pca2max],
+            'tSNE1': [tSNE1min, tSNE1max],
+            'tSNE2': [tSNE2min, tSNE2max]
         }
 
         //generate data for sort option
@@ -231,9 +243,9 @@ $(document).ready(function() {
             .attr("r", 4)
             .attr("fill", function(d) {
                 if (d["preview_url"] == "") {
-                    return "#A4ADC9";
+                    return "#FEAA9E";
                 } else {
-                    return "#495780";
+                    return "#DE3633";
                 }
             })
             .on("mouseover", function(d) {
@@ -256,7 +268,7 @@ $(document).ready(function() {
                 }
                 d3.select(this)
                     .style("r", 5)
-                    .style("fill", "#8DF531")
+                    .style("fill", "#5195B1")
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
@@ -266,9 +278,9 @@ $(document).ready(function() {
                     .style("r", 4)
                     .style("fill", function(d) {
                         if (d["preview_url"] == "") {
-                            return "#A4ADC9";
+                            return "#FEAA9E";
                         } else {
-                            return "#495780";
+                            return "#DE3633";
                         }
                     });
             })

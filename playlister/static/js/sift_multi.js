@@ -64,6 +64,8 @@ $(document).ready(function() {
                         titles = jsontitles.map(function(t){ return t[0] });
                         loadtitles(titles);
                         $("#playlist-group").show("fast");
+                        $("#filter-group").show("fast");
+                        $("#sort-group").show("fast");
                     } else {
                         $("main").append('<div class="error">user has no public playlists</div>');
                     }
@@ -105,45 +107,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#apply-filter').click(function() {
-        if (songs != null) {
-            filter_playlist()
-        }
-    });
-
-   $('.toggle').click(function(e) {
-        e.preventDefault()
-        $(this).parent().parent().find('tr').removeClass('active');
-        $(this).parent().addClass('active');
-    });
-
-    $('#apply-sort').click(function() {
-        if (refined_songs != null) {
-            var mode = $('.active .toggle').text()
-            if(mode === "Sort by Feature"){
-                if($('#feature_select').val() == null) {
-                    $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
-                } else {
-                    $(".error").remove()
-                    refined_songs = feature_sort(refined_songs);
-                    show_results(refined_songs);
-                }
-            } else if(mode === "Sort by Similarity"){
-                if($('#song_select').val() == null) {
-                    $("#sort-group").append('<div class="error">Sort Song not Specified</div>');
-                } else {
-                    $(".error").remove()
-                    refined_songs = relevancy_sort(refined_songs);
-                    console.log(refined_songs);
-                    show_results(refined_songs);
-                }
-            } else {
-                $(".error").remove()
-                refined_songs = flowing_sort(refined_songs);
-                show_results(refined_songs);
-            }
-        }
-    });
 
     $("#save-button").click(function() {
         if ($("#save-input").val() == "") {
@@ -156,6 +119,7 @@ $(document).ready(function() {
         // pass new_name and refined_songs into an ajax request
         // which will create the new playlist
         $("#save-button").text('Loading...')
+        console.log(ids)
 
         // get cookie for post
         function getCookie(name) {
@@ -174,6 +138,7 @@ $(document).ready(function() {
             return cookieValue;
         }
         var csrftoken = getCookie('csrftoken');
+        console.log("csrftoken: " + csrftoken);
 
 
         // post song data
@@ -199,11 +164,10 @@ $(document).ready(function() {
         )
     })
 
+
+
+
     //------Presets------//
-    $("#reset-button").click(function() {
-        var setvalues = [[0,100],[0,100],[-60,0],[0,100],[0,100],[0,100],[0,100],[0,100],[1900,2016]];
-        preset(setvalues);
-    })
     $("#exercise-button").click(function() {
         var setvalues = [[38,100],[52,100],[-12,0],[0,48],[0,100],[0,100],[8,100],[0,100],[1900,2016]];
         preset(setvalues);
@@ -222,6 +186,7 @@ $(document).ready(function() {
     function preset(setvalues){
         var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
                     "instrumentalness", "valence", "popularity", "release_date"]
+        console.log(setvalues)
         for (var i = 0; i < sliders.length; i++) {
             $("#" + sliders[i]).slider( "values", setvalues[i])
             $("#" + sliders[i] + "_val").html(setvalues[i][0] + " to " + setvalues[i][1]);
@@ -240,36 +205,37 @@ $(document).ready(function() {
     function retrieve_songs(){
         curr_playlist = playlist;
         //encode playlist titles to be passed through url
-        encoded_playlist = encodeURIComponent(playlist);
-        $("#songs-button").text('Loading...')
+        encoded_playlist = "";
+        for (var i = 0; i < playlists.length; i++){
+            encoded_playlist = encodeURIComponent(playlist);
+        }
+        encoded_playlists = encoded_playlists.join("~[") // fixes comma error
+        console.log(encoded_playlists)
+        $("#gen-button").text('Loading...')
         $.ajax({
-            url: window.location.origin + '/getsongs/?title='.concat(encoded_playlist) + '&username='.concat(username) + '&token='.concat(token),
+            url: window.location.origin + '/getsongs/?title='.concat(encoded_playlists) + '&username='.concat(username) + '&token='.concat(token),
             success: function(data) {
-                $("#songs-button").text('Retrieve Songs');
+                $("#gen-button").text('Generate Playlist');
                 songs = data.songs;
-                refined_songs = songs;
                 if (songs == undefined) {
                     $("#playlist-group").append('<div class="error">Playlist not Specified</div>');
                 } else {
                     $(".error").remove();
-                    update_song_select(refined_songs);
-                    show_results(refined_songs);
-                    $("#filter-group").show("fast");
-                    $("#sort-group").show("fast");
-                    $("#results-group").show("fast");
-                    $("#save-group").show("fast");
+                    generate_playlist();
                 }
             },
             error: function (response) {
                 console.log(response)
-                $("#songs-button").text('Retrieve Songs')
+                $("#gen-button").text('Generate New Playlist')
             }
         }).responseJSON
     }
 
-    function filter_playlist() {
+
+    function generate_playlist() {
         ranges = get_ranges();
             //format: {"danceability": [min, max], ...}
+        $('#song-list tr').remove()
         refined_songs = []
         //build refined_songs
         for (var i = 0; i < songs.length; i++) {
@@ -285,13 +251,20 @@ $(document).ready(function() {
                 refined_songs.push(songs[i])
             }
         }
-
-        update_song_select(refined_songs);
-        show_results(refined_songs);
+        if($('#feature_select').val() == null) {
+            $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
+        } else {
+            $(".error").remove()
+            $("#results-group").show("fast");
+            $("#save-group").show("fast");
+            refined_songs = feature_sort(refined_songs)
+            show_results(refined_songs);
+        }
 
         function between(x, range) {
             return x >= range[0] && x <= range[1]
         }
+
     }
 
     function get_ranges() {
@@ -309,82 +282,26 @@ $(document).ready(function() {
         return ranges
     }
 
-    function feature_sort(isongs) {
+    function feature_sort(songs) {
         feature = $('#feature_select').val().toLowerCase()
-        direction = $('#f_direction_select').val()
-        isongs = sort(isongs, feature)
+        direction = $('#direction_select').val()
+        songs = songs.sort(function(a, b){
+            return a[feature] > b[feature];
+        });
         if(direction == "Descending"){
-            isongs = isongs.reverse();
+            songs = songs.reverse();
         }
-        return isongs;
+        return songs;
     }
 
-    function relevancy_sort(isongs) {
-        id = $('#song_select').children(":selected").attr("id")
-        index = 0
-        for(var i = 0; i < isongs.length; i++) {
-            if(isongs[i].id === id){
-                index = i;
-                break;
-            }
-        }
-        direction = $('#r_direction_select').val()
-        song = isongs[index]
-        gen_distances(isongs, song)
-        isongs = sort(isongs, "distance");
-        if(direction == "Descending"){
-            isongs = isongs.reverse();
-        }
-        return isongs;
-    }
-
-    function flowing_sort(isongs) {
-        index = Math.floor(Math.random() * isongs.length);
-        start = isongs[index];
-        distance_matrix = []
-        for(var i = 0; i < isongs.length; i++){
-            gen_distances(isongs, start);
-            isongs = sort(isongs, "distance");
-            console.log(i)
-        }
-        new_songs = [];
-        new_songs.push(start);
-
-        n = isongs.length
-
-        return isongs
-    }
-
-    function gen_distances(isongs, song) {
-        for(var i = 0; i < isongs.length; i++) {
-            a = isongs[i].pca1 - song.pca1
-            b = isongs[i].pca2 - song.pca2
-            distance = a * a + b * b
-            // factor in if same artist
-            if(isongs[i].artist === song.artist){
-                distance = Math.sqrt(distance)
-            }
-            isongs[i].distance = distance * -1
-        }
-    }
-
-    function update_song_select(isongs) {
-        $('#song_select option').remove()
-        $('#song_select').append('<option disabled selected>Select Song</option>')
-        for(var i = 0; i < isongs.length; i++) {
-            $('#song_select').append('<option id=' + isongs[i].id + '>' + isongs[i].name + '</option>')
-        }
-    }
-
-    function show_results(isongs) {
-        $('#song-list tr').remove()
+    function show_results(songs) {
         time = 0
-        for(var i = 0; i < isongs.length; i++) {
+        for(var i = 0; i < songs.length; i++) {
             $('#song-list').append('<tr><td class="sname">' +
-                isongs[i].name + '</td><td>' + isongs[i].artist + '</td></tr>')
-            time += isongs[i].duration
+                songs[i].name + '</td><td>' + songs[i].artist + '</td></tr>')
+            time += songs[i].duration
         }
-        $('#count-display').text(isongs.length)
+        $('#count-display').text(songs.length)
         time = Math.round(time / 60)
         hours = Math.floor(time / 60)
         time = time - (hours * 60)
@@ -397,18 +314,14 @@ $(document).ready(function() {
 
     }
 
-    function sort(isongs, feature) {
-        isongs = isongs.sort(function(a, b){
-            if(a[feature] > b[feature]){
-                return 1;
-            } else if(a[feature] < b[feature]){
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-        return isongs
-    }
+    function arraysIdentical(a, b) {
+        var i = a.length;
+        if (i != b.length) return false;
+        while (i--) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    };
 
 });
 
