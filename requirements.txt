@@ -1,7 +1,7 @@
 cycler==0.10.0
 dj-database-url==0.4.1
 Django==1.9.8
-matplotlib==1.2.1
+gunicorn==19.6.0
 numpy==1.10.2
 pandas==0.13.0
 psycopg2==2.6.1
@@ -13,5 +13,4 @@ scikit-learn==0.18.1
 scipy==0.13.2
 six==1.10.0
 spotipy==2.3.8
-virtualenv==15.0.2
 whitenoise==3.2
