@@ -362,7 +362,7 @@ $(document).ready(function() {
             distance = a * a + b * b
             // factor in if same artist
             if(isongs[i].artist === song.artist){
-                distance = Math.sqrt(distance)
+                distance = distance / 2;
             }
             isongs[i].distance = distance * -1
         }

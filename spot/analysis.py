@@ -87,13 +87,14 @@ def pca(playlist):
 
     ## Transforming the samples onto the new subspace
     transformed = matrix_w.T.dot(data)
+    trasnformed = scale(transformed)
     coords = pd.DataFrame(transformed.T)
     return {"coords": coords, "weights": weights}
 
 def merge_pca(songs, pca):
     for index, row in pca.iterrows():
-        songs[index]['pca1'] = round(row[0], 3)
-        songs[index]['pca2'] = round(row[1], 3)
+        songs[index]['pca1'] = round(row[0], 2)
+        songs[index]['pca2'] = round(row[1], 2)
     return songs
 
 def tSNE(playlist):
@@ -113,13 +114,14 @@ def tSNE(playlist):
 
     data_tsne = TSNE(learning_rate=100).fit_transform(data)
     print data_tsne.T
+    data_tsne = scale(data_tsne)
 
     return pd.DataFrame(data_tsne)
 
 def merge_tsne(songs, tsne):
     for index, row in tsne.iterrows():
-        songs[index]['tSNE1'] = round(row[0] * 1000, 3)
-        songs[index]['tSNE2'] = round(row[1] * 1000, 3) 
+        songs[index]['tSNE1'] = round(row[0] * 100, 2)
+        songs[index]['tSNE2'] = round(row[1] * 100, 2) 
     return songs
 
 
