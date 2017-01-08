@@ -1,13 +1,13 @@
 :root {
     --accent-color: #2A2D34;
-    --bg-color: #FDF8EF;
+    --bg-color: #F0F5F5;
     --red: #DE3633;
-    --blue: #64A6BD;
+    --blue: #57D2AD;
 }
 
 body {
     font-family: "Quattrocento Sans", "Helvetica Neue", sans-serif;
-    background-color: var(--bg-color);
+    background-color: #FFF;
 }
 
 *:focus {
@@ -16,12 +16,19 @@ body {
 
 main {
     padding-bottom: 10px;
-    background-color: var(--bg-color);
+    background-color: #FFF;
     margin-bottom: 0;
 }
 
 section {
     margin-left: 8%;
+    border: 3px solid #F0F5F5;
+    background-color: #F0F5F5;
+}
+
+#results-group {
+    border: none;
+    background-color: #FFF;
 }
 
 .error {
@@ -33,9 +40,9 @@ section {
 }
 
 #title {
-    background-color: var(--bg-color);
+    background-color: #FFF;
     color: var(--accent-color);
-    padding: 8px 0px;
+    padding: 6px 0px;
     font-size: 20px;
     margin: 0 0 25px 8px;
 }
@@ -59,7 +66,13 @@ section {
 .group-label {
     margin: 20px 0 10px 6%;
     color: var(--blue);
-    font-size: 13px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#result-label {
+    text-align: left;
+    margin-left: 10%;
 }
 
 /* input styles */
@@ -68,8 +81,8 @@ section {
     margin: 0 3px 0 3px;
     padding-left: 7px;
     width: 148px;
-    border-bottom: 1px solid var(--accent-color);
-}
+/*    border-bottom: 1px solid var(--accent-color);
+*/}
 
 input {
     border: none;
@@ -223,8 +236,8 @@ select {
 }
 
 #song-list {
-    background-color: #FFF;
-    border: 1px solid #DDD;
+    background-color: var(--bg-color);
+    border: 3px solid var(--bg-color);
     color: var(--accent-color);
     padding: 3px;
 }
@@ -250,11 +263,15 @@ p {
     font-size: 14px;
 }
 
+
 #github_link {
     text-decoration: none;
-    color: #000;
+    float: right;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    color: #2A2D34;
 }
-
 #github_link:hover {
     color: #7C6BD3;
     cursor: pointer;

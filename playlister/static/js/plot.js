@@ -72,6 +72,11 @@ $(document).ready(function() {
         $("#x_select").val('pca1');    
         $("#y_select").val('pca2');
         $("#go_button").click();
+    })
+    $(document).on('click', '#tsne', function() {
+        $("#x_select").val('tSNE1');    
+        $("#y_select").val('tSNE2');
+        $("#go_button").click();
 
     })
 

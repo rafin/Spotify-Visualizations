@@ -79,7 +79,7 @@ def pca(playlist):
     vector1 = [round(n, 2) for n in eig_pairs[0][1].tolist()]
     vector2 = [round(n, 2) for n in eig_pairs[1][1].tolist()]
     weights = map(list, zip(features, vector1, vector2))
-    print weights.insert(0, ('Weights', '1', '2'))
+    print weights.insert(0, ('PCA Weights', '1', '2'))
 
 
     ## Choosing k eigenvectors with the largest eigenvalues

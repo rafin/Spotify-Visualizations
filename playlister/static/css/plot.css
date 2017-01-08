@@ -1,5 +1,14 @@
+:root {
+    --accent-color: #2A2D34;
+    --bg-color: #F0F5F5;
+    --red: #DE3633;
+    --blue: #57D2AD;
+}
+
+
+
 html{
-    background-color: #FDF8EF;
+    background-color: #FFF;
 }
 body {
     margin: 0px;
@@ -28,7 +37,7 @@ header {
     padding: 0;
     overflow: hidden;
     height: 3em;
-    background-color: #FDF8EF;
+    background-color: #FFF;
     color: #2A2D34;
 }
 
@@ -74,7 +83,7 @@ input {
     font-size: 12px;
     color: #2A2D34;
     padding: 5px;
-    background-color: #FDF8EF;
+    background-color: #FFF;
 }
 
 #get_data_button {
@@ -113,7 +122,7 @@ input {
     top: 48px;
     left: 0;
     z-index: -1;
-    background-color: #FDF8EF;
+    background-color: var(--bg-color);
     border-bottom: 1px solid #DDD;
     color: #2A2D34;
 }
@@ -128,7 +137,7 @@ input {
     height: auto;
     z-index: -1;
     border-left: 1px solid #DDD;
-    background-color: #FDF8EF;
+    background-color: var(--bg-color);
     overflow-y: scroll;
 }
 
@@ -151,7 +160,7 @@ input {
 }
 
 select {
-    background-color: #FDF8EF;
+    background-color: var(--bg-color);
     color: #2A2D34;
     font-size: 15px;
     border: none;
@@ -190,7 +199,7 @@ select {
 }
 
 .side_button:hover {
-    border-color: #FDF8EF;
+    border-color: #FFF;
 }
 
 #pca_table {
@@ -244,7 +253,7 @@ main {
     top: 79px;
     bottom: 0px;
     padding: 0;
-    background-color: #FDF8EF;
+    background-color: #FFF;
     z-index: -2;
 }
 
