@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 import os, ast, requests
 
 #Spotify API keys
-scope = "playlist-read-private"
+scope = "playlist-read-private playlist-modify-private"
 #uirs = ["http://localhost:8000/authorize_plot/", "http://localhost:8000/authorize_sift/"]
 uirs = ["http://plotify.herokuapp.com/authorize_plot/", "http://plotify.herokuapp.com/authorize_sift/"]
 
