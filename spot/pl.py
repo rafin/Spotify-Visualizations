@@ -12,6 +12,7 @@ sp = None
 
 def set_access(token=None):
     global sp
+    global username
     # if token == None:
     #     sp = keys.get_access()
     #     print "have public access only"
@@ -289,9 +290,8 @@ def pl_data(pl_name, username, token=None):
 def new_playlist(playlist_name, ids):
     '''create playlist
     '''
+
     username = sp.current_user()['id']
-    print "IN NEW PLAYLIST"
-    print "username", username
     playlist = sp.user_playlist_create(username, playlist_name)
     pid = playlist['id']
     ids = ids.split(",")

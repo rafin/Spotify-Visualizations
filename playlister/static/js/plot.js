@@ -145,8 +145,6 @@ $(document).ready(function() {
     function scatter(playlist) {
         var x = $("#x_select").val();
         var y = $("#y_select").val();
-        console.log(x)
-        console.log(y)
         // set up domains
         var dmax = d3.max(playlist, function(d) {
             return d['duration'] });

@@ -144,7 +144,6 @@ $(document).ready(function() {
                 } else {
                     $(".error").remove()
                     refined_songs = relevancy_sort(refined_songs);
-                    console.log(refined_songs);
                     show_results(refined_songs);
                 }
             } else if(mode === "Sort by Title Length") {
@@ -189,13 +188,13 @@ $(document).ready(function() {
         }
         var csrftoken = getCookie('csrftoken');
 
-
         // post song data
         $.ajax({
             type: "POST",
             url: window.location.origin + "/newplaylist/",
             data: {"songs":ids, 
                    "title":new_name,
+                   "token":token,
                    "csrfmiddlewaretoken":csrftoken
             },
             success: function (response){
@@ -374,7 +373,6 @@ $(document).ready(function() {
         for(var i = 0; i < isongs.length; i++){
             gen_distances(isongs, start);
             isongs = sort(isongs, "distance");
-            console.log(i)
         }
         new_songs = [];
         new_songs.push(start);

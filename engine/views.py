@@ -59,14 +59,7 @@ def getplaylists(request):
     return JsonResponse(playlists, safe=False)
 
 def newplaylist(request):
-    # name = request.GET.get('name', '')
-    # ids = request.GET.get('songs', '')
-    # try:
-    #     pl.new_playlist(name, ids)
-    #     return JsonResponse("Success creating new playlist", safe=False)
-    # except:
-    #     return JsonResponse("Failed to Create new Playlist", safe=False)
-    print "RECIEVED REQUEST: " + request.method
+
     if request.is_ajax():
         if request.method == 'POST':
             title = request.POST.get("title","")
@@ -74,6 +67,11 @@ def newplaylist(request):
             songs = request.POST.get("songs","")
             songs = songs[1:-1]
             songs = songs.replace('"', '')
+            #reauthorize and get username
+            token = request.POST.get("token","")
+            sp = keys.get_access(token)
+            username = sp.current_user()['id']
+
             pl.new_playlist(title, songs)
     return JsonResponse({"success":"yes"})
 
