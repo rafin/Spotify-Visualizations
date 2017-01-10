@@ -14,7 +14,7 @@ body {
 *:focus {
     outline: none;
 }
-
+.
 main {
     padding-bottom: 10px;
     background-color: var(--bg-color);
@@ -23,7 +23,7 @@ main {
 }
 
 section {
-    margin-left: 8%;
+    margin-left: 20px;
     background-color: var(--bg-color);
     padding: 8px;
 }
@@ -66,11 +66,11 @@ section {
 }
 
 .group-label {
-    margin: 20px 0 10px 6%;
+    margin: 20px 0 0 0;
     color: var(--blue);
     font-size: 20px;
     text-align: left;
-    margin-left: 14%;
+    margin-left: 45px;
 }
 
 /* input styles */

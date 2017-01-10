@@ -12,6 +12,16 @@ var curr_playlist = "";
 var confidence_intervals;
 
 $(document).ready(function() {
+
+    // resize window on initialization
+    if($(this).width() <= 600){
+            $("#right-column").css("margin-right", "20px");
+            $("#right-column").css("width", "initial");
+    } else {
+            $("#right-column").css("margin-right", "auto");
+            $("#right-column").css("width", "calc(100% - 350px)");
+    }
+
     $('#title a').attr("href", window.location.origin);
     
 
@@ -137,6 +147,10 @@ $(document).ready(function() {
                     console.log(refined_songs);
                     show_results(refined_songs);
                 }
+            } else if(mode === "Sort by Title Length") {
+                $(".error").remove()
+                refined_songs = title_sort(refined_songs);
+                show_results(refined_songs);
             } else {
                 $(".error").remove()
                 refined_songs = flowing_sort(refined_songs);
@@ -338,6 +352,21 @@ $(document).ready(function() {
         return isongs;
     }
 
+    function title_sort(isongs) {
+        isongs = isongs.sort(function(a, b){
+            a = a.name
+            b = b.name
+            if(a.length > b.length){
+                return 1;
+            }else if (a.length < b.length){
+                return -1;
+            } else {
+                return 0;
+            }
+        })
+        return isongs;
+    }
+
     function flowing_sort(isongs) {
         index = Math.floor(Math.random() * isongs.length);
         start = isongs[index];
@@ -409,6 +438,17 @@ $(document).ready(function() {
         });
         return isongs
     }
+
+    /* resize reaction */
+    $(window).resize(function(){
+        if($(this).width() <= 600){
+            $("#right-column").css("margin-right", "20px");
+            $("#right-column").css("width", "initial");
+        } else {
+            $("#right-column").css("margin-right", "auto");
+            $("#right-column").css("width", "calc(100% - 350px)");
+        }
+    });
 
 });
 
