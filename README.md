@@ -1,12 +1,13 @@
 Current version online at: http://plotify.herokuapp.com/
 
-## Playlist Plotter
+## Plot your Music
 - webapp that helps visualize a user's public playlists on spotify
 - you can compare song features or just plot the playlist sorted
+- PCA and t-SNE plots available to attempt to group similar songs
 
-## Playlist Sifter (currently unavailable)
+## Filter your Music
 - Refine your playlists by limiting features.
-- sort the playlist based on features.
+- sort the playlist based on features or similarity to other songs.
 
 ##### Features ([*source*](https://developer.spotify.com/web-api/get-audio-features/))
 - **acousticness**: A confidence measure from 0 to 100 of whether the track is acoustic. 100 represents high confidence the track is acoustic.
@@ -20,6 +21,11 @@ Current version online at: http://plotify.herokuapp.com/
 - **popularity**: The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated from the popularity of the song on spotify.
 - **duration**: length of the track in seconds.
 - **sort**: only available on x, sorts whatever y-values are selected in ascending order.
+
+#### Some Special new Features
+- **PCA**: Principle Component Analysis - a dimension reduction algorithm which attempts to better group together similar songs
+ - this is used to determine similarity between songs.
+- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provide better grouping (not sure which is more effective)
 
 
 ## Technologies Used
