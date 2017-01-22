@@ -8,7 +8,7 @@ from sklearn.preprocessing import scale
 def dict_to_frame(playlist):
     pl_frame = pd.DataFrame(playlist)
     raw_data = pl_frame[['energy', 'speechiness', 'acousticness',
-                        'danceability', 'loudness', 'valence', 'release_date',
+                        'danceability', 'loudness', 'valence',
                         'instrumentalness']]
     return raw_data
 
@@ -33,15 +33,12 @@ def confidence_interval(songs, confidence=.9999):
     uppers = (m+h).to_dict()
     lowers = (m-h).to_dict()
     keys = ['energy', 'speechiness', 'acousticness',
-            'danceability', 'loudness', 'valence', 'release_date',
+            'danceability', 'loudness', 'valence',
             'instrumentalness']
     set = []
     for key in keys:
         if key == 'popularity':
             set.append([0, 100])
-            continue
-        if key == 'release_date':
-            set.append([1900, 2016])
             continue
         set.append([round(lowers[key], 0),round(uppers[key], 0)])
     return set
@@ -52,7 +49,7 @@ def pca(playlist):
     pl_frame = pd.DataFrame(playlist)
     features = ['energy', 'speechiness', 'acousticness',
                 'danceability', 'loudness', 'valence',
-                'instrumentalness', 'release_date']
+                'instrumentalness']
     data = pl_frame[features].T.as_matrix()
     ## computing d-dimensional mean vector
     mean = []
@@ -104,7 +101,7 @@ def tSNE(playlist):
     pl_frame = pd.DataFrame(playlist)
     features = ['energy', 'speechiness', 'acousticness',
                 'danceability', 'loudness', 'valence',
-                'instrumentalness', 'release_date']
+                'instrumentalness']
     data = pl_frame[features].T.as_matrix()
     data = scale(data)
     data = data.T

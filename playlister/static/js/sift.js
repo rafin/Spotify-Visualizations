@@ -38,13 +38,8 @@ $(document).ready(function() {
         max: 0,
         values: [-60,0]
     })
-    $('#release_date').slider({
-        min: 1900,
-        max: 2016,
-        values: [1900,2016],
-    })
     var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
-                    "instrumentalness", "valence", "popularity", "release_date"]
+                    "instrumentalness", "valence", "popularity"]
     for (var i = 0; i < sliders.length; i++) {
         $("#" + sliders[i]).slider({
             slide: function(event, ui) {
@@ -234,7 +229,7 @@ $(document).ready(function() {
 
     function preset(setvalues){
         var sliders = ["danceability", "energy", "loudness", "speechiness", "acousticness",
-                    "instrumentalness", "valence", "popularity", "release_date"]
+                    "instrumentalness", "valence", "popularity"]
         for (var i = 0; i < sliders.length; i++) {
             $("#" + sliders[i]).slider( "values", setvalues[i])
             $("#" + sliders[i] + "_val").html(setvalues[i][0] + " to " + setvalues[i][1]);
@@ -309,7 +304,7 @@ $(document).ready(function() {
 
     function get_ranges() {
         ranges = {'danceability':[0,0],'energy':[0,0], 'loudness':[0,0], 'speechiness':[0,0],
-                  'acousticness':[0,0],'instrumentalness':[0,0],'valence':[0,0], 'popularity':[0,0], 'release_date':[0,0]}
+                  'acousticness':[0,0],'instrumentalness':[0,0],'valence':[0,0], 'popularity':[0,0]}
         ranges.danceability = $('#danceability').slider('values')
         ranges.energy= $('#energy').slider('values')
         ranges.loudness= $('#loudness').slider('values')
@@ -318,7 +313,6 @@ $(document).ready(function() {
         ranges.instrumentalness= $('#instrumentalness').slider('values')
         ranges.valence= $('#valence').slider('values')
         ranges.popularity= $('#popularity').slider('values')
-        ranges.release_date = $('#release_date').slider('values')
         return ranges
     }
 
@@ -384,8 +378,8 @@ $(document).ready(function() {
 
     function gen_distances(isongs, song) {
         for(var i = 0; i < isongs.length; i++) {
-            a = isongs[i].tSNE1 - song.tSNE1
-            b = isongs[i].tSNE2 - song.tSNE2
+            a = isongs[i].pca1 - song.pca1
+            b = isongs[i].pca2 - song.pca2
             distance = a * a + b * b
             // factor in if same artist
             if(isongs[i].artist === song.artist){

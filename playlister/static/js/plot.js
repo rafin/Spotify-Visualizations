@@ -182,7 +182,6 @@ $(document).ready(function() {
             'tempo': [40, 220],
             'duration': [dmin - 15, dmax], //must get from input
             'popularity': [-4, 100],
-            'release_date': [1900, 2020],
             'pca1': [pca1min, pca1max],
             'pca2': [pca2min, pca2max],
             'tSNE1': [tSNE1min, tSNE1max],
@@ -215,7 +214,7 @@ $(document).ready(function() {
             .range([h - padding, padding]);
 
         //create SVG element
-        var svg = d3.select("main")
+        var svg = d3.select(".plot")
             .append("svg")
             .attr("width", w - 20)
             .attr("height", h - 20)

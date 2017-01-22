@@ -1,6 +1,6 @@
 :root {
     --accent-color: #2A2D34;
-    --bg-color: #F0F5F5;
+    --bg-color: #F5F5F5;
     --red: #DE3633;
     --blue: #57D2AD;
 }
@@ -8,7 +8,7 @@
 
 
 html{
-    background-color: #FFF;
+    background-color: var(--bg-color);
 }
 body {
     margin: 0px;
@@ -37,7 +37,7 @@ header {
     padding: 0;
     overflow: hidden;
     height: 3em;
-    background-color: #FFF;
+    background-color: var(--bg-color);
     color: #2A2D34;
 }
 
@@ -79,11 +79,11 @@ header {
 
 input {
     border: none;
-    border-bottom: 1px solid #64A6BD;
+    border-bottom: 1px solid var(--blue);
     font-size: 12px;
     color: #2A2D34;
     padding: 5px;
-    background-color: #FFF;
+    background-color: var(--bg-color);
 }
 
 #get_data_button {
@@ -194,12 +194,12 @@ select {
     margin: 5px;
     padding: 5px;
     text-align: center;
-    border-bottom: 1px solid #64A6BD;
+    border-bottom: 1px solid var(--blue);
     cursor: pointer;
 }
 
 .side_button:hover {
-    border-color: #FFF;
+    border-color: var(--bg-color);
 }
 
 #pca_table {
@@ -253,15 +253,14 @@ main {
     top: 79px;
     bottom: 0px;
     padding: 0;
-    background-color: #FFF;
     z-index: -2;
 }
 
 .plot {
-    float: right;
     margin: 0;
     padding: 0;
     bottom: 0;
+    background-color: #fff;
 }
 
 .axis path,

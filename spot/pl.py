@@ -6,19 +6,6 @@ import analysis
 
 from pprint import pprint
 
-# improving runtime
-from time import time
-from multiprocessing import Pool
-import copy_reg
-import types
-
-# pickle handling
-def _pickle_method(m):
-    if m.im_self is None:
-        return getattr, (m.im_class, m.im_func.func_name)
-    else:
-        return getattr, (m.im_self, m.im_func.func_name)
-
 # set up access with these global vars
 sp = None
 
@@ -162,34 +149,7 @@ def existing_playlist(name, username, token=None):
     return ''
 
 
-def clean_data(songs, l_features, afeatures):
-    '''sets all class variables for the songs corresponding to each
-    '''
-    playlist = []
-    i = 1
-    for song, features, afeatures in zip(songs, l_features, afeatures):
-        release_date = to_date(afeatures['release_date'])
-        if features == None or afeatures == None:
-            continue
-        for k,v in features.iteritems():
-            if v == None or v == "":
-                features[k] = 0
-        song['order'] = i
-        song['danceability'] = round(features['danceability'] * 100, 2)
-        song['energy'] = round(features['energy'] * 100, 2)
-        song['loudness'] = round(features['loudness'], 1)
-        song['speechiness'] = round(features['speechiness'] * 100, 2)
-        song['acousticness'] = round((features['acousticness']) * 100, 2)
-        song['instrumentalness'] = round(features['instrumentalness'] * 100, 2)
-        song['valence'] = round(features['valence'] * 100, 2)
-        song['tempo'] = round(features['tempo'], 0)
-        song['duration'] = round(features['duration_ms'] / 1000, 0)
-        song['release_date'] = release_date
-        playlist.append(song)
-        i += 1
-    return playlist
-
-def clean_data_lite(songs, l_features):
+def clean_data(songs, l_features):
     '''sets all class variables for the songs corresponding to each
     '''
     playlist = []
@@ -208,10 +168,11 @@ def clean_data_lite(songs, l_features):
         song['acousticness'] = round((features['acousticness']) * 100, 2)
         song['instrumentalness'] = round(features['instrumentalness'] * 100, 2)
         song['valence'] = round(features['valence'] * 100, 2)
+        song['tempo'] = round(features['tempo'], 0)
+        song['duration'] = round(features['duration_ms'] / 1000, 0)
         playlist.append(song)
         i += 1
     return playlist
-
 
 def get_song_features(song_ids):
     '''returns json of all song features corresponding to input ids
@@ -229,67 +190,6 @@ def get_song_features(song_ids):
             song_ids = None
         features += sp.audio_features(hundred)
     return features
-
-
-def get_album_data(album_ids):
-    '''returns json of data for albums corresponding to input ids
-        --- 1 request per 20 songs ---
-    '''
-
-    copy_reg.pickle(types.MethodType, _pickle_method)
-
-    pool2 = Pool()
-
-    print "Getting album features"
-    afeatures = []
-    songsets = []
-    while(album_ids != None):
-        # get <=60 songs
-        print len(album_ids)
-        if len(album_ids) > 60:
-            album_ids2 = album_ids[0:60]
-            album_ids = album_ids[60:]
-        else:
-            album_ids2 = album_ids
-            album_ids = None
-
-        # split <=60 into sets of 20
-        while(album_ids2 != None):
-            if len(album_ids2) > 20:
-                twenty = album_ids2[0:20]
-                songsets.append(twenty)
-                album_ids2 = album_ids2[20:]
-            else:
-                twenty = album_ids2
-                songsets.append(twenty)
-                album_ids2 = None
-
-        # compute the sets in parallel
-        processes = []
-        for songset in songsets:
-            process = pool2.apply_async(sp.albums, [songset])
-            processes.append(process)
-        for process in processes:
-            f = process.get(timeout=30)['albums']
-            afeatures += f
-
-    pool2.close()
-    pool2.join()
-
-    return afeatures
-
-    # print "Getting album features"
-    # afeatures = []
-    # while(album_ids != None):
-    #     print len(album_ids)
-    #     if len(album_ids) > 20:
-    #         twenty = album_ids[0:20]
-    #         album_ids = album_ids[20:]
-    #     else:
-    #         twenty = album_ids
-    #         album_ids = None
-    #     afeatures += sp.albums(twenty)['albums']
-    # return afeatures
 
 
 
@@ -325,39 +225,15 @@ def pl_data(pl_name, username, token=None):
     if playlist == "":
         return ""
 
-    t0 = time()
-
-    # start multiprocess
-    # pool = Pool()
-
-    ### ----------- ###
     features = get_song_features(feature(playlist,'id'))
-    album_features = get_album_data(feature(playlist, 'album_id'))
-    # result_gsf = pool.apply_async(get_song_features, [feature(playlist, 'id')])
-    # result_gad = pool.apply_async(get_album_data,[feature(playlist, 'album_id')])
-    # features = result_gsf.get(timeout=30)
-    # album_features = result_gad.get(timeout=30)
-    #genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
-    ### ----------- ###
 
-    songs = clean_data(playlist['songs'], features, album_features)
+    songs = clean_data(playlist['songs'], features)
     means = analysis.simple_stats(songs)
 
-    ### In Parallel ###
     pca_data = analysis.pca(songs)
     tsne_data = analysis.tSNE(songs) ## DEBUG
     songs = analysis.merge_pca(songs, pca_data['coords'])
     songs = analysis.merge_tsne(songs, tsne_data)
-
-    # result_pca =  pool.apply_async(analysis.pca,[songs])
-    # result_tsne = pool.apply_async(analysis.tSNE,[songs])
-    # pca_data = result_pca.get(timeout=60)
-    # tsne_data = result_tsne.get(timeout=60)
-    # songs = analysis.merge_pca(songs, pca_data['coords'])
-    # songs = analysis.merge_tsne(songs, tsne_data)
-
-    t1 = time()
-    print 'TIME OF RETRIEVAL {}'.format(t1-t0)
 
     return {'songs': songs, 'means': means,'pcaweights': pca_data['weights']}
 
