@@ -244,16 +244,16 @@ def get_album_data(album_ids):
     afeatures = []
     songsets = []
     while(album_ids != None):
-        # get <=100 songs
+        # get <=60 songs
         print len(album_ids)
-        if len(album_ids) > 100:
-            album_ids2 = album_ids[0:100]
-            album_ids = album_ids[100:]
+        if len(album_ids) > 60:
+            album_ids2 = album_ids[0:60]
+            album_ids = album_ids[60:]
         else:
             album_ids2 = album_ids
             album_ids = None
 
-        # split <=100 into sets of 20
+        # split <=60 into sets of 20
         while(album_ids2 != None):
             if len(album_ids2) > 20:
                 twenty = album_ids2[0:20]
