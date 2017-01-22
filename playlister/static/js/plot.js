@@ -6,7 +6,6 @@ var unencoded_title = "";
 var username;
 var titles;
 var songs;
-var sorted_genres;
 var means;
 var pcaweights;
 
@@ -101,7 +100,6 @@ $(document).ready(function() {
                 $(".loading").hide()
                 $("#stats_toggle").show()
                 songs = data.songs;
-                sorted_genres = data.sorted_genres;
                 means = data.means;
                 pcaweights = data.pcaweights;
                 clean_canvas();

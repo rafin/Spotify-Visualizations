@@ -74,12 +74,12 @@ def pca(playlist):
     ## Sorting Eignevectors by Decreasing eigenvalues
     eig_pairs = [(np.abs(eig_val_sc[i]), eig_vec_sc[:,i]) for i in range(len(eig_val_sc))]
     eig_pairs.sort(key = lambda x: x[0], reverse=True)
+    print eig_pairs
 
     ## store two largest eigenvectors for display
     vector1 = [round(n, 2) for n in eig_pairs[0][1].tolist()]
     vector2 = [round(n, 2) for n in eig_pairs[1][1].tolist()]
     weights = map(list, zip(features, vector1, vector2))
-    print weights.insert(0, ('PCA Weights', '1', '2'))
 
 
     ## Choosing k eigenvectors with the largest eigenvalues
@@ -106,14 +106,9 @@ def tSNE(playlist):
                 'danceability', 'loudness', 'valence',
                 'instrumentalness', 'release_date']
     data = pl_frame[features].T.as_matrix()
-    print data.T
-    ## standardize
     data = scale(data)
-    print data.T
     data = data.T
-
-    data_tsne = TSNE(learning_rate=100).fit_transform(data)
-    print data_tsne.T
+    data_tsne = TSNE(learning_rate=100, init='pca').fit_transform(data)
     data_tsne = scale(data_tsne)
 
     return pd.DataFrame(data_tsne)

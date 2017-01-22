@@ -6,6 +6,19 @@ import analysis
 
 from pprint import pprint
 
+# improving runtime
+from time import time
+from multiprocessing import Pool
+import copy_reg
+import types
+
+# pickle handling
+def _pickle_method(m):
+    if m.im_self is None:
+        return getattr, (m.im_class, m.im_func.func_name)
+    else:
+        return getattr, (m.im_self, m.im_func.func_name)
+
 # set up access with these global vars
 sp = None
 
@@ -222,18 +235,61 @@ def get_album_data(album_ids):
     '''returns json of data for albums corresponding to input ids
         --- 1 request per 20 songs ---
     '''
+
+    copy_reg.pickle(types.MethodType, _pickle_method)
+
+    pool2 = Pool()
+
     print "Getting album features"
     afeatures = []
+    songsets = []
     while(album_ids != None):
+        # get <=200 songs
         print len(album_ids)
-        if len(album_ids) > 20:
-            twenty = album_ids[0:20]
-            album_ids = album_ids[20:]
+        if len(album_ids) > 200:
+            album_ids2 = album_ids[0:200]
+            album_ids = album_ids[200:]
         else:
-            twenty = album_ids
+            album_ids2 = album_ids
             album_ids = None
-        afeatures += sp.albums(twenty)['albums']
+
+        # split <=200 into sets of 20
+        while(album_ids2 != None):
+            if len(album_ids2) > 20:
+                twenty = album_ids2[0:20]
+                songsets.append(twenty)
+                album_ids2 = album_ids2[20:]
+            else:
+                twenty = album_ids2
+                songsets.append(twenty)
+                album_ids2 = None
+
+        # compute the sets in parallel
+        processes = []
+        for songset in songsets:
+            process = pool2.apply_async(sp.albums, [songset])
+            processes.append(process)
+        for process in processes:
+            f = process.get(timeout=30)['albums']
+            afeatures += f
+
+    pool2.close()
+    pool2.join()
+
     return afeatures
+
+    # print "Getting album features"
+    # afeatures = []
+    # while(album_ids != None):
+    #     print len(album_ids)
+    #     if len(album_ids) > 20:
+    #         twenty = album_ids[0:20]
+    #         album_ids = album_ids[20:]
+    #     else:
+    #         twenty = album_ids
+    #         album_ids = None
+    #     afeatures += sp.albums(twenty)['albums']
+    # return afeatures
 
 
 
@@ -268,23 +324,42 @@ def pl_data(pl_name, username, token=None):
     playlist = existing_playlist(pl_name, username, token)
     if playlist == "":
         return ""
-    features = get_song_features(feature(playlist, 'id'))
-    album_features = get_album_data(feature(playlist, 'album_id'))
-    #genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
-    songs = clean_data(playlist['songs'], features, album_features)
-    sorted_genres = []
-    means = analysis.simple_stats(songs)
-    #intervals = analysis.confidence_interval(songs)
 
-    # add pca values
+    t0 = time()
+
+    # start multiprocess
+    # pool = Pool()
+
+    ### ----------- ###
+    features = get_song_features(feature(playlist,'id'))
+    album_features = get_album_data(feature(playlist, 'album_id'))
+    # result_gsf = pool.apply_async(get_song_features, [feature(playlist, 'id')])
+    # result_gad = pool.apply_async(get_album_data,[feature(playlist, 'album_id')])
+    # features = result_gsf.get(timeout=30)
+    # album_features = result_gad.get(timeout=30)
+    #genres, sorted_genres = get_genres(feature(playlist, 'artist_id'))
+    ### ----------- ###
+
+    songs = clean_data(playlist['songs'], features, album_features)
+    means = analysis.simple_stats(songs)
+
+    ### In Parallel ###
     pca_data = analysis.pca(songs)
-    songs = analysis.merge_pca(songs, pca_data['coords'])
-    # add tsne values (slow on large playlists)
     tsne_data = analysis.tSNE(songs) ## DEBUG
+    songs = analysis.merge_pca(songs, pca_data['coords'])
     songs = analysis.merge_tsne(songs, tsne_data)
 
-    return {'sorted_genres': sorted_genres, 'songs': songs, 
-            'means': means,'pcaweights': pca_data['weights']}
+    # result_pca =  pool.apply_async(analysis.pca,[songs])
+    # result_tsne = pool.apply_async(analysis.tSNE,[songs])
+    # pca_data = result_pca.get(timeout=60)
+    # tsne_data = result_tsne.get(timeout=60)
+    # songs = analysis.merge_pca(songs, pca_data['coords'])
+    # songs = analysis.merge_tsne(songs, tsne_data)
+
+    t1 = time()
+    print 'TIME OF RETRIEVAL {}'.format(t1-t0)
+
+    return {'songs': songs, 'means': means,'pcaweights': pca_data['weights']}
 
 
 def new_playlist(playlist_name, ids):
@@ -296,13 +371,10 @@ def new_playlist(playlist_name, ids):
     pid = playlist['id']
     ids = ids.split(",")
     while(ids != None):
-        print "LOOP"
         if len(ids) > 100:
-            print "LOOP 1"
             hundred = ids[0:100]
             ids = ids[100:]
         else:
-            print "LOOP 2"
             hundred = ids
             ids = None
         sp.user_playlist_add_tracks(username, pid, hundred)    

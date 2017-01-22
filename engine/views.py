@@ -37,7 +37,6 @@ def getsongs(request):
     title = unquote(request.GET.get('title', ''))
     token = request.GET.get('token','')
     #if title is a list of titles instead of just 1
-    print(title);
     if '~[' in title: 
         titles = title.split('~[')
         songs = []
@@ -63,7 +62,6 @@ def newplaylist(request):
     if request.is_ajax():
         if request.method == 'POST':
             title = request.POST.get("title","")
-            print 'title: {}'.format(title)
             songs = request.POST.get("songs","")
             songs = songs[1:-1]
             songs = songs.replace('"', '')
@@ -71,7 +69,6 @@ def newplaylist(request):
             token = request.POST.get("token","")
             sp = keys.get_access(token)
             username = sp.current_user()['id']
-
             pl.new_playlist(title, songs)
     return JsonResponse({"success":"yes"})
 

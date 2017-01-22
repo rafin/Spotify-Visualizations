@@ -384,8 +384,8 @@ $(document).ready(function() {
 
     function gen_distances(isongs, song) {
         for(var i = 0; i < isongs.length; i++) {
-            a = isongs[i].pca1 - song.pca1
-            b = isongs[i].pca2 - song.pca2
+            a = isongs[i].tSNE1 - song.tSNE1
+            b = isongs[i].tSNE2 - song.tSNE2
             distance = a * a + b * b
             // factor in if same artist
             if(isongs[i].artist === song.artist){
