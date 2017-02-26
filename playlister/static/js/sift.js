@@ -19,7 +19,7 @@ $(document).ready(function() {
             $("#right-column").css("width", "initial");
     } else {
             $("#right-column").css("margin-right", "auto");
-            $("#right-column").css("width", "calc(100% - 350px)");
+            $("#right-column").css("width", "calc(100% - 300px)");
     }
 
     $('#title a').attr("href", window.location.origin);
@@ -391,7 +391,7 @@ $(document).ready(function() {
 
     function update_song_select(isongs) {
         $('#song_select option').remove()
-        $('#song_select').append('<option disabled selected>Select Song</option>')
+        $('#song_select').append('<option disabled selected>Song</option>')
         for(var i = 0; i < isongs.length; i++) {
             $('#song_select').append('<option id=' + isongs[i].id + '>' + isongs[i].name + '</option>')
         }
@@ -402,7 +402,7 @@ $(document).ready(function() {
         time = 0
         for(var i = 0; i < isongs.length; i++) {
             $('#song-list').append('<tr><td class="sname">' +
-                isongs[i].name + '</td><td>' + isongs[i].artist + '</td></tr>')
+                isongs[i].artist + ' - <b>'+ isongs[i].name + '</b></td></tr>')
             time += isongs[i].duration
         }
         $('#count-display').text(isongs.length)
@@ -438,7 +438,7 @@ $(document).ready(function() {
             $("#right-column").css("width", "initial");
         } else {
             $("#right-column").css("margin-right", "auto");
-            $("#right-column").css("width", "calc(100% - 350px)");
+            $("#right-column").css("width", "calc(100% - 300px)");
         }
     });
 

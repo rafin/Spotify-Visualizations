@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Sift your Music</title>
+    <title>Filter your Music</title>
     {% load staticfiles %}
     <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
     <link href="{% static "css/sift.css" %}" rel="stylesheet">
@@ -23,11 +23,12 @@
                 github
         </a>
         <div id="left-column">
-            <div class="group-label" 
-                title="enter a username (defaults to your own)">
-                Username</div>
 
             <section id="user-group">
+                <div class="group-label" 
+                title="enter a username (defaults to your own)">
+                Username</div>
+                <div class="box">
                 <div class="input">
                     <input type="text" id="user-input" placeholder="username" value="{{name}}">
                     </input>
@@ -35,13 +36,13 @@
                 <div id="get-data-button" class="button same-line">
                     Retrieve Playlists
                 </div>
+                </div>
             </section>
-
-            <div class="group-label" 
+            <section id="playlist-group">
+                <div class="group-label" 
                 title="add playlist you want to filter">
                 Playlist</div>
-
-            <section id="playlist-group">
+                <div class="box">
                 <div class="select percent50">
                     <select id="playlist_select">
                         <option disabled selected>Select Playlist</option>
@@ -50,13 +51,14 @@
                 <div id="songs-button" class = "button same-line">
                     Retrieve Songs
                 </div>
+                </div>
             </section>
 
-            <div class="group-label" 
+            <section id="filter-group">
+                <div class="group-label" 
                 title="choose preset filter, or create your own">
                 Filter</div>
-
-            <section id="filter-group">
+                <div class="box">
                 <table id="preset-table">
                     <tr>
                         <td id="reset-button">Presets</td>
@@ -83,21 +85,22 @@
                     <tr><td colspan="2"><div class="slider" id="popularity"></div></td></tr>
                 </table>
                 <div id="apply-filter" class="button apply-button">
-                    APPLY
+                    Apply Filter
+                </div>
                 </div>
             </section>
 
-            <div class="group-label" 
+            <section id="sort-group">
+                <div class="group-label" 
                 title="Tinker with playlist order">
                 Sort</div>
-
-            <section id="sort-group">
+                <div class="box">
                 <table id="sort-table">
                     <tr class="sort-row active">
-                        <td id="gen-button" class="toggle">Sort by Feature</td>
+                        <td id="gen-button" class="toggle">by Feature</td>
                         <td class="select">
                             <select id="feature_select">
-                                <option disabled selected>Select Feature</option>
+                                <option disabled selected>Feature</option>
                                 <option>Order</option>
                                 <option>Danceability</option>
                                 <option>Energy</option>
@@ -118,10 +121,10 @@
                         </td>
                     </tr>
                     <tr class="sort-row">
-                        <td class="toggle">Sort by Similarity</td>
+                        <td class="toggle">by Similarity</td>
                         <td class="select">
                             <select id="song_select">
-                                <option disabled selected>Select Song</option>
+                                <option disabled selected>Song</option>
                             </select>
                         </td>
                         <td class="select">
@@ -132,7 +135,7 @@
                         </td>
                     </tr>
                     <tr class="sort-row">
-                        <td class="toggle" colspan="2">Sort by Title Length</td>
+                        <td class="toggle" colspan="2">by Title Length</td>
                         <td class="select">
                             <select id="t_direction_select">
                                 <option>Descending</option>
@@ -145,29 +148,27 @@
                     </tr> -->
                 </table>
                 <div id="apply-sort" class="button apply-button">
-                    APPLY
+                    Apply Sort
+                </div>
                 </div>
             </section>
 
-            <div class="group-label" 
+            <section id="save-group">
+                <div class="group-label" 
                 title="create a name and save your new playlist">
                 Save</div>
-
-            <section id="save-group">
+                <div class="box">
                 <div class="input">
                     <input type="text" id="save-input" placeholder="new playlist name"></input>
                 </div>
                 <div id="save-button" class="button same-line">
                     Save Playlist
                 </div>
+                </div>
             </section>
         </div>
 
         <div id="right-column">
-            <div class="group-label" id="result-label" 
-                title="this is your completed playlist, click on a track to here a quick sample">
-                Results
-            </div>
             <section id="results-group">
                 <div id="song-list-div">
                     <table id="song-list">
