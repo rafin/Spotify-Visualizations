@@ -27,8 +27,9 @@ section {
 }
 
 .box {
-    border: 1px solid #ddd;
+/*    border: 1px solid #ddd;*/
     padding: 5px;
+    background-color: #fff;
 }
 
 #results-group {
@@ -49,7 +50,7 @@ section {
     color: var(--accent-color);
     padding: 6px 0px;
     font-size: 20px;
-    margin: 0 0 25px 8px;
+    margin: 0 0 10px 8px;
 }
 
 #title a {
@@ -71,7 +72,8 @@ section {
 .group-label {
     color: var(--blue);
     font-size: 20px;
-    text-align: left;
+    text-align: center;
+    padding-top: 5px;
 }
 
 /* input styles */
@@ -80,12 +82,11 @@ section {
     margin: 0 3px 0 3px;
     padding-left: 7px;
     width: 140px;
-/*    border-bottom: 1px solid var(--accent-color);
-*/}
+    border-bottom: 1px solid var(--accent-color);
+}
 
 input {
     border: none;
-    background-color: var(--bg-color);
     font-size: 12px;
     color: var(--accent-color);
     padding: 0;
@@ -99,10 +100,10 @@ input {
 }
 
 select {
-    background-color: var(--bg-color);
     color: var(--accent-color);
     font-size: 12px;
     border: none;
+    background-color: #fff;
     background-image: none;
     width: 100%;
     display: inline-block;

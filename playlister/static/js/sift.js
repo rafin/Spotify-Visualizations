@@ -125,7 +125,8 @@ $(document).ready(function() {
     $('#apply-sort').click(function() {
         if (refined_songs != null) {
             var mode = $('.active .toggle').text()
-            if(mode === "Sort by Feature"){
+            console.log(mode);
+            if(mode === "by Feature"){
                 if($('#feature_select').val() == null) {
                     $("#sort-group").append('<div class="error">Sort Feature not Specified</div>');
                 } else {
@@ -133,7 +134,7 @@ $(document).ready(function() {
                     refined_songs = feature_sort(refined_songs);
                     show_results(refined_songs);
                 }
-            } else if(mode === "Sort by Similarity"){
+            } else if(mode === "by Similarity"){
                 if($('#song_select').val() == null) {
                     $("#sort-group").append('<div class="error">Sort Song not Specified</div>');
                 } else {
@@ -141,7 +142,7 @@ $(document).ready(function() {
                     refined_songs = relevancy_sort(refined_songs);
                     show_results(refined_songs);
                 }
-            } else if(mode === "Sort by Title Length") {
+            } else if(mode === "by Title Length") {
                 $(".error").remove()
                 refined_songs = title_sort(refined_songs);
                 show_results(refined_songs);
@@ -401,11 +402,10 @@ $(document).ready(function() {
         $('#song-list tr').remove()
         time = 0
         for(var i = 0; i < isongs.length; i++) {
-            $('#song-list').append('<tr><td class="sname">' +
-                isongs[i].artist + ' - <b>'+ isongs[i].name + '</b></td></tr>')
+            $('#song-list').append('<tr><td>' + (i+1) + "</td><td class='sartist'>  " +
+                isongs[i].artist + '</td><td class="sname"><b>'+ isongs[i].name + '</b></td></tr>');
             time += isongs[i].duration
         }
-        $('#count-display').text(isongs.length)
         time = Math.round(time / 60)
         hours = Math.floor(time / 60)
         time = time - (hours * 60)
