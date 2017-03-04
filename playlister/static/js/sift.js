@@ -406,16 +406,6 @@ $(document).ready(function() {
                 isongs[i].artist + '</td><td class="sname"><b>'+ isongs[i].name + '</b></td></tr>');
             time += isongs[i].duration
         }
-        time = Math.round(time / 60)
-        hours = Math.floor(time / 60)
-        time = time - (hours * 60)
-        mins = time % 60
-        if (hours) {
-            $('#length-display').text(hours + " hrs " + mins + " mins")
-        } else {
-            $('#length-display').text(mins + " minutes")
-        }
-
     }
 
     function sort(isongs, feature) {

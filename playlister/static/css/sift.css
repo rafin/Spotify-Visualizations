@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: "Quattrocento Sans", "Helvetica Neue", sans-serif;
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
     background-color: var(--bg-color);
 }
 
@@ -27,9 +27,7 @@ section {
 }
 
 .box {
-/*    border: 1px solid #ddd;*/
-    padding: 5px;
-    background-color: #fff;
+    padding: 5px 10px 5px 10px;
 }
 
 #results-group {
@@ -66,7 +64,8 @@ section {
 #left-column {
     float: left;
     margin: auto;
-    width: 300px;
+    width: 298px;
+    border: 1px solid #ddd;
 }
 
 .group-label {
@@ -91,6 +90,7 @@ input {
     color: var(--accent-color);
     padding: 0;
     margin: none;
+    background-color: var(--background-color);
 }
 
 /* select styles */
@@ -103,7 +103,7 @@ select {
     color: var(--accent-color);
     font-size: 12px;
     border: none;
-    background-color: #fff;
+    background-color: var(--background-color);
     background-image: none;
     width: 100%;
     display: inline-block;
@@ -125,7 +125,7 @@ select {
 }
 
 .button:hover {
-    color: #FD8275;
+    color: #FEC4BB;
 }
 
 /* toggle styles */
@@ -241,7 +241,6 @@ select {
 }
 
 #song-list-div {
-    overflow-y: scroll;
     max-width: 100%;
     min-width: 200px;
     margin-top: 10px;
