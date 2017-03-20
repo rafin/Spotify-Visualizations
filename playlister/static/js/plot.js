@@ -148,7 +148,6 @@ $(document).ready(function() {
             return d['duration'] });
         var dmin = d3.min(playlist, function(d) {
             return d['duration'] });
-
         var pca1max = d3.max(playlist, function(d) {
             return d['pca1'] });
         var pca1min = d3.min(playlist, function(d) {
@@ -205,6 +204,7 @@ $(document).ready(function() {
         var h = dimens[1];
         var padding = 40;
 
+        //create the scales
         var xscale = d3.scale.linear()
             .domain(domains[x])
             .range([padding, w - padding]);
@@ -212,6 +212,10 @@ $(document).ready(function() {
         var yscale = d3.scale.linear()
             .domain(domains[y])
             .range([h - padding, padding]);
+
+        var color = d3.scale.linear()
+            .domain(domains[x])
+            .range(["#3F00DC","#29AFFF"]);
 
         //create SVG element
         var svg = d3.select(".plot")
@@ -237,17 +241,11 @@ $(document).ready(function() {
             .attr("cy", function(d) {
                 return yscale(d[y]);
             })
-            // .attr("r", function(d) {
-            //     return d[x] * 0.05 + 1;
-            // })
             .attr("r", 4)
-            .attr("fill", function(d) {
-                if (d["preview_url"] == "") {
-                    return "#FEAA9E";
-                } else {
-                    return "#DE3633";
-                }
+            .style("fill", function(d) {
+                return color(d[x]);
             })
+            .style("opacity", 0.5)
             .on("mouseover", function(d) {
                 tooltip.transition()
                     .duration(200)
@@ -268,14 +266,6 @@ $(document).ready(function() {
                 }
                 d3.select(this)
                     .style("r", 5)
-                    .style("fill", "#5195B1")
-            })
-            .on("mouseout", function(d) {
-                tooltip.transition()
-                    .duration(400)
-                    .style("opacity", 0);
-                d3.select(this)
-                    .style("r", 4)
                     .style("fill", function(d) {
                         if (d["preview_url"] == "") {
                             return "#FEAA9E";
@@ -284,17 +274,19 @@ $(document).ready(function() {
                         }
                     });
             })
+            .on("mouseout", function(d) {
+                tooltip.transition()
+                    .duration(400)
+                    .style("opacity", 0);
+                d3.select(this)
+                    .style("r", 4)
+                    .style("fill", function(d) {
+                        return color(d[x]);
+                    });
+            })
             .on("click", function(d) {
                 audio = document.getElementById('preview_song');
                 audio.pause();
-                // details.transition()
-                //     .duration(200)
-                //     .style("opacity", 1);
-                // details.html('<table><b>' +
-                //     '<tr><th colspan="2">' + d['name'] + ': ' + d['artist'] + '</th></b></tr>' +
-                //     '<tr><td>' + $("#x_select").val() + '</td><td>' + d[x] + '</td></tr>' +
-                //     '<tr><td>' + $("#y_select").val() + '</td><td>' + d[y] + '</td></tr>' +
-                //     '<table>');
                 if (d["preview_url"] != "") {
                     if (audio.getAttribute('src') == d["preview_url"]) {
                         d3.select(this).attr("stroke", "none")
@@ -349,7 +341,7 @@ $(document).ready(function() {
         d3.select("#go_button").on("click", function() {
             x = $("#x_select").val();
             y = $("#y_select").val();
-
+            color.domain(domains[x]);
 
             if ($("#playlist_select").val() == unencoded_title){
                 if (x == "sort") {
@@ -376,10 +368,10 @@ $(document).ready(function() {
                     .attr("cy", function(d) {;
                         return yscale(d[y]);
                     })
-                    .attr("r", 4);
-                    // .attr("r", function(d) {
-                    //     return d[x] * 0.05 + 1;
-                    // });
+                    .attr("r", 4)
+                    .style("fill", function(d) {
+                        return color(d[x]);
+                    });
 
                 // Update X Axis
                 svg.select(".x.axis")

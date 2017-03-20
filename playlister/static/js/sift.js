@@ -19,7 +19,7 @@ $(document).ready(function() {
             $("#right-column").css("width", "initial");
     } else {
             $("#right-column").css("margin-right", "auto");
-            $("#right-column").css("width", "calc(100% - 300px)");
+            $("#right-column").css("width", "calc(100% - 310px)");
     }
 
     $('#title a').attr("href", window.location.origin);
@@ -148,7 +148,6 @@ $(document).ready(function() {
                 show_results(refined_songs);
             } else {
                 $(".error").remove()
-                refined_songs = flowing_sort(refined_songs);
                 show_results(refined_songs);
             }
         }
@@ -173,7 +172,6 @@ $(document).ready(function() {
                 var cookies = document.cookie.split(';');
                 for (var i = 0; i < cookies.length; i++) {
                     var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
@@ -361,22 +359,6 @@ $(document).ready(function() {
         return isongs;
     }
 
-    function flowing_sort(isongs) {
-        index = Math.floor(Math.random() * isongs.length);
-        start = isongs[index];
-        distance_matrix = []
-        for(var i = 0; i < isongs.length; i++){
-            gen_distances(isongs, start);
-            isongs = sort(isongs, "distance");
-        }
-        new_songs = [];
-        new_songs.push(start);
-
-        n = isongs.length
-
-        return isongs
-    }
-
     function gen_distances(isongs, song) {
         for(var i = 0; i < isongs.length; i++) {
             a = isongs[i].pca1 - song.pca1
@@ -428,7 +410,7 @@ $(document).ready(function() {
             $("#right-column").css("width", "initial");
         } else {
             $("#right-column").css("margin-right", "auto");
-            $("#right-column").css("width", "calc(100% - 300px)");
+            $("#right-column").css("width", "calc(100% - 310px)");
         }
     });
 
