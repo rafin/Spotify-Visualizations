@@ -24,7 +24,7 @@ Current version online at: http://plotify.herokuapp.com/
 
 #### Other Features
 - **PCA**: Principle Component Analysis - a dimension reduction algorithm which attempts to better group together similar songs.
-- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provide better grouping (not sure which is more effective).
+- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provides different grouping.
 
 
 ## Technologies Used
