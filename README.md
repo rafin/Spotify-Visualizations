@@ -23,9 +23,8 @@ Current version online at: http://plotify.herokuapp.com/
 - **sort**: only available on x, sorts whatever y-values are selected in ascending order.
 
 #### Other Features
-- **PCA**: Principle Component Analysis - a dimension reduction algorithm which attempts to better group together similar songs
- - this is used to determine similarity between songs.
-- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provide better grouping (not sure which is more effective)
+- **PCA**: Principle Component Analysis - a dimension reduction algorithm which attempts to better group together similar songs.
+- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provide better grouping (not sure which is more effective).
 
 
 ## Technologies Used
