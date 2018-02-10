@@ -1,4 +1,4 @@
-Current version online at: http://plotify.herokuapp.com/
+Current version online at: (Defunct)
 
 ## Plot your Music
 - webapp that helps visualize a user's public playlists on spotify
