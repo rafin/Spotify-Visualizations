@@ -24,29 +24,4 @@ Current version online at: (Defunct)
 
 #### Other Features
 - **PCA**: Principle Component Analysis - a dimension reduction algorithm which attempts to better group together similar songs.
-- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provides different grouping.
-
-
-## Technologies Used
-##### Python Packages
-- cycler
-- dj-database-url
-- Django
-- gunicorn
-- numpy
-- pandas
-- psycopg2
-- pyparsing
-- python-dateutil
-- pytz
-- requests
-- six
-- spotipy
-- whitenoise
-
-##### Web Technologies
- - [Django web framework](https://www.djangoproject.com/)
- - [Heroku](https://dashboard.heroku.com/)
- - [jQuery](https://jquery.com/)
- - [jQuery ui](https://jqueryui.com/)
- - [D3.js](https://d3js.org/)
+- **tSNE**: t-Distributed Stochastic Neighbor Embedding - a machine learning dimension reduction algorithm, similar to PCA and may provide superior grouping.
