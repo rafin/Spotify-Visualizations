@@ -1,5 +1,3 @@
-defunct
-
 ## Plot your Music
 - Webapp that helps visualize a user's public playlists on spotify
 - You can compare song features or just plot the playlist sorted
