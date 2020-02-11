@@ -1,6 +1,6 @@
 cycler==0.10.0
 dj-database-url==0.4.1
-Django==1.9.8
+Django==1.11.28
 gunicorn==19.6.0
 numpy==1.10.2
 pandas==0.13.0
